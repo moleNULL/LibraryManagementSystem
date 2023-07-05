@@ -15,4 +15,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryManagementSystem.DAL\LibraryManagementSystem.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
