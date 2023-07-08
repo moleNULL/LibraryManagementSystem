@@ -18,5 +18,7 @@
         public LanguageEntity Language { get; set; } = new();
 
         public ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
+        public int BookLoanId { get; set; }
+        public BookLoanEntity BookLoan { get; set; } = new();
     }
 }
