@@ -11,5 +11,7 @@
         public CityEntity City { get; set; } = new();
         public string Address { get; set; } = string.Empty;
         public DateTime EntryDate { get; set; }
+        public int BookLoanId { get; set; }
+        public BookLoanEntity BookLoan { get; set; } = new();
     }
 }
