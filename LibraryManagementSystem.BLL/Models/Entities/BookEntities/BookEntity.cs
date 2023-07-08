@@ -2,21 +2,21 @@
 {
     public class BookEntity
     {
-        public int Id { get; init; }
-        public string Title { get; init; } = string.Empty;
-        public int PagesNumber { get; init; }
-        public int PublisherId { get; init; }
-        public PublisherEntity Publisher { get; init; } = new();
-        public int AuthorId { get; init; }
-        public AuthorEntity Author { get; init; } = new();
-        public string? PictureName { get; init; }
-        public int? DescriptionId { get; init; }
-        public DescriptionEntity? Description { get; init; }
-        public int GenreId { get; init; }
-        public GenreEntity Genre { get; init; } = new();
-        public decimal Price { get; init; }
-        public int Quantity { get; init; }
-        public int LanguageId { get; init; }
-        public LanguageEntity Language { get; init; } = new();
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public int PagesNumber { get; set; }
+        public int PublisherId { get; set; }
+        public PublisherEntity Publisher { get; set; } = new();
+        public int AuthorId { get; set; }
+        public AuthorEntity Author { get; set; } = new();
+        public string? PictureName { get; set; }
+        public int? DescriptionId { get; set; }
+        public DescriptionEntity? Description { get; set; }
+        public int WarehouseId { get; set; }
+        public WarehouseEntity Warehouse { get; set; } = new();
+        public int LanguageId { get; set; }
+        public LanguageEntity Language { get; set; } = new();
+
+        public ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
     }
 }

@@ -2,8 +2,9 @@
 {
     public class GenreEntity
     {
-        public int Id { get; init; }
-        public string Name { get; init; } = string.Empty;
-        public ICollection<BookEntity> Books { get; init; } = new List<BookEntity>();
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        public ICollection<BookEntity> Books { get; set; } = new List<BookEntity>();
     }
 }
