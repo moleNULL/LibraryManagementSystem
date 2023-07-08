@@ -2,9 +2,9 @@
 {
     public class DescriptionEntity
     {
-        public int Id { get; init; }
-        public string Description { get; init; } = string.Empty;
-        public int BookId { get; init; }
-        public BookEntity Book { get; init; } = new();
+        public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public int BookId { get; set; }
+        public BookEntity Book { get; set; } = new();
     }
 }

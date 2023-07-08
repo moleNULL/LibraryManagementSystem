@@ -1,15 +1,12 @@
-﻿namespace LibraryManagementSystem.BLL.Models.Entities.StudentEntities
+﻿namespace LibraryManagementSystem.BLL.Models.Entities
 {
-    public class StudentEntity
+    public class LibrarianEntity
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string? PictureName { get; set; }
-        public int CityId { get; set; }
-        public CityEntity City { get; set; } = new();
-        public string Address { get; set; } = string.Empty;
         public DateTime EntryDate { get; set; }
     }
 }
