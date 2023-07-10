@@ -7,11 +7,10 @@
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string? PictureName { get; set; }
-        public int CityId { get; set; }
-        public CityEntity City { get; set; } = new();
+        public int? CityId { get; set; }
+        public CityEntity? City { get; set; }
         public string Address { get; set; } = string.Empty;
         public DateTime EntryDate { get; set; }
-        public int BookLoanId { get; set; }
-        public BookLoanEntity BookLoan { get; set; } = new();
+        public ICollection<BookLoanEntity> BookLoans { get; set; } = new List<BookLoanEntity>();
     }
 }

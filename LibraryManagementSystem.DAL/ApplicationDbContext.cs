@@ -1,9 +1,11 @@
 ﻿using LibraryManagementSystem.BLL.Models.Entities;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Models.Entities.LibrarianEntities;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
+using LibraryManagementSystem.DAL.Configurations;
 using LibraryManagementSystem.DAL.Configurations.BookConfigurations;
 using LibraryManagementSystem.DAL.Configurations.LibrarianConfigurations;
+using LibraryManagementSystem.DAL.Configurations.StudentConfigurations;
+using LibraryManagementSystem.DAL.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DAL
@@ -12,13 +14,13 @@ namespace LibraryManagementSystem.DAL
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {            
+        {
         }
 
         public DbSet<BookEntity> Books { get; set; }
         public DbSet<LibrarianEntity> Librarians { get; set; }
         public DbSet<StudentEntity> Students { get; set; }
-        public DbSet<BookManager> BookManagers { get; set; }
+        public DbSet<BookLoanEntity> BookManagers { get; set; }
 
 
         public DbSet<AuthorEntity> Authors { get; set; }
@@ -26,16 +28,45 @@ namespace LibraryManagementSystem.DAL
         public DbSet<GenreEntity> Genres { get; set; }
         public DbSet<LanguageEntity> Languages { get; set; }
         public DbSet<PublisherEntity> Publishers { get; set; }
+        public DbSet<WarehouseEntity> Warehouses { get; set; }
 
         public DbSet<CityEntity> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            ApplyBookConfigurations(modelBuilder);
+            ApplyStudentConfigurations(modelBuilder);
+            ApplyLibrarianConfigurations(modelBuilder);
+            ApplyBookLoanConfigurations(modelBuilder);
+
+            modelBuilder.Seed();
+        }
+
+        private void ApplyBookConfigurations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BookConfiguration());
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
             modelBuilder.ApplyConfiguration(new DescriptionConfiguration());
+            modelBuilder.ApplyConfiguration(new GenreConfiguration());
             modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new PublisherConfiguration());
+            modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
+        }
 
+        private void ApplyStudentConfigurations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            modelBuilder.ApplyConfiguration(new CityConfiguration());
+        }
+
+        private void ApplyLibrarianConfigurations(ModelBuilder modelBuilder)
+        {
             modelBuilder.ApplyConfiguration(new LibrarianConfiguration());
+        }
+
+        private void ApplyBookLoanConfigurations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BookLoanConfiguration());
         }
     }
 }

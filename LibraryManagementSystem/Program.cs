@@ -1,3 +1,6 @@
+using LibraryManagementSystem.DAL;
+using LibraryManagementSystem.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem
 {
@@ -10,6 +13,10 @@ namespace LibraryManagementSystem
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(ConfigurationHelper.GetConfigurationString());
+            });
 
             var app = builder.Build();
 
