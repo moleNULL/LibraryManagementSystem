@@ -26,6 +26,7 @@ namespace LibraryManagementSystem.DAL
         public DbSet<AuthorEntity> Authors { get; set; }
         public DbSet<DescriptionEntity> Descriptions { get; set; }
         public DbSet<GenreEntity> Genres { get; set; }
+        public DbSet<BookGenreEntity> BookGenres { get; set; }
         public DbSet<LanguageEntity> Languages { get; set; }
         public DbSet<PublisherEntity> Publishers { get; set; }
         public DbSet<WarehouseEntity> Warehouses { get; set; }
@@ -48,6 +49,7 @@ namespace LibraryManagementSystem.DAL
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
             modelBuilder.ApplyConfiguration(new DescriptionConfiguration());
             modelBuilder.ApplyConfiguration(new GenreConfiguration());
+            modelBuilder.ApplyConfiguration(new BookGenreConfiguration());
             modelBuilder.ApplyConfiguration(new LanguageConfiguration());
             modelBuilder.ApplyConfiguration(new PublisherConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());

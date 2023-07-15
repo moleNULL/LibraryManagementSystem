@@ -15,7 +15,7 @@ namespace LibraryManagementSystem
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(ConfigurationHelper.GetConfigurationString());
+                options.UseSqlServer(ConfigurationHelper.GetConnectionString());
             });
 
             var app = builder.Build();
