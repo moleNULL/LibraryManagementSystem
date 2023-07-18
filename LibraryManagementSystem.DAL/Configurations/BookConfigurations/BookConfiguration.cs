@@ -12,8 +12,8 @@ namespace LibraryManagementSystem.DAL.Configurations.BookConfigurations
 
             builder.HasKey(b => b.Id);
 
-            builder.Property(b => b.Title).HasMaxLength(75);
-            builder.Property(b => b.PictureName).HasMaxLength(75);
+            builder.Property(b => b.Title).HasMaxLength(100);
+            builder.Property(b => b.PictureName).HasMaxLength(100);
 
             builder.HasOne(b => b.Publisher)
                 .WithMany(p => p.Books)

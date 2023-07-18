@@ -12,10 +12,10 @@ namespace LibraryManagementSystem.DAL.Configurations.LibrarianConfigurations
 
             builder.HasKey(l => l.Id);
 
-            builder.Property(l => l.FirstName).HasMaxLength(75);
-            builder.Property(l => l.LastName).HasMaxLength(75);
-            builder.Property(l => l.Email).HasMaxLength(75);
-            builder.Property(l => l.PictureName).HasMaxLength(75);
+            builder.Property(l => l.FirstName).HasMaxLength(100);
+            builder.Property(l => l.LastName).HasMaxLength(100);
+            builder.Property(l => l.Email).HasMaxLength(100);
+            builder.Property(l => l.PictureName).HasMaxLength(100);
         }
     }
 }
