@@ -12,8 +12,8 @@ namespace LibraryManagementSystem.DAL.Configurations.BookConfigurations
 
             builder.HasKey(b => b.Id);
 
-            builder.Property(b => b.Title).HasMaxLength(75);
-            builder.Property(b => b.PictureName).HasMaxLength(75);
+            builder.Property(b => b.Title).HasMaxLength(100);
+            builder.Property(b => b.PictureName).HasMaxLength(100);
 
             builder.HasOne(b => b.Publisher)
                 .WithMany(p => p.Books)
@@ -31,18 +31,14 @@ namespace LibraryManagementSystem.DAL.Configurations.BookConfigurations
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(b => b.Warehouse)
-                .WithMany(w => w.Books)
-                .HasForeignKey(b => b.WarehouseId)
+                .WithOne(w => w.Book)
+                .HasForeignKey<BookEntity>(b => b.WarehouseId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(b => b.Language)
                 .WithMany(l => l.Books)
                 .HasForeignKey(b => b.LanguageId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.HasMany(b => b.Genres)
-                .WithMany(g => g.Books)
-                .UsingEntity(j => j.ToTable("BooksGenres"));
 
             builder.HasOne(b => b.BookLoan)
                 .WithOne(bl => bl.Book)

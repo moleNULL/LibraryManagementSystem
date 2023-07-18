@@ -1,10 +1,11 @@
 ﻿namespace LibraryManagementSystem.BLL.Models.Entities.BookEntities
 {
-    public class DescriptionEntity
+    public class BookGenreEntity
     {
-        public int Id { get; set; }
-        public string Description { get; set; } = string.Empty;
         public int BookId { get; set; }
         public BookEntity Book { get; set; } = null!;
+
+        public int GenreId { get; set; }
+        public GenreEntity Genre { get; set; } = null!;
     }
 }

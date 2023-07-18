@@ -1,6 +1,8 @@
-﻿namespace LibraryManagementSystem.Helpers
+﻿using Microsoft.Extensions.Configuration;
+
+namespace LibraryManagementSystem.DAL
 {
-    public static class ConfigurationHelper
+    public static class ConfigurationHelperDAL
     {
         public static string? GetConnectionString()
         {

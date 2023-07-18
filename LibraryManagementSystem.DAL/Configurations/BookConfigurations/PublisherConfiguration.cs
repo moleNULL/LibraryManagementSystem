@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.DAL.Configurations.BookConfigurations
 
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Name).HasMaxLength(75);
+            builder.Property(p => p.Name).HasMaxLength(100);
         }
     }
 }

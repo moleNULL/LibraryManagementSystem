@@ -12,11 +12,11 @@ namespace LibraryManagementSystem.DAL.Configurations.StudentConfigurations
 
             builder.HasKey(s => s.Id);
 
-            builder.Property(s => s.FirstName).HasMaxLength(75);
-            builder.Property(s => s.LastName).HasMaxLength(75);
-            builder.Property(s => s.PictureName).HasMaxLength(75);
+            builder.Property(s => s.FirstName).HasMaxLength(100);
+            builder.Property(s => s.LastName).HasMaxLength(100);
+            builder.Property(s => s.PictureName).HasMaxLength(100);
 
-            builder.Property(s => s.Address).HasMaxLength(150);
+            builder.Property(s => s.Address).HasMaxLength(200);
 
             builder.HasOne(s => s.City)
                 .WithMany(c => c.Students)
