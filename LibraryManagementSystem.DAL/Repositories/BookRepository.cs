@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystem.BLL.Comparers;
+using LibraryManagementSystem.BLL.Models.DataModels;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Repositories;
+using LibraryManagementSystem.BLL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DAL.Repositories
@@ -12,7 +13,38 @@ namespace LibraryManagementSystem.DAL.Repositories
         {
             _dbContext = dbContext;
         }
-        public async Task<IEnumerable<BookEntity>> GetBooksAsync()
+        public async Task<IEnumerable<BookDataModel>> GetBooksAsync()
+        {
+            var books = await (from b in _dbContext.Books
+                               join p in _dbContext.Publishers on b.PublisherId equals p.Id
+                               join a in _dbContext.Authors on b.AuthorId equals a.Id
+                               join d in _dbContext.Descriptions on b.DescriptionId equals d.Id
+                               join w in _dbContext.Warehouse on b.WarehouseId equals w.Id
+                               join l in _dbContext.Languages on b.LanguageId equals l.Id
+                               join bg in _dbContext.BookGenres on b.Id equals bg.BookId
+                               join g in _dbContext.Genres on bg.GenreId equals g.Id
+                               select new BookDataModel
+                               {
+                                   Id = b.Id,
+                                   Title = b.Title,
+                                   PictureName = b.PictureName,
+                                   PagesNumber = b.PagesNumber,
+                                   Year = b.Year,
+
+                                   Publisher = p.Name,
+                                   Author = a.FirstName + " " + a.LastName,
+                                   Description = d.Description,
+                                   Price = w.Price,
+                                   Quantity = w.Quantity,
+                                   Language = l.Name,
+                                   Genres = b.Genres,
+                                   BookLoanId = null
+                               }).ToListAsync();
+
+            return books;
+        }
+
+        public async Task<IEnumerable<BookEntity>> GetBooksEntityAsync()
         {
             return await _dbContext.Books.ToListAsync();
         }

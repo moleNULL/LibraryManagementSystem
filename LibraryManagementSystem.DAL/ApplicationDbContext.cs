@@ -20,7 +20,7 @@ namespace LibraryManagementSystem.DAL
         public DbSet<BookEntity> Books { get; set; }
         public DbSet<LibrarianEntity> Librarians { get; set; }
         public DbSet<StudentEntity> Students { get; set; }
-        public DbSet<BookLoanEntity> BookManagers { get; set; }
+        public DbSet<BookLoanEntity> BookLoans{ get; set; }
 
 
         public DbSet<AuthorEntity> Authors { get; set; }
@@ -29,7 +29,7 @@ namespace LibraryManagementSystem.DAL
         public DbSet<BookGenreEntity> BookGenres { get; set; }
         public DbSet<LanguageEntity> Languages { get; set; }
         public DbSet<PublisherEntity> Publishers { get; set; }
-        public DbSet<WarehouseEntity> Warehouses { get; set; }
+        public DbSet<WarehouseEntity> Warehouse { get; set; }
 
         public DbSet<CityEntity> Cities { get; set; }
 
