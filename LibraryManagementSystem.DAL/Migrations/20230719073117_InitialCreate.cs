@@ -18,8 +18,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +32,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,7 +59,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,10 +85,10 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    PictureName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PictureName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     EntryDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -102,7 +102,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,12 +130,12 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PictureName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
+                    PictureName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     EntryDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -184,8 +184,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
-                    PictureName = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PictureName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     PagesNumber = table.Column<int>(type: "int", nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     PublisherId = table.Column<int>(type: "int", nullable: false),

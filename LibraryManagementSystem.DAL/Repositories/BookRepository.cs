@@ -15,31 +15,37 @@ namespace LibraryManagementSystem.DAL.Repositories
         }
         public async Task<IEnumerable<BookDataModel>> GetBooksAsync()
         {
-            var books = await (from b in _dbContext.Books
-                               join p in _dbContext.Publishers on b.PublisherId equals p.Id
-                               join a in _dbContext.Authors on b.AuthorId equals a.Id
-                               join d in _dbContext.Descriptions on b.DescriptionId equals d.Id
-                               join w in _dbContext.Warehouse on b.WarehouseId equals w.Id
-                               join l in _dbContext.Languages on b.LanguageId equals l.Id
-                               join bg in _dbContext.BookGenres on b.Id equals bg.BookId
-                               join g in _dbContext.Genres on bg.GenreId equals g.Id
+            var books = await (from book in _dbContext.Books
+                               join publisher in _dbContext.Publishers on book.PublisherId equals publisher.Id
+                               join author in _dbContext.Authors on book.AuthorId equals author.Id
+                               join description in _dbContext.Descriptions on book.DescriptionId equals description.Id
+                               join warehouse in _dbContext.Warehouse on book.WarehouseId equals warehouse.Id
+                               join language in _dbContext.Languages on book.LanguageId equals language.Id
+                               join bookgenre in _dbContext.BookGenres on book.Id equals bookgenre.BookId
+                               join genre in _dbContext.Genres on bookgenre.GenreId equals genre.Id
                                select new BookDataModel
                                {
-                                   Id = b.Id,
-                                   Title = b.Title,
-                                   PictureName = b.PictureName,
-                                   PagesNumber = b.PagesNumber,
-                                   Year = b.Year,
+                                   Id = book.Id,
+                                   Title = book.Title,
+                                   PictureName = book.PictureName,
+                                   PagesNumber = book.PagesNumber,
+                                   Year = book.Year,
 
-                                   Publisher = p.Name,
-                                   Author = a.FirstName + " " + a.LastName,
-                                   Description = d.Description,
-                                   Price = w.Price,
-                                   Quantity = w.Quantity,
-                                   Language = l.Name,
-                                   Genres = b.Genres,
+                                   Publisher = publisher.Name,
+                                   Author = author.FirstName + " " + author.LastName,
+                                   Description = description.Description,
+                                   Price = warehouse.Price,
+                                   Quantity = warehouse.Quantity,
+                                   Language = language.Name,
+                                   Genres = book.BookGenres.Select(bg => bg.Genre.Name),
+
                                    BookLoanId = null
-                               }).ToListAsync();
+                               })
+                               .GroupBy(b => b.Id) // If a book has multiple genres associated with it, the join
+                                                   // operation will create a separate row for each genre, resulting
+                                                   // in duplicate book entries.
+                               .Select(distinctBook => distinctBook.First())
+                               .ToListAsync();
 
             return books;
         }
@@ -51,15 +57,16 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task AddBookAsync(BookEntity book)
         {
-            if (!_dbContext.Books.Any(b => b.Title == book.Title && b.AuthorId == book.AuthorId))
+            if (!await _dbContext.Books.AnyAsync(b => b.Title == book.Title && b.AuthorId == book.AuthorId))
             {
-                await _dbContext.Books.AddAsync(book);
+                _dbContext.Books.Add(book);
                 await _dbContext.SaveChangesAsync();
             }
 
             throw new ArgumentException("This book already exists");
         }
 
+        // bookentity
         public async Task UpdateBooksAsync(IEnumerable<BookEntity> books)
         {
             var booksInDb = await _dbContext.Books.ToListAsync();
@@ -84,6 +91,7 @@ namespace LibraryManagementSystem.DAL.Repositories
             }
         }
 
+        // id
         private async Task DeleteBookAsync(BookEntity book)
         {
             _dbContext.Books.Remove(book);
