@@ -20,7 +20,7 @@ namespace LibraryManagementSystem.DAL
         public DbSet<BookEntity> Books { get; set; }
         public DbSet<LibrarianEntity> Librarians { get; set; }
         public DbSet<StudentEntity> Students { get; set; }
-        public DbSet<BookLoanEntity> BookLoans{ get; set; }
+        public DbSet<BookLoanEntity> BookLoans { get; set; }
 
 
         public DbSet<AuthorEntity> Authors { get; set; }

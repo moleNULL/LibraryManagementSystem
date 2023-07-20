@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230715192228_InitialCreate")]
+    [Migration("20230719073117_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -50,13 +50,13 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -137,16 +137,16 @@ namespace LibraryManagementSystem.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PictureName")
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("WarehouseId")
                         .HasColumnType("int");
@@ -737,8 +737,8 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -852,8 +852,8 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -1093,25 +1093,25 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("EntryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PictureName")
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -1128,8 +1128,8 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -1146,8 +1146,8 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int?>("CityId")
                         .HasColumnType("int");
@@ -1161,17 +1161,17 @@ namespace LibraryManagementSystem.DAL.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PictureName")
-                        .HasMaxLength(75)
-                        .HasColumnType("nvarchar(75)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 

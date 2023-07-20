@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Models;
 using LibraryManagementSystem.BLL.Models.DataModels;
 using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
 namespace LibraryManagementSystem.Mapping
 {
@@ -14,8 +14,8 @@ namespace LibraryManagementSystem.Mapping
 
         private void MapBooks()
         {
-            CreateMap<GenreEntity, GenreDto>();
             CreateMap<BookDataModel, BookDto>();
+            CreateMap<BookDto, BookModel>();
         }
     }
 }

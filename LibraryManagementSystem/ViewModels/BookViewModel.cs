@@ -1,6 +1,6 @@
-﻿namespace LibraryManagementSystem.BLL.Models
+﻿namespace LibraryManagementSystem.ViewModels
 {
-    public class BookModel
+    public class BookViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -14,7 +14,7 @@
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string Language { get; set; } = string.Empty;
-        public ICollection<GenreModel> Genres { get; set; } = new List<GenreModel>();
+        public IEnumerable<string> Genres { get; set; } = new List<string>();
         public int? BookLoanId { get; set; }
     }
 }

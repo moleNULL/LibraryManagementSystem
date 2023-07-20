@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.BLL.Models;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces;
 
 namespace LibraryManagementSystem.BLL.Services
 {
-    public class BookService
+    public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
@@ -19,7 +19,7 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task<IEnumerable<BookDto>> GetBooksAsync()
         {
-            var booksDataModel= await _bookRepository.GetBooksAsync();
+            var booksDataModel = await _bookRepository.GetBooksAsync();
             var booksDto = _mapper.Map<IEnumerable<BookDto>>(booksDataModel);
 
             return booksDto;

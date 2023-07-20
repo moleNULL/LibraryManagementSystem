@@ -1,7 +1,4 @@
-﻿using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Models.Entities;
-
-namespace LibraryManagementSystem.BLL.Models.DataModels
+﻿namespace LibraryManagementSystem.BLL.Models.DataModels
 {
     public class BookDataModel
     {
@@ -17,7 +14,7 @@ namespace LibraryManagementSystem.BLL.Models.DataModels
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string Language { get; set; } = string.Empty;
-        public ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
+        public IEnumerable<string> Genres { get; set; } = new List<string>();
         public int? BookLoanId { get; set; }
     }
 }
