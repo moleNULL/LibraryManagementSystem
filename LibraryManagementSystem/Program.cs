@@ -19,7 +19,7 @@ namespace LibraryManagementSystem
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(ConfigurationHelper.GetConnectionString());
+                options.UseLazyLoadingProxies().UseSqlServer(ConfigurationHelper.GetConnectionString());
             });
 
             builder.Services.AddScoped<IBookRepository, BookRepository>();

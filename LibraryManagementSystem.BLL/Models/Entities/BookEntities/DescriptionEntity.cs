@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Description { get; set; } = string.Empty;
         public int BookId { get; set; }
-        public BookEntity Book { get; set; } = null!;
+        public virtual BookEntity Book { get; set; } = null!;
     }
 }

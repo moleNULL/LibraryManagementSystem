@@ -3,9 +3,9 @@
     public class BookGenreEntity
     {
         public int BookId { get; set; }
-        public BookEntity Book { get; set; } = null!;
+        public virtual BookEntity Book { get; set; } = null!;
 
         public int GenreId { get; set; }
-        public GenreEntity Genre { get; set; } = null!;
+        public virtual GenreEntity Genre { get; set; } = null!;
     }
 }

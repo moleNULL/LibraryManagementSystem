@@ -7,7 +7,7 @@
 namespace LibraryManagementSystem.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -191,7 +191,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                     PublisherId = table.Column<int>(type: "int", nullable: false),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
                     DescriptionId = table.Column<int>(type: "int", nullable: true),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<int>(type: "int", nullable: true),
                     LanguageId = table.Column<int>(type: "int", nullable: false),
                     BookLoanId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -507,7 +507,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                 name: "IX_Books_WarehouseId",
                 table: "Books",
                 column: "WarehouseId",
-                unique: true);
+                unique: true,
+                filter: "[WarehouseId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_CityId",

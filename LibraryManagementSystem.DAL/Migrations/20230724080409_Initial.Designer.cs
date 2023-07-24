@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230719073117_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230724080409_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,7 +148,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("WarehouseId")
+                    b.Property<int?>("WarehouseId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -171,7 +171,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasIndex("PublisherId");
 
                     b.HasIndex("WarehouseId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[WarehouseId] IS NOT NULL");
 
                     b.ToTable("Books", (string)null);
 
@@ -1228,8 +1229,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.WarehouseEntity", "Warehouse")
                         .WithOne("Book")
                         .HasForeignKey("LibraryManagementSystem.BLL.Models.Entities.BookEntities.BookEntity", "WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Author");
 
