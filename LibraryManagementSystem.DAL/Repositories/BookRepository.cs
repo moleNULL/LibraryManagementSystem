@@ -17,22 +17,19 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task<IEnumerable<BookDataModel>> GetBooksAsync()
         {
-            return await _dbContext.Books.Select(bookEntity => new BookDataModel
-            {
-                Id = bookEntity.Id,
-                Title = bookEntity.Title,
-                PictureName = bookEntity.PictureName,
-                PagesNumber = bookEntity.PagesNumber,
-                Year = bookEntity.Year,
+            return await _dbContext.Books.Select(bookEntity => MapToBookDataModel(bookEntity)).ToListAsync();
+        }
 
-                PublisherId = bookEntity.PublisherId,
-                AuthorId = bookEntity.AuthorId,
-                DescriptionId = bookEntity.DescriptionId,
-                WarehouseId = bookEntity.WarehouseId,
-                LanguageId = bookEntity.LanguageId,
-                GenreIds = bookEntity.BookGenres.Select(bg => bg.GenreId),
-                BookLoanId = bookEntity.BookLoanId
-            }).ToListAsync();
+        public async Task<BookDataModel?> GetBookByIdAsync(int id)
+        {
+            var bookEntity = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+            if (bookEntity is not null)
+            {
+                var bookDataModel = MapToBookDataModel(bookEntity);
+                return bookDataModel;
+            }
+
+            return null;
         }
 
         public async Task AddBookAsync(BookDataModel bookDataModel)
@@ -50,6 +47,7 @@ namespace LibraryManagementSystem.DAL.Repositories
             var existingBookEntity = await _dbContext.Books
                 .Include(b => b.BookGenres)
                 .FirstAsync(book => book.Id == bookDataModel.Id);
+
             existingBookEntity.Title = bookEntity.Title;
             existingBookEntity.PictureName = bookEntity.PictureName;
             existingBookEntity.PagesNumber = bookEntity.PagesNumber;
@@ -74,20 +72,24 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task DeleteBooksAsync(IEnumerable<int> bookIds)
         {
-            var booksToDelete =
-                await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();
+            /*var booksToDelete =
+                await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();*/
 
-            foreach (var bookToDelete in booksToDelete)
+            foreach (var id in bookIds)
             {
-                await DeleteBookAsync(bookToDelete);
+                await DeleteBookByIdAsync(id);
             }
         }
 
-        // id
-        private async Task DeleteBookAsync(BookEntity book)
+        public async Task DeleteBookByIdAsync(int id)
         {
-            _dbContext.Books.Remove(book);
-            await _dbContext.SaveChangesAsync();
+            var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+
+            if (bookToDelete is not null)
+            {
+                _dbContext.Books.Remove(bookToDelete);
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         private BookEntity MapToBookEntity(BookDataModel bookDataModel)
@@ -116,6 +118,29 @@ namespace LibraryManagementSystem.DAL.Repositories
             }).ToList();
 
             return bookEntity;
+        }
+
+        // Without static it could potentially cause a memory leak; static won't capture constant in the instance.
+        private static BookDataModel MapToBookDataModel(BookEntity bookEntity)
+        {
+            var bookDataModel = new BookDataModel
+            {
+                Id = bookEntity.Id,
+                Title = bookEntity.Title,
+                PictureName = bookEntity.PictureName,
+                PagesNumber = bookEntity.PagesNumber,
+                Year = bookEntity.Year,
+
+                PublisherId = bookEntity.PublisherId,
+                AuthorId = bookEntity.AuthorId,
+                DescriptionId = bookEntity.DescriptionId,
+                WarehouseId = bookEntity.WarehouseId,
+                LanguageId = bookEntity.LanguageId,
+                GenreIds = bookEntity.BookGenres.Select(bg => bg.GenreId),
+                BookLoanId = bookEntity.BookLoanId
+            };
+
+            return bookDataModel;
         }
     }
 }

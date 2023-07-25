@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.Helpers
+﻿namespace LibraryManagementSystem.PL.Helpers
 {
     public static class ConfigurationHelper
     {

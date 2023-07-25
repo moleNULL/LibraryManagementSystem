@@ -2,16 +2,18 @@ using LibraryManagementSystem.BLL.Repositories.Interfaces;
 using LibraryManagementSystem.BLL.Services;
 using LibraryManagementSystem.BLL.Services.Interfaces;
 using LibraryManagementSystem.DAL;
+using LibraryManagementSystem.DAL.Configurations.BookConfigurations;
 using LibraryManagementSystem.DAL.Repositories;
-using LibraryManagementSystem.Helpers;
+using LibraryManagementSystem.PL.Helpers;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem
+namespace LibraryManagementSystem.PL
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            var configuration = GetConfiguration();
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
@@ -26,6 +28,7 @@ namespace LibraryManagementSystem
             builder.Services.AddScoped<IBookService, BookService>();
 
             builder.Services.AddAutoMapper(typeof(Program));
+            builder.Services.Configure<BookConfiguration>(configuration);
 
             var app = builder.Build();
 
@@ -42,6 +45,14 @@ namespace LibraryManagementSystem
             app.MapControllers();
 
             app.Run();
+        }
+        private static IConfiguration GetConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(path: "appsettings.json", optional: true, reloadOnChange: true);
+
+            return builder.Build();
         }
     }
 }

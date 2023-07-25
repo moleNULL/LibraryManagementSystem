@@ -33,9 +33,7 @@ namespace LibraryManagementSystem.BLL.Services
                 return null;
             }
 
-            var booksDataModel = await _bookRepository.GetBooksAsync();
-            var bookDataModel = booksDataModel.FirstOrDefault(b => b.Id == id);
-
+            var bookDataModel = await _bookRepository.GetBookByIdAsync(id);
             var bookDto = _mapper.Map<BookDto>(bookDataModel);
 
             return bookDto;
@@ -76,6 +74,16 @@ namespace LibraryManagementSystem.BLL.Services
         public async Task DeleteBooksAsync(IEnumerable<int> bookIds)
         {
             await _bookRepository.DeleteBooksAsync(bookIds);
+        }
+
+        public async Task DeleteBookByIdAsync(int id)
+        {
+            if (id < 1)
+            {
+                return;
+            }
+
+            await _bookRepository.DeleteBookByIdAsync(id);
         }
     }
 }
