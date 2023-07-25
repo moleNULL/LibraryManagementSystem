@@ -17,8 +17,8 @@
         public int? DescriptionId { get; set; }
         public DescriptionEntity? Description { get; set; }
 
-        public int WarehouseId { get; set; }
-        public WarehouseEntity Warehouse { get; set; } = null!;
+        public int? WarehouseId { get; set; }
+        public WarehouseEntity? Warehouse { get; set; } = null!;
 
         public int LanguageId { get; set; }
         public LanguageEntity Language { get; set; } = null!;

@@ -145,7 +145,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("WarehouseId")
+                    b.Property<int?>("WarehouseId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -168,7 +168,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasIndex("PublisherId");
 
                     b.HasIndex("WarehouseId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[WarehouseId] IS NOT NULL");
 
                     b.ToTable("Books", (string)null);
 
@@ -1225,8 +1226,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.WarehouseEntity", "Warehouse")
                         .WithOne("Book")
                         .HasForeignKey("LibraryManagementSystem.BLL.Models.Entities.BookEntities.BookEntity", "WarehouseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Author");
 

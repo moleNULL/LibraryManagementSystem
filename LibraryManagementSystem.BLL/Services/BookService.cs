@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Comparers;
+using LibraryManagementSystem.BLL.Models.DataModels;
 using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces;
 using LibraryManagementSystem.BLL.Services.Interfaces;
 
@@ -25,16 +26,51 @@ namespace LibraryManagementSystem.BLL.Services
             return booksDto;
         }
 
-        public async Task AddBookAsync(BookDto bookDto)
+        public async Task<BookDto?> GetBookByIdAsync(int id)
         {
-            var bookEntity = _mapper.Map<BookEntity>(bookDto);
-            await _bookRepository.AddBookAsync(bookEntity);
+            if (id < 1)
+            {
+                return null;
+            }
+
+            var booksDataModel = await _bookRepository.GetBooksAsync();
+            var bookDataModel = booksDataModel.FirstOrDefault(b => b.Id == id);
+
+            var bookDto = _mapper.Map<BookDto>(bookDataModel);
+
+            return bookDto;
         }
 
-        public async Task UpdateBooksAsync(IEnumerable<BookDto> booksDto)
+        public async Task AddBookAsync(BookDto bookDto)
         {
+            var bookDataModel = _mapper.Map<BookDataModel>(bookDto);
             var booksInDbDataModel = await _bookRepository.GetBooksAsync();
-            //var booksDataModel = _mapper.Map<IEnumerable>
+
+            if (!booksInDbDataModel.Any(
+                bid => bid.Title == bookDataModel.Title && bid.AuthorId == bookDataModel.AuthorId))
+            {
+                await _bookRepository.AddBookAsync(bookDataModel);
+                return;
+            }
+
+            throw new ArgumentException("This book already exists");
+        }
+
+        public async Task UpdateBookAsync(BookDto bookDto)
+        {
+            var bookDataModel = _mapper.Map<BookDataModel>(bookDto);
+            var booksInDbDataModel = await _bookRepository.GetBooksAsync();
+
+            var bookDataModelComparer = new BookDataModelEqualityComparer();
+
+            var existingBookDataModel = booksInDbDataModel.FirstOrDefault(bid => bid.Id == bookDataModel.Id);
+            if (existingBookDataModel is not null)
+            {
+                if (!bookDataModelComparer.Equals(existingBookDataModel, bookDataModel))
+                {
+                    await _bookRepository.UpdateBookAsync(bookDataModel);
+                }
+            }
         }
 
         public async Task DeleteBooksAsync(IEnumerable<int> bookIds)
