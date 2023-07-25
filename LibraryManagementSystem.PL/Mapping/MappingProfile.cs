@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.DataModels;
 using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.ViewModels;
+using LibraryManagementSystem.PL.ViewModels;
 
-namespace LibraryManagementSystem.Mapping
+namespace LibraryManagementSystem.PL.Mapping
 {
     public class MappingProfile : Profile
     {

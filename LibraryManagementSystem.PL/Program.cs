@@ -3,10 +3,10 @@ using LibraryManagementSystem.BLL.Services;
 using LibraryManagementSystem.BLL.Services.Interfaces;
 using LibraryManagementSystem.DAL;
 using LibraryManagementSystem.DAL.Repositories;
-using LibraryManagementSystem.Helpers;
+using LibraryManagementSystem.PL.Helpers;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem
+namespace LibraryManagementSystem.PL
 {
     public class Program
     {

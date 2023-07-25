@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Services.Interfaces;
-using LibraryManagementSystem.ViewModels;
+using LibraryManagementSystem.PL.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryManagementSystem.Controllers
+namespace LibraryManagementSystem.PL.Controllers
 {
     [Route("api/books")]
     [ApiController]

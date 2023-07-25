@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.ViewModels
+﻿namespace LibraryManagementSystem.PL.ViewModels
 {
     public class BookViewModel
     {
