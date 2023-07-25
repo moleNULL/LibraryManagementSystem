@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/books")]
     [ApiController]
     public class BookController : ControllerBase
     {
@@ -26,6 +26,19 @@ namespace LibraryManagementSystem.Controllers
             var books = _mapper.Map<IEnumerable<BookViewModel>>(booksDto);
 
             return Ok(books);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var bookDto = await _bookService.GetBookByIdAsync(id);
+
+            if (bookDto is not null)
+            {
+                return Ok(bookDto);
+            }
+
+            return BadRequest($"There is no book with id: {id}");
         }
 
         [HttpPost]

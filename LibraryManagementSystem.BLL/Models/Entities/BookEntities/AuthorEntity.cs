@@ -6,6 +6,6 @@
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
 
-        public virtual ICollection<BookEntity> Books { get; set; } = new List<BookEntity>();
+        public ICollection<BookEntity> Books { get; set; } = new List<BookEntity>();
     }
 }

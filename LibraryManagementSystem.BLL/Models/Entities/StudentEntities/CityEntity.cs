@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        public virtual ICollection<StudentEntity> Students { get; set; } = new List<StudentEntity>();
+        public ICollection<StudentEntity> Students { get; set; } = new List<StudentEntity>();
     }
 }

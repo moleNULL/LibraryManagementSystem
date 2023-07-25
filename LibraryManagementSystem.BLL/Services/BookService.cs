@@ -26,6 +26,21 @@ namespace LibraryManagementSystem.BLL.Services
             return booksDto;
         }
 
+        public async Task<BookDto?> GetBookByIdAsync(int id)
+        {
+            if (id < 1)
+            {
+                return null;
+            }
+
+            var booksDataModel = await _bookRepository.GetBooksAsync();
+            var bookDataModel = booksDataModel.FirstOrDefault(b => b.Id == id);
+
+            var bookDto = _mapper.Map<BookDto>(bookDataModel);
+
+            return bookDto;
+        }
+
         public async Task AddBookAsync(BookDto bookDto)
         {
             var bookDataModel = _mapper.Map<BookDataModel>(bookDto);

@@ -17,27 +17,27 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task<IEnumerable<BookDataModel>> GetBooksAsync()
         {
-            return await _dbContext.Books.Select(book => new BookDataModel
+            return await _dbContext.Books.Select(bookEntity => new BookDataModel
             {
-                Id = book.Id,
-                Title = book.Title,
-                PictureName = book.PictureName,
-                PagesNumber = book.PagesNumber,
-                Year = book.Year,
+                Id = bookEntity.Id,
+                Title = bookEntity.Title,
+                PictureName = bookEntity.PictureName,
+                PagesNumber = bookEntity.PagesNumber,
+                Year = bookEntity.Year,
 
-                PublisherId = book.PublisherId,
-                AuthorId = book.AuthorId,
-                DescriptionId = book.DescriptionId,
-                WarehouseId = book.WarehouseId,
-                LanguageId = book.LanguageId,
-                GenreIds = book.BookGenres.Select(bg => bg.GenreId),
-                BookLoanId = book.BookLoanId
+                PublisherId = bookEntity.PublisherId,
+                AuthorId = bookEntity.AuthorId,
+                DescriptionId = bookEntity.DescriptionId,
+                WarehouseId = bookEntity.WarehouseId,
+                LanguageId = bookEntity.LanguageId,
+                GenreIds = bookEntity.BookGenres.Select(bg => bg.GenreId),
+                BookLoanId = bookEntity.BookLoanId
             }).ToListAsync();
         }
 
         public async Task AddBookAsync(BookDataModel bookDataModel)
         {
-            var bookEntity = CreateBookEntityFromBookDataModel(bookDataModel);
+            var bookEntity = MapToBookEntity(bookDataModel);
 
             _dbContext.Books.Add(bookEntity);
             await _dbContext.SaveChangesAsync();
@@ -45,9 +45,11 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task UpdateBookAsync(BookDataModel bookDataModel)
         {
-            var bookEntity = CreateBookEntityFromBookDataModel(bookDataModel);
+            var bookEntity = MapToBookEntity(bookDataModel);
 
-            var existingBookEntity = _dbContext.Books.First(book => book.Id == bookDataModel.Id);
+            var existingBookEntity = await _dbContext.Books
+                .Include(b => b.BookGenres)
+                .FirstAsync(book => book.Id == bookDataModel.Id);
             existingBookEntity.Title = bookEntity.Title;
             existingBookEntity.PictureName = bookEntity.PictureName;
             existingBookEntity.PagesNumber = bookEntity.PagesNumber;
@@ -72,7 +74,8 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task DeleteBooksAsync(IEnumerable<int> bookIds)
         {
-            var booksToDelete = await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();
+            var booksToDelete =
+                await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();
 
             foreach (var bookToDelete in booksToDelete)
             {
@@ -87,9 +90,9 @@ namespace LibraryManagementSystem.DAL.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        private BookEntity CreateBookEntityFromBookDataModel(BookDataModel bookDataModel)
+        private BookEntity MapToBookEntity(BookDataModel bookDataModel)
         {
-            var bookEntity = new BookEntity()
+            var bookEntity = new BookEntity
             {
                 Id = bookDataModel.Id,
                 Title = bookDataModel.Title,
@@ -105,7 +108,7 @@ namespace LibraryManagementSystem.DAL.Repositories
                 BookLoanId = bookDataModel.BookLoanId
             };
 
-            // need Book and not BookId in order to work both with AddBookEntity and UpdateBookEntity
+            // need to use 'Book' (not BookId) to work correctly with both AddBookEntity() and UpdateBookEntity()
             bookEntity.BookGenres = bookDataModel.GenreIds.Select(i => new BookGenreEntity
             {
                 Book = bookEntity,
