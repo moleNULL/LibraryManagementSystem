@@ -1,11 +1,11 @@
-﻿using LibraryManagementSystem.BLL.Models.DataModels;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
 namespace LibraryManagementSystem.BLL.Comparers
 {
-    public class BookDataModelEqualityComparer : IEqualityComparer<BookDataModel>
+    public class BookEntityEqualityComparer : IEqualityComparer<BookEntity>
     {
-        public bool Equals(BookDataModel? x, BookDataModel? y)
+        public bool Equals(BookEntity? x, BookEntity? y)
         {
             if (x!.Id != y!.Id)
             {
@@ -57,7 +57,7 @@ namespace LibraryManagementSystem.BLL.Comparers
                 return false;
             }
 
-            if (!Enumerable.SequenceEqual(x!.GenreIds, y!.GenreIds))
+            if (!Enumerable.SequenceEqual(x!.BookGenres, y!.BookGenres, new BookGenreEntityEqualityComparer()))
             {
                 return false;
             }
@@ -70,7 +70,7 @@ namespace LibraryManagementSystem.BLL.Comparers
             return true;
         }
 
-        public int GetHashCode([DisallowNull] BookDataModel obj)
+        public int GetHashCode([DisallowNull] BookEntity obj)
         {
             return base.GetHashCode();
         }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.BLL.Comparers;
-using LibraryManagementSystem.BLL.Models.DataModels;
 using LibraryManagementSystem.BLL.Models.Dtos;
+using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces;
 using LibraryManagementSystem.BLL.Services.Interfaces;
 
@@ -20,8 +19,8 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task<IEnumerable<BookDto>> GetBooksAsync()
         {
-            var booksDataModel = await _bookRepository.GetBooksAsync();
-            var booksDto = _mapper.Map<IEnumerable<BookDto>>(booksDataModel);
+            var booksEntity = await _bookRepository.GetBooksAsync();
+            var booksDto = _mapper.Map<IEnumerable<BookDto>>(booksEntity);
 
             return booksDto;
         }
@@ -30,24 +29,24 @@ namespace LibraryManagementSystem.BLL.Services
         {
             if (id < 1)
             {
-                return null;
+                return null; // exception
             }
 
-            var bookDataModel = await _bookRepository.GetBookByIdAsync(id);
-            var bookDto = _mapper.Map<BookDto>(bookDataModel);
+            var bookEntity = await _bookRepository.GetBookByIdAsync(id);
+            var bookDto = _mapper.Map<BookDto>(bookEntity);
 
             return bookDto;
         }
 
         public async Task AddBookAsync(BookDto bookDto)
         {
-            var bookDataModel = _mapper.Map<BookDataModel>(bookDto);
-            var booksInDbDataModel = await _bookRepository.GetBooksAsync();
+            var bookEntity = _mapper.Map<BookEntity>(bookDto);
+            var booksInDbEntity = await _bookRepository.GetBooksAsync();
 
-            if (!booksInDbDataModel.Any(
-                bid => bid.Title == bookDataModel.Title && bid.AuthorId == bookDataModel.AuthorId))
+            if (!booksInDbEntity.Any(
+                bid => bid.Title == bookEntity.Title && bid.AuthorId == bookEntity.AuthorId))
             {
-                await _bookRepository.AddBookAsync(bookDataModel);
+                await _bookRepository.AddBookAsync(bookEntity);
                 return;
             }
 
@@ -56,19 +55,8 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task UpdateBookAsync(BookDto bookDto)
         {
-            var bookDataModel = _mapper.Map<BookDataModel>(bookDto);
-            var booksInDbDataModel = await _bookRepository.GetBooksAsync();
-
-            var bookDataModelComparer = new BookDataModelEqualityComparer();
-
-            var existingBookDataModel = booksInDbDataModel.FirstOrDefault(bid => bid.Id == bookDataModel.Id);
-            if (existingBookDataModel is not null)
-            {
-                if (!bookDataModelComparer.Equals(existingBookDataModel, bookDataModel))
-                {
-                    await _bookRepository.UpdateBookAsync(bookDataModel);
-                }
-            }
+            var bookEntity = _mapper.Map<BookEntity>(bookDto);
+            await _bookRepository.UpdateBookAsync(bookEntity);
         }
 
         public async Task DeleteBooksAsync(IEnumerable<int> bookIds)

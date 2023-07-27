@@ -1,9 +1,9 @@
-﻿namespace LibraryManagementSystem.PL.Models.ViewModels
+﻿namespace LibraryManagementSystem.PL.Models.ViewModels.BookViewModels
 {
-    public class BookAddViewModel
+    public class BookUpdateViewModel
     {
         public string Title { get; set; } = string.Empty;
-        public string? PictureName { get; set; }
+        //public string? PictureName { get; set; }
         public int PagesNumber { get; set; }
         public int Year { get; set; }
 

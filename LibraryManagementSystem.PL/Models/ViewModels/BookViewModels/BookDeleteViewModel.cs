@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.PL.Models.ViewModels
+﻿namespace LibraryManagementSystem.PL.Models.ViewModels.BookViewModels
 {
     public class BookDeleteViewModel
     {

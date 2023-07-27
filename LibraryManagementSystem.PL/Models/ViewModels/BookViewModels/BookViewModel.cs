@@ -1,6 +1,6 @@
-﻿namespace LibraryManagementSystem.BLL.Models.DataModels
+﻿namespace LibraryManagementSystem.PL.Models.ViewModels.BookViewModels
 {
-    public class BookDataModel
+    public class BookViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;

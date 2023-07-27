@@ -25,7 +25,6 @@
 
         public ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
         public ICollection<BookGenreEntity> BookGenres { get; set; } = new List<BookGenreEntity>();
-
         public int? BookLoanId { get; set; }
         public BookLoanEntity? BookLoan { get; set; }
     }

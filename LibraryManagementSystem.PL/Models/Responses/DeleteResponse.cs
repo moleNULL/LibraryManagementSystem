@@ -2,6 +2,6 @@
 {
     public class DeleteResponse
     {
-        public int DeletedCount { get; set; }
+        public int DeletedCount { get; set; } // boolean
     }
 }

@@ -2,7 +2,7 @@
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Services.Interfaces;
 using LibraryManagementSystem.PL.Models.Responses;
-using LibraryManagementSystem.PL.Models.ViewModels;
+using LibraryManagementSystem.PL.Models.ViewModels.BookViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -63,11 +63,12 @@ namespace LibraryManagementSystem.PL.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(typeof(UpdateResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Update(BookUpdateViewModel bookViewModel)
+        public async Task<IActionResult> Update(BookUpdateViewModel bookViewModel, int id)
         {
             var bookDto = _mapper.Map<BookDto>(bookViewModel);
+            bookDto.Id = id;
 
             await _bookService.UpdateBookAsync(bookDto);
 

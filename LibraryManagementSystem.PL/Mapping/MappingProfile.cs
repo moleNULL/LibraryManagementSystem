@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.BLL.Models.DataModels;
 using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.PL.Models.ViewModels;
+using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
+using LibraryManagementSystem.PL.Models.ViewModels.BookViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
 {
@@ -14,13 +14,22 @@ namespace LibraryManagementSystem.PL.Mapping
 
         private void MapBooks()
         {
-            CreateMap<BookDataModel, BookDto>().ForMember("PictureName", options =>
+            CreateMap<BookEntity, BookDto>().ForMember("PictureName", options =>
             {
-                options.MapFrom<BookPictureResolver, string>(b => b.PictureName);
+                options.MapFrom<BookPictureResolver, string?>(b => b.PictureName);
+            });
+            
+            CreateMap<BookDto, BookViewModel>().ReverseMap();
+
+            CreateMap<BookEntity, BookDto>().ForMember("GenreIds", options =>
+            {
+                options.MapFrom<BookIdsResolver, ICollection<BookGenreEntity>>(bookEntity => bookEntity.BookGenres);
             });
 
-            CreateMap<BookDataModel, BookDto>().ReverseMap();
-            CreateMap<BookDto, BookViewModel>().ReverseMap();
+            CreateMap<BookDto, BookEntity>().ForMember("BookGenres", options =>
+            {
+                options.MapFrom<BookGenresResolver, IEnumerable<int>>(bookDto => bookDto.GenreIds);
+            });
 
             CreateMap<BookAddViewModel, BookDto>();
             CreateMap<BookUpdateViewModel, BookDto>();
