@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.PL.Models.ViewModels.BookViewModels;
+using LibraryManagementSystem.PL.ViewModels.BookViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
 {

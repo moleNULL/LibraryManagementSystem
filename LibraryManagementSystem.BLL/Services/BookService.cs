@@ -29,7 +29,7 @@ namespace LibraryManagementSystem.BLL.Services
         {
             if (id < 1)
             {
-                return null; // exception
+                throw new ArgumentException("BookId cannot be negative or zero");
             }
 
             var bookEntity = await _bookRepository.GetBookByIdAsync(id);
@@ -38,7 +38,7 @@ namespace LibraryManagementSystem.BLL.Services
             return bookDto;
         }
 
-        public async Task AddBookAsync(BookDto bookDto)
+        public async Task<int> AddBookAsync(BookDto bookDto)
         {
             var bookEntity = _mapper.Map<BookEntity>(bookDto);
             var booksInDbEntity = await _bookRepository.GetBooksAsync();
@@ -46,32 +46,41 @@ namespace LibraryManagementSystem.BLL.Services
             if (!booksInDbEntity.Any(
                 bid => bid.Title == bookEntity.Title && bid.AuthorId == bookEntity.AuthorId))
             {
-                await _bookRepository.AddBookAsync(bookEntity);
-                return;
+                return await _bookRepository.AddBookAsync(bookEntity);
             }
 
             throw new ArgumentException("This book already exists");
         }
 
-        public async Task UpdateBookAsync(BookDto bookDto)
+        public async Task<bool> UpdateBookAsync(BookDto bookDto)
         {
+            if (bookDto.Id < 1)
+            {
+                throw new ArgumentException("BookId cannot be negative or zero");
+            }
+            
             var bookEntity = _mapper.Map<BookEntity>(bookDto);
-            await _bookRepository.UpdateBookAsync(bookEntity);
+            return await _bookRepository.UpdateBookAsync(bookEntity);
         }
 
-        public async Task DeleteBooksAsync(IEnumerable<int> bookIds)
+        public async Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds)
         {
-            await _bookRepository.DeleteBooksAsync(bookIds);
+            if (bookIds.Any(bookId => bookId < 1))
+            {
+                throw new ArgumentException("BookId cannot be negative or zero");
+            }
+            
+            return await _bookRepository.DeleteBooksAsync(bookIds);
         }
 
-        public async Task DeleteBookByIdAsync(int id)
+        public async Task<bool> DeleteBookByIdAsync(int id)
         {
             if (id < 1)
             {
-                return;
+                throw new ArgumentException("BookId cannot be negative or zero");
             }
 
-            await _bookRepository.DeleteBookByIdAsync(id);
+            return await _bookRepository.DeleteBookByIdAsync(id);
         }
     }
 }

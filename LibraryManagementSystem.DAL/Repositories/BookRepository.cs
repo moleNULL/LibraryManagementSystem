@@ -21,17 +21,19 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task<BookEntity?> GetBookByIdAsync(int id)
         {
-            var bookEntity = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
+            var bookEntity = await _dbContext.Books.Include(b => b.BookGenres).FirstOrDefaultAsync(b => b.Id == id);
             return bookEntity;
         }
 
-        public async Task AddBookAsync(BookEntity bookEntity)
+        public async Task<int> AddBookAsync(BookEntity bookEntity)
         {
             _dbContext.Books.Add(bookEntity);
             await _dbContext.SaveChangesAsync();
+
+            return bookEntity.Id;
         }
 
-        public async Task UpdateBookAsync(BookEntity bookEntity)
+        public async Task<bool> UpdateBookAsync(BookEntity bookEntity)
         {
             var existingBookEntity = await _dbContext.Books
                 .Include(b => b.BookGenres)
@@ -62,31 +64,43 @@ namespace LibraryManagementSystem.DAL.Repositories
                     }
                     
                     _dbContext.Books.Update(existingBookEntity);
-                    await _dbContext.SaveChangesAsync();
+                    int countUpdated = await _dbContext.SaveChangesAsync();
+
+                    return countUpdated > 0;
                 }
             }
+
+            return false;
         }
 
-        public async Task DeleteBooksAsync(IEnumerable<int> bookIds)
+        public async Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds)
         {
             /*var booksToDelete =
                 await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();*/
 
+            bool areAnyDeleted = false;
             foreach (var id in bookIds)
             {
-                await DeleteBookByIdAsync(id);
+                bool result = await DeleteBookByIdAsync(id);
+                areAnyDeleted |= result; // if any book is deleted return true
             }
+
+            return areAnyDeleted;
         }
 
-        public async Task DeleteBookByIdAsync(int id)
+        public async Task<bool> DeleteBookByIdAsync(int id)
         {
             var bookToDelete = await _dbContext.Books.FirstOrDefaultAsync(b => b.Id == id);
 
             if (bookToDelete is not null)
             {
                 _dbContext.Books.Remove(bookToDelete);
-                await _dbContext.SaveChangesAsync();
+                int countDeleted = await _dbContext.SaveChangesAsync();
+
+                return countDeleted > 0;
             }
+
+            return false;
         }
     }
 }

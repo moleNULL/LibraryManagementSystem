@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Services.Interfaces;
-using LibraryManagementSystem.PL.Models.Responses;
-using LibraryManagementSystem.PL.Models.ViewModels.BookViewModels;
+using LibraryManagementSystem.PL.ViewModels.BookViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -35,63 +34,87 @@ namespace LibraryManagementSystem.PL.Controllers
         [ProducesResponseType(typeof(BookViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get(int id)
         {
-            var bookDto = await _bookService.GetBookByIdAsync(id);
-
-            if (bookDto is not null)
+            try
             {
-                return Ok(bookDto);
-            }
+                var bookDto = await _bookService.GetBookByIdAsync(id);
+                if (bookDto is not null)
+                {
+                    return Ok(bookDto);
+                }
 
-            return BadRequest($"There is no book with id: {id}");
+                return NotFound($"There is no book with id: {id}");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(AddResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Add(BookAddViewModel bookViewModel)
         {
             var bookDto = _mapper.Map<BookDto>(bookViewModel);
 
             try
             {
-                await _bookService.AddBookAsync(bookDto);
+                int insertedId = await _bookService.AddBookAsync(bookDto);
+                return Ok(insertedId);
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
-
-            return Ok();
         }
 
         [HttpPut("{id:int}")]
-        [ProducesResponseType(typeof(UpdateResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Update(BookUpdateViewModel bookViewModel, int id)
         {
             var bookDto = _mapper.Map<BookDto>(bookViewModel);
             bookDto.Id = id;
 
-            await _bookService.UpdateBookAsync(bookDto);
-
-            return Ok();
+            try
+            {
+                bool isUpdated = await _bookService.UpdateBookAsync(bookDto);
+                return Ok(isUpdated);    
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete]
-        [ProducesResponseType(typeof(DeleteResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(BookDeleteViewModel booksToDeleteViewModel)
         {
             var bookIds = booksToDeleteViewModel.BookIds.Select(bookId => bookId);
-            await _bookService.DeleteBooksAsync(bookIds);
 
-            return Ok();
+            try
+            {
+                bool areDeleted = await _bookService.DeleteBooksAsync(bookIds);
+                return Ok(areDeleted);   
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id:int}")]
-        [ProducesResponseType(typeof(DeleteResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(int id)
         {
-            await _bookService.DeleteBookByIdAsync(id);
-
-            return Ok();
+            try
+            {
+                bool isUpdated = await _bookService.DeleteBookByIdAsync(id);
+                return Ok(isUpdated);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

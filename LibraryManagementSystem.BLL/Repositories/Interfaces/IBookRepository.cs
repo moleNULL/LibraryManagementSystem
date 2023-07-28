@@ -6,9 +6,9 @@ namespace LibraryManagementSystem.BLL.Repositories.Interfaces
     {
         Task<IEnumerable<BookEntity>> GetBooksAsync();
         Task<BookEntity?> GetBookByIdAsync(int id);
-        Task AddBookAsync(BookEntity book);
-        Task UpdateBookAsync(BookEntity books);
-        Task DeleteBooksAsync(IEnumerable<int> bookIds);
-        Task DeleteBookByIdAsync(int id);
+        Task<int> AddBookAsync(BookEntity book);
+        Task<bool> UpdateBookAsync(BookEntity books);
+        Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds);
+        Task<bool> DeleteBookByIdAsync(int id);
     }
 }

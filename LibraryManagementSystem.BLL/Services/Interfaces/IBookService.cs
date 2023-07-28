@@ -6,9 +6,9 @@ namespace LibraryManagementSystem.BLL.Services.Interfaces
     {
         Task<IEnumerable<BookDto>> GetBooksAsync();
         Task<BookDto?> GetBookByIdAsync(int id);
-        Task AddBookAsync(BookDto bookDto);
-        Task UpdateBookAsync(BookDto bookDto);
-        Task DeleteBooksAsync(IEnumerable<int> bookIds);
-        Task DeleteBookByIdAsync(int id);
+        Task<int> AddBookAsync(BookDto bookDto);
+        Task<bool> UpdateBookAsync(BookDto bookDto);
+        Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds);
+        Task<bool> DeleteBookByIdAsync(int id);
     }
 }
