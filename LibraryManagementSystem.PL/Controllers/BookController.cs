@@ -11,13 +11,13 @@ namespace LibraryManagementSystem.PL.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IBookService _bookService;
         private readonly IMapper _mapper;
+        private readonly IBookService _bookService;
 
-        public BookController(IBookService bookService, IMapper mapper)
+        public BookController(IMapper mapper, IBookService bookService)
         {
-            _bookService = bookService;
             _mapper = mapper;
+            _bookService = bookService;
         }
 
         [HttpGet]
@@ -73,6 +73,7 @@ namespace LibraryManagementSystem.PL.Controllers
         {
             var bookDto = _mapper.Map<BookDto>(bookViewModel);
             bookDto.Id = id;
+            bookDto.Warehouse.BookId = id;
 
             try
             {

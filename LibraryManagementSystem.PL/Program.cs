@@ -24,6 +24,14 @@ namespace LibraryManagementSystem.PL
                 options.UseSqlServer(ConfigurationHelper.GetConnectionString());
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAnyOriginPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddScoped<IBookRepository, BookRepository>();
             builder.Services.AddScoped<IBookService, BookService>();
 
@@ -37,6 +45,8 @@ namespace LibraryManagementSystem.PL
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowAnyOriginPolicy");
 
             app.UseHttpsRedirection();
 

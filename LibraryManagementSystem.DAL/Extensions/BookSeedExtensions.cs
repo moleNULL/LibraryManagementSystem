@@ -64,7 +64,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "but of the men and women who have to struggle for existence behind the Red banners and slogans. " +
                 "It is a picture of what those slogans do to human beings. What happens to the defiant ones? " +
                 "What happens to those who succumb?\r\n\r\nAgainst a vivid panorama of political revolution and " +
-                "personal revolt, Ayn Rand shows what the theory of socialism means in practice. " },
+                "personal revolt, Ayn Rand shows what the theory of socialism means in practice. ", BookId = 1 },
 
                 new DescriptionEntity { Id = 2, Description = "Who is John Galt? When he says that he will stop " +
                 "the motor of the world, is he a destroyer or a liberator? Why does he have to fight his battles " +
@@ -74,7 +74,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "amazing men and women in this book. You will discover why a productive genius becomes " +
                 "a worthless playboy...why a great steel industrialist is working for his own destruction..." +
                 "why a composer gives up his career on the night of his triumph...why a beautiful woman who " +
-                "runs a transcontinental railroad falls in love with the man she has sworn to kill." },
+                "runs a transcontinental railroad falls in love with the man she has sworn to kill.", BookId = 2 },
 
                 new DescriptionEntity { Id = 3, Description = "\"I don't want to repeat my innocence. I want " +
                 "the pleasure of losing it again.\"\r\nYoung Amory Blaine, who is convinced he has an " +
@@ -83,13 +83,13 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "immersing himself in a glitzy world of excessive drinking and casual liaisons.\r\nWritten at " +
                 "the tender age of twenty-three, F. Scott Fitzgerald's first novel mirrors some of his own " +
                 "experiences at Princeton University. This romance of the early Jazz Age is a commentary on " +
-                "how love can be affected by money and social status." },
+                "how love can be affected by money and social status.", BookId = 3 },
 
                 new DescriptionEntity { Id = 4, Description = "\"The Great Gatsby\" is a classic novel written " +
                 "by F. Scott Fitzgerald. Set in the lavish and glamorous world of 1920s America, the story follows" +
                 "Jay Gatsby, a mysterious and enigmatic millionaire, through the eyes of Nick Carraway, a young " +
                 "Midwesterner who becomes Gatsby's neighbor. The book delves into themes of love, wealth, " +
-                "decadence, and the illusion of the American Dream." },
+                "decadence, and the illusion of the American Dream.", BookId = 4 },
 
                 new DescriptionEntity { Id = 5, Description = "When an unidentified monster threatens international" +
                 " shipping, French oceanographer Pierre Aronnax and his unflappable assistant Conseil join an " +
@@ -100,7 +100,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "preternaturally imposing man who calls himself Captain Nemo. Thus begins a journey of 20,000 " +
                 "leagues—nearly 50,000 miles—that will take Captain Nemo, his crew, and these three adventurers " +
                 "on a journey of discovery through undersea forests, coral graveyards, miles-deep trenches, and " +
-                "even the sunken ruins of Atlantis. " },
+                "even the sunken ruins of Atlantis. ", BookId = 5 },
 
 
                 new DescriptionEntity { Id = 6, Description = "A stolen hot air balloon lands an unlikely crew on " +
@@ -110,7 +110,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "a storm forces them to crash land on an unknown island in the Pacific. There, the marooned men " +
                 "must work together to pool all their knowledge and skill if they wish to survive.\r\n\r\nBut the " +
                 "island has its secrets, and the castaways discover it’s not as deserted as they thought. A " +
-                "mysterious figure has been watching them. Does it bring salvation or even more danger?" },
+                "mysterious figure has been watching them. Does it bring salvation or even more danger?", BookId = 6 },
 
                 new DescriptionEntity { Id = 7, Description = "The Mighty Orinoco tells the story of a young " +
                 "man's search for his father along the then-uncharted Orinoco River of Venezuela. The text " +
@@ -118,7 +118,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "discovery, humor and drama, dastardly villains and intrepid heroes, and a host of " +
                 "near-fatal encounters with crocodiles, jungle fever, Indians and outlaws ― all set in " +
                 "a wonderfully exotic locale. The Mighty Orinoco also includes a unique twist that will " +
-                "appeal to feminists ― readers will need to discover it for themselves." },
+                "appeal to feminists ― readers will need to discover it for themselves.", BookId = 7 },
 
                 new DescriptionEntity { Id = 8, Description = "Just after midnight, a snowdrift stops the famous " +
                 "Orient Express in its tracks as it travels through the mountainous Balkans. The luxurious train " +
@@ -126,7 +126,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "An American tycoon lies dead in his compartment, stabbed a dozen times, his door locked from the " +
                 "inside.\r\n\r\nOne of the passengers is none other than detective Hercule Poirot. " +
                 "On vacation.\r\n\r\nIsolated and with a killer on board, Poirot must identify the murderer—in " +
-                "case he or she decides to strike again." },
+                "case he or she decides to strike again.", BookId = 8 },
 
                 new DescriptionEntity { Id = 9, Description = "First, there were ten—a curious assortment of " +
                 "strangers summoned as weekend guests to a little private island off the coast of Devon. " +
@@ -136,14 +136,14 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "framed and hung in every room of the mansion.\n\nWhen they realize that murders are occurring " +
                 "as described in the rhyme, terror mounts. One by one they fall prey. Before the weekend is out, " +
                 "there will be none. Who has choreographed this dastardly scheme? And who will be left to tell " +
-                "the tale? Only the dead are above suspicion." },
+                "the tale? Only the dead are above suspicion.", BookId = 9 },
 
                 new DescriptionEntity { Id = 10, Description = "It’s seven in the morning. The Bantrys wake to " +
                 "find the body of a young woman in their library. She is wearing evening dress and heavy make-up, " +
                 "which is now smeared across her cheeks.\r\n\r\nBut who is she? How did she get there? And what " +
                 "is the connection with another dead girl, whose charred remains are later discovered in an " +
                 "abandoned quarry?\r\n\r\nThe respectable Bantrys invite Miss Marple to solve the mystery… " +
-                "before tongues start to wag." },
+                "before tongues start to wag.", BookId = 10 },
 
 
                 new DescriptionEntity { Id = 11, Description = "The new novel by George Orwell is the major work " +
@@ -151,25 +151,25 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "most brilliant\" work. Though the story of Nineteen Eighty-Four takes place thirty-five years " +
                 "hence, it is in every sense timely. The scene is London, where there has been no new housing " +
                 "since 1950 and where the city-wide slums are called Victory Mansions. Science has abandoned Man " +
-                "for the State. As every citizen knows only too well, war is peace." },
+                "for the State. As every citizen knows only too well, war is peace.", BookId = 11 },
 
                 new DescriptionEntity { Id = 12, Description = "A farm is taken over by its overworked, mistreated " +
                 "animals. With flaming idealism and stirring slogans, they set out to create a paradise of " +
                 "progress, justice, and equality. Thus the stage is set for one of the most telling satiric " +
                 "fables ever penned –a razor-edged fairy tale for grown-ups that records the evolution from " +
-                "revolution against tyranny to a totalitarianism just as terrible." },
+                "revolution against tyranny to a totalitarianism just as terrible.", BookId = 12 },
 
                 new DescriptionEntity { Id = 13, Description = "Paul Sheldon. He's a bestselling novelist who " +
                 "has finally met his biggest fan. Her name is Annie Wilkes and she is more than a rabid reader - " +
                 "she is Paul's nurse, tending his shattered body after an automobile accident. But she is also " +
-                "his captor, keeping him prisoner in her isolated house." },
+                "his captor, keeping him prisoner in her isolated house.", BookId = 13 },
 
                 new DescriptionEntity { Id = 14, Description = "Jack Torrance's new job at the Overlook Hotel " +
                 "is the perfect chance for a fresh start. As the off-season caretaker at the atmospheric old " +
                 "hotel, he'll have plenty of time to spend reconnecting with his family and working on his " +
                 "writing. But as the harsh winter weather sets in, the idyllic location feels ever more remote..." +
                 "and more sinister. And the only one to notice the strange and terrible forces gathering around " +
-                "the Overlook is Danny Torrance, a uniquely gifted five-year-old." },
+                "the Overlook is Danny Torrance, a uniquely gifted five-year-old.", BookId = 14 },
 
                 new DescriptionEntity { Id = 15, Description = "Long ago, in a time forgotten, a preternatural " +
                 "event threw the seasons out of balance. In a land where summers can last decades and winters " +
@@ -179,7 +179,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "his enemies emerging from the shadows of the throne. At the center of the conflict lie the " +
                 "Starks of Winterfell, a family as harsh and unyielding as the frozen land they were born to. " +
                 "Now Lord Eddard Stark is reluctantly summoned to serve as the king’s new Hand, an appointment " +
-                "that threatens to sunder not only his family but the kingdom itself." },
+                "that threatens to sunder not only his family but the kingdom itself.", BookId = 15 },
 
 
                 new DescriptionEntity { Id = 16, Description = "A comet the color of blood and flame cuts " +
@@ -192,7 +192,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "orphan boy; a knight of the mind prepares a poison for a treacherous sorceress; and wild men " +
                 "descend from the Mountains of the Moon to ravage the countryside. Against a backdrop of incest " +
                 "and fratricide, alchemy and murder, victory may go to the men and women possessed of the coldest " +
-                "steel...and the coldest hearts. For when kings clash, the whole land trembles." },
+                "steel...and the coldest hearts. For when kings clash, the whole land trembles.", BookId = 16 },
 
                 new DescriptionEntity { Id = 17, Description = "Of the five contenders for power, one is dead, " +
                 "another in disfavor, and still the wars rage as alliances are made and broken. Joffrey sits on " +
@@ -204,7 +204,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "barbaric wildlings arrives from the outermost limits of civilization, accompanied by a horde of " +
                 "mythical Others—a supernatural army of the living dead whose animated corpses are unstoppable. " +
                 "As the future of the land hangs in the balance, no one will rest until the Seven Kingdoms have " +
-                "exploded in a veritable storm of swords..." },
+                "exploded in a veritable storm of swords...", BookId = 17 },
 
                 new DescriptionEntity { Id = 18, Description = "Toru, a quiet and preternaturally serious young " +
                 "college student in Tokyo, is devoted to Naoko, a beautiful and introspective young woman, but " +
@@ -214,14 +214,14 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "her own world, Toru finds himself reaching out to others and drawn to a fiercely independent " +
                 "and sexually liberated young woman.\r\n\r\nA magnificent blending of the music, the mood, " +
                 "and the ethos that was the sixties with the story of one college student's romantic coming of " +
-                "age, Norwegian Wood brilliantly recaptures a young man's first, hopeless, and heroic love." },
+                "age, Norwegian Wood brilliantly recaptures a young man's first, hopeless, and heroic love.", BookId = 18 },
 
                 new DescriptionEntity { Id = 19, Description = "A young woman named Aomame follows a taxi " +
                 "driver’s enigmatic suggestion and begins to notice puzzling discrepancies in the world " +
                 "around her. She has entered, she realizes, a parallel existence, which she calls 1Q84 —“Q is " +
                 "for ‘question mark.’ A world that bears a question.” Meanwhile, an aspiring writer named Tengo " +
                 "takes on a suspect ghostwriting project. He becomes so wrapped up with the work and its unusual " +
-                "author that, soon, his previously placid life begins to come unraveled." },
+                "author that, soon, his previously placid life begins to come unraveled.", BookId = 19 },
 
                 new DescriptionEntity { Id = 20, Description = "Japan's most highly regarded novelist now vaults " +
                 "into the first ranks of international fiction writers with this heroically imaginative novel, " +
@@ -232,7 +232,7 @@ namespace LibraryManagementSystem.DAL.Extensions
                 "encounters a bizarre group of allies and antagonists: a psychic prostitute; a malevolent yet " +
                 "mediagenic politician; a cheerfully morbid sixteen-year-old-girl; and an aging war veteran who " +
                 "has been permanently changed by the hideous things he witnessed during Japan's forgotten campaign " +
-                "in Manchuria." },
+                "in Manchuria.", BookId = 20 },
             };
         }
 
@@ -260,29 +260,29 @@ namespace LibraryManagementSystem.DAL.Extensions
         {
             return new List<WarehouseEntity>()
             {
-                new WarehouseEntity { Id = 1,  Quantity = 16, Price = 4.49m },
-                new WarehouseEntity { Id = 2,  Quantity = 10, Price = 24.11m },
-                new WarehouseEntity { Id = 3,  Quantity = 2, Price = 15.04m },
-                new WarehouseEntity { Id = 4,  Quantity = 6, Price = 11.61m },
-                new WarehouseEntity { Id = 5,  Quantity = 23, Price = 12.10m },
+                new WarehouseEntity { Id = 1,  Quantity = 16, Price = 4.49m, BookId = 1 },
+                new WarehouseEntity { Id = 2,  Quantity = 10, Price = 24.11m, BookId = 2 },
+                new WarehouseEntity { Id = 3,  Quantity = 2, Price = 15.04m, BookId = 3 },
+                new WarehouseEntity { Id = 4,  Quantity = 6, Price = 11.61m, BookId = 4 },
+                new WarehouseEntity { Id = 5,  Quantity = 23, Price = 12.10m, BookId = 5 },
 
-                new WarehouseEntity { Id = 6,  Quantity = 9, Price = 2.29m },
-                new WarehouseEntity { Id = 7,  Quantity = 1, Price = 14.89m },
-                new WarehouseEntity { Id = 8,  Quantity = 7, Price = 3.66m },
-                new WarehouseEntity { Id = 9,  Quantity = 15, Price = 6.16m },
-                new WarehouseEntity { Id = 10, Quantity = 3, Price = 8.32m },
+                new WarehouseEntity { Id = 6,  Quantity = 9, Price = 2.29m, BookId = 6 },
+                new WarehouseEntity { Id = 7,  Quantity = 1, Price = 14.89m, BookId = 7 },
+                new WarehouseEntity { Id = 8,  Quantity = 7, Price = 3.66m, BookId = 8 },
+                new WarehouseEntity { Id = 9,  Quantity = 15, Price = 6.16m, BookId = 9 },
+                new WarehouseEntity { Id = 10, Quantity = 3, Price = 8.32m, BookId = 10 },
 
-                new WarehouseEntity { Id = 11, Quantity = 35, Price = 11.22m },
-                new WarehouseEntity { Id = 12, Quantity = 4, Price = 3.96m },
-                new WarehouseEntity { Id = 13, Quantity = 8, Price = 9.15m },
-                new WarehouseEntity { Id = 14, Quantity = 13, Price = 12.49m },
-                new WarehouseEntity { Id = 15, Quantity = 8, Price = 20.99m },
+                new WarehouseEntity { Id = 11, Quantity = 35, Price = 11.22m, BookId = 11 },
+                new WarehouseEntity { Id = 12, Quantity = 4, Price = 3.96m, BookId = 12 },
+                new WarehouseEntity { Id = 13, Quantity = 8, Price = 9.15m, BookId = 13 },
+                new WarehouseEntity { Id = 14, Quantity = 13, Price = 12.49m, BookId = 14 },
+                new WarehouseEntity { Id = 15, Quantity = 8, Price = 20.99m, BookId = 15 },
 
-                new WarehouseEntity { Id = 16, Quantity = 13, Price = 14.38m },
-                new WarehouseEntity { Id = 17, Quantity = 4, Price = 12.99m },
-                new WarehouseEntity { Id = 18, Quantity = 9, Price = 8.49m },
-                new WarehouseEntity { Id = 19, Quantity = 6, Price = 15.99m },
-                new WarehouseEntity { Id = 20, Quantity = 2, Price = 19.20m },
+                new WarehouseEntity { Id = 16, Quantity = 13, Price = 14.38m, BookId = 16 },
+                new WarehouseEntity { Id = 17, Quantity = 4, Price = 12.99m, BookId = 17 },
+                new WarehouseEntity { Id = 18, Quantity = 9, Price = 8.49m, BookId = 18 },
+                new WarehouseEntity { Id = 19, Quantity = 6, Price = 15.99m, BookId = 19 },
+                new WarehouseEntity { Id = 20, Quantity = 2, Price = 19.20m, BookId = 20 },
             };
         }
 

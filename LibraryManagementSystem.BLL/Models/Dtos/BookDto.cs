@@ -10,8 +10,8 @@
 
         public int PublisherId { get; set; }
         public int AuthorId { get; set; }
-        public int? DescriptionId { get; set; }
-        public int? WarehouseId { get; set; }
+        public string? Description { get; set; }
+        public WarehouseDto Warehouse { get; set; } = null!;
         public int LanguageId { get; set; }
         public IEnumerable<int> GenreIds { get; set; } = new List<int>();
         public int? BookLoanId { get; set; }

@@ -16,7 +16,11 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task<IEnumerable<BookEntity>> GetBooksAsync()
         {
-            return await _dbContext.Books.Include(b => b.BookGenres).ToListAsync();
+            return await _dbContext.Books
+                .Include(b => b.BookGenres)
+                .Include(b => b.Description)
+                .Include(b => b.Warehouse)
+                .ToListAsync();
         }
 
         public async Task<BookEntity?> GetBookByIdAsync(int id)
@@ -30,6 +34,30 @@ namespace LibraryManagementSystem.DAL.Repositories
             _dbContext.Books.Add(bookEntity);
             await _dbContext.SaveChangesAsync();
 
+            // code below is needed to correctly assign BookId for DescriptionEntity and WarehouseEntity
+            if (bookEntity.Description is not null)
+            {
+                var addedDescription =
+                    await _dbContext.Descriptions.FirstOrDefaultAsync(description =>
+                        description.Description == bookEntity.Description.Description);
+            
+                if (addedDescription is not null)
+                {
+                    addedDescription.BookId = bookEntity.Id;
+                    _dbContext.Update(addedDescription);
+                }   
+            }
+
+            var addedWarehouse =
+                await _dbContext.Warehouse.OrderByDescending(w => w.Id).FirstOrDefaultAsync();
+            if (addedWarehouse is not null)
+            {
+                addedWarehouse.BookId = bookEntity.Id;
+                _dbContext.Update(addedWarehouse);
+            }
+            await _dbContext.SaveChangesAsync();
+            
+
             return bookEntity.Id;
         }
 
@@ -37,6 +65,8 @@ namespace LibraryManagementSystem.DAL.Repositories
         {
             var existingBookEntity = await _dbContext.Books
                 .Include(b => b.BookGenres)
+                .Include(b => b.Description)
+                .Include(b => b.Warehouse)
                 .FirstOrDefaultAsync(book => book.Id == bookEntity.Id);
 
             var bookEntityComparer = new BookEntityEqualityComparer();
@@ -51,8 +81,8 @@ namespace LibraryManagementSystem.DAL.Repositories
                     existingBookEntity.Year = bookEntity.Year;
                     existingBookEntity.PublisherId = bookEntity.PublisherId;
                     existingBookEntity.AuthorId = bookEntity.AuthorId;
-                    existingBookEntity.DescriptionId = bookEntity.DescriptionId;
-                    existingBookEntity.WarehouseId = bookEntity.WarehouseId;
+                    existingBookEntity.Description = bookEntity.Description;
+                    existingBookEntity.Warehouse = bookEntity.Warehouse;
                     existingBookEntity.LanguageId = bookEntity.LanguageId;
                     existingBookEntity.BookLoanId = bookEntity.BookLoanId;
                     
@@ -75,7 +105,7 @@ namespace LibraryManagementSystem.DAL.Repositories
 
         public async Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds)
         {
-            /*var booksToDelete =
+            /* var booksToDelete =
                 await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();*/
 
             bool areAnyDeleted = false;

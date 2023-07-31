@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
+using LibraryManagementSystem.PL.ViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
@@ -14,23 +15,33 @@ namespace LibraryManagementSystem.PL.Mapping
 
         private void MapBooks()
         {
-            CreateMap<BookEntity, BookDto>().ForMember("PictureName", options =>
-            {
-                options.MapFrom<BookPictureResolver, string?>(b => b.PictureName);
-            });
-            
             CreateMap<BookDto, BookViewModel>().ReverseMap();
 
-            CreateMap<BookEntity, BookDto>().ForMember("GenreIds", options =>
-            {
-                options.MapFrom<BookIdsResolver, ICollection<BookGenreEntity>>(bookEntity => bookEntity.BookGenres);
-            });
+            CreateMap<BookEntity, BookDto>()
+                .ForMember("GenreIds", options =>
+                {
+                    options.MapFrom<BookIdsResolver, ICollection<BookGenreEntity>>(bookEntity => bookEntity.BookGenres);
+                })
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description.Description));
 
-            CreateMap<BookDto, BookEntity>().ForMember("BookGenres", options =>
-            {
-                options.MapFrom<BookGenresResolver, IEnumerable<int>>(bookDto => bookDto.GenreIds);
-            });
+            CreateMap<BookDto, BookEntity>()
+                .ForMember("BookGenres", options =>
+                {
+                    options.MapFrom<BookGenresResolver, IEnumerable<int>>(bookDto => bookDto.GenreIds);
+                })
+                .ForMember("Description", options =>
+                {
+                    options.MapFrom<BookDescriptionResolver, string?>(bookDto => bookDto.Description);
+                })
+                .ForMember("Warehouse", options =>
+                {
+                    options.MapFrom<BookWarehouseResolver, WarehouseDto>(bookDto => bookDto.Warehouse);
+                });
 
+            CreateMap<WarehouseEntity, WarehouseDto>();
+            CreateMap<WarehouseDto, WarehouseViewModel>().ReverseMap();
+            CreateMap<WarehouseAddUpdateViewModel, WarehouseDto>();
+            
             CreateMap<BookAddViewModel, BookDto>();
             CreateMap<BookUpdateViewModel, BookDto>();
         }
