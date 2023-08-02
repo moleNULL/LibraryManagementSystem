@@ -25,9 +25,9 @@ namespace LibraryManagementSystem.PL.Controllers
         public async Task<IActionResult> Get()
         {
             var booksDto = await _bookService.GetBooksAsync();
-            var books = _mapper.Map<IEnumerable<BookViewModel>>(booksDto);
+            var booksViewModel = _mapper.Map<IEnumerable<BookViewModel>>(booksDto);
 
-            return Ok(books);
+            return Ok(booksViewModel);
         }
 
         [HttpGet("{id:int}")]
@@ -39,7 +39,8 @@ namespace LibraryManagementSystem.PL.Controllers
                 var bookDto = await _bookService.GetBookByIdAsync(id);
                 if (bookDto is not null)
                 {
-                    return Ok(bookDto);
+                    var bookViewModel = _mapper.Map<BookDto, BookViewModel>(bookDto);
+                    return Ok(bookViewModel);
                 }
 
                 return NotFound($"There is no book with id: {id}");
@@ -69,7 +70,7 @@ namespace LibraryManagementSystem.PL.Controllers
 
         [HttpPut("{id:int}")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Update(BookUpdateViewModel bookViewModel, int id)
+        public async Task<IActionResult> Update( int id, BookUpdateViewModel bookViewModel)
         {
             var bookDto = _mapper.Map<BookDto>(bookViewModel);
             bookDto.Id = id;
@@ -90,7 +91,7 @@ namespace LibraryManagementSystem.PL.Controllers
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Delete(BookDeleteViewModel booksToDeleteViewModel)
         {
-            var bookIds = booksToDeleteViewModel.BookIds.Select(bookId => bookId);
+            var bookIds = booksToDeleteViewModel.BookIds;
 
             try
             {

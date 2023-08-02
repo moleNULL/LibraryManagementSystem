@@ -33,9 +33,13 @@ namespace LibraryManagementSystem.BLL.Services
             }
 
             var bookEntity = await _bookRepository.GetBookByIdAsync(id);
-            var bookDto = _mapper.Map<BookDto>(bookEntity);
+            if (bookEntity is not null)
+            {
+                var bookDto = _mapper.Map<BookDto>(bookEntity);
+                return bookDto;    
+            }
 
-            return bookDto;
+            return null;
         }
 
         public async Task<int> AddBookAsync(BookDto bookDto)
