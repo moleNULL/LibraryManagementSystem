@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels;
+﻿namespace LibraryManagementSystem.PL.ViewModels.WarehouseViewModels;
 
 public class WarehouseViewModel
 {

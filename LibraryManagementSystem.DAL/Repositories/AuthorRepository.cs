@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.BLL.Comparers;
+using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -50,9 +51,11 @@ public class AuthorRepository : IAuthorRepository
 
                 return countUpdated > 0;
             }
+
+            return true;
         }
 
-        return false;
+        throw new NotFoundException($"There is no author with Id: {authorEntity.Id}");
     }
 
     public async Task<bool> DeleteAuthorsAsync(IEnumerable<int> authorIds)

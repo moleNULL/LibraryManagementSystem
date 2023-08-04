@@ -1,4 +1,6 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels
+﻿using LibraryManagementSystem.PL.ViewModels.WarehouseViewModels;
+
+namespace LibraryManagementSystem.PL.ViewModels.BookViewModels
 {
     public class BookAddViewModel
     {

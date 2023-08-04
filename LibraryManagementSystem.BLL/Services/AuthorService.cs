@@ -66,14 +66,14 @@ public class AuthorService : IAuthorService
         return await _authorRepository.UpdateAuthorAsync(authorEntity);
     }
 
-    public Task<bool> DeleteAuthorsAsync(IEnumerable<int> authorIds)
+    public async Task<bool> DeleteAuthorsAsync(IEnumerable<int> authorIds)
     {
         if (authorIds.Any(bookId => bookId < 1))
         {
             throw new ArgumentException("AuthorId cannot be negative or zero");
         }
         
-        return _authorRepository.DeleteAuthorsAsync(authorIds);
+        return await _authorRepository.DeleteAuthorsAsync(authorIds);
     }
 
     public async Task<bool> DeleteAuthorByIdAsync(int id)

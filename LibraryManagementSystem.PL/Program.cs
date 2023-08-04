@@ -38,6 +38,9 @@ namespace LibraryManagementSystem.PL
             builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
             builder.Services.AddScoped<IAuthorService, AuthorService>();
 
+            builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+            builder.Services.AddScoped<IGenreService, GenreService>();
+
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.Configure<BookConfiguration>(configuration);
 

@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystem.BLL.Comparers;
+using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -98,9 +99,11 @@ namespace LibraryManagementSystem.DAL.Repositories
 
                     return countUpdated > 0;
                 }
+
+                return true;
             }
 
-            return false;
+            throw new NotFoundException($"There is no book with Id: {bookEntity.Id}");
         }
 
         public async Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds)

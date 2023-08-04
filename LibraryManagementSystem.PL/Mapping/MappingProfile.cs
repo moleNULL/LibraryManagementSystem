@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.PL.ViewModels;
+using LibraryManagementSystem.PL.ViewModels.WarehouseViewModels;
 using LibraryManagementSystem.PL.ViewModels.AuthorViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels;
+using LibraryManagementSystem.PL.ViewModels.GenreViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
 {
@@ -50,6 +51,10 @@ namespace LibraryManagementSystem.PL.Mapping
             CreateMap<AuthorEntity, AuthorDto>().ReverseMap();
             CreateMap<AuthorDto, AuthorViewModel>();
             CreateMap<AuthorAddUpdateViewModel, AuthorDto>();
+
+            CreateMap<GenreEntity, GenreDto>().ReverseMap();
+            CreateMap<GenreDto, GenreViewModel>();
+            CreateMap<GenreAddUpdateViewModel, GenreDto>();
         }
     }
 }

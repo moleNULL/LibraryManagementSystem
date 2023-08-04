@@ -3,44 +3,44 @@ using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Services.Interfaces;
-using LibraryManagementSystem.PL.ViewModels.AuthorViewModels;
+using LibraryManagementSystem.PL.ViewModels.GenreViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers;
 
-[Route("api/authors")]
+[Route("api/genres")]
 [ApiController]
-public class AuthorController : ControllerBase
+public class GenreController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly IAuthorService _authorService;
+    private readonly IGenreService _genreService;
     
-    public AuthorController(IMapper mapper, IAuthorService authorService)
+    public GenreController(IMapper mapper, IGenreService genreService)
     {
         _mapper = mapper;
-        _authorService = authorService;
+        _genreService = genreService;
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<AuthorViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<GenreViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> Get()
     {
         try
         {
-            var authorsDto = await _authorService.GetAuthorsAsync();
-            var authorViewModel = _mapper.Map<IEnumerable<AuthorDto>, IEnumerable<AuthorViewModel>>(authorsDto);
-
-            return Ok(authorViewModel);
+            var genresDto = await _genreService.GetGenresAsync();
+            var genresViewModel = _mapper.Map<IEnumerable<GenreDto>, IEnumerable<GenreViewModel>>(genresDto);
+            
+            return Ok(genresViewModel);
         }
         catch (Exception ex)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching authors");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching genres");
         }
     }
 
     [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(AuthorViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(GenreViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
@@ -48,11 +48,11 @@ public class AuthorController : ControllerBase
     {
         try
         {
-            var authorDto = await _authorService.GetAuthorByIdAsync(id);
-            if (authorDto is not null)
+            var genreDto = await _genreService.GetGenreByIdAsync(id);
+            if (genreDto is not null)
             {
-                var authorViewModel = _mapper.Map<AuthorDto, AuthorViewModel>(authorDto);
-                return Ok(authorViewModel);
+                var genreViewModel = _mapper.Map<GenreDto, GenreViewModel>(genreDto);
+                return Ok(genreViewModel);
             }
 
             return NotFound($"There is no author with id: {id}");
@@ -63,20 +63,20 @@ public class AuthorController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the author");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the genre");
         }
     }
 
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(AuthorAddUpdateViewModel authorToAddViewModel)
+    public async Task<IActionResult> Add(GenreAddUpdateViewModel genreToAddViewModel)
     {
-        var authorDto = _mapper.Map<AuthorAddUpdateViewModel, AuthorDto>(authorToAddViewModel);
+        var genreDto = _mapper.Map<GenreAddUpdateViewModel, GenreDto>(genreToAddViewModel);
         
         try
         {
-            int insertedId = await _authorService.AddAuthorAsync(authorDto);
+            int insertedId = await _genreService.AddGenreAsync(genreDto);
             return Ok(insertedId);
         }
         catch (ArgumentException ex)
@@ -84,19 +84,19 @@ public class AuthorController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    
     [HttpPut("{id:int}")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, AuthorAddUpdateViewModel authorToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, GenreAddUpdateViewModel genreToUpdateViewModel)
     {
-        var authorDto = _mapper.Map<AuthorDto>(authorToUpdateViewModel);
-        authorDto.Id = id;
+        var genreDto = _mapper.Map<GenreDto>(genreToUpdateViewModel);
+        genreDto.Id = id;
 
         try
         {
-            bool isUpdated = await _authorService.UpdateAuthorAsync(authorDto);
+            bool isUpdated = await _genreService.UpdateGenreAsync(genreDto);
             return Ok(isUpdated);
         }
         catch (NotFoundException ex)
@@ -108,17 +108,17 @@ public class AuthorController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    
     [HttpDelete]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Delete(AuthorDeleteViewModel authorsToDeleteViewModel)
+    public async Task<IActionResult> Delete(GenreDeleteViewModel genresToDeleteViewModel)
     {
-        var authorIds = authorsToDeleteViewModel.AuthorIds;
+        var genreIds = genresToDeleteViewModel.GenreIds;
 
         try
         {
-            bool areDeleted = await _authorService.DeleteAuthorsAsync(authorIds);
+            bool areDeleted = await _genreService.DeleteGenresAsync(genreIds);
             return Ok(areDeleted);   
         }
         catch (ArgumentException ex)
@@ -126,7 +126,7 @@ public class AuthorController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    
     [HttpDelete("{id:int}")]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
@@ -134,7 +134,7 @@ public class AuthorController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _authorService.DeleteAuthorByIdAsync(id);
+            bool isUpdated = await _genreService.DeleteGenreByIdAsync(id);
             return Ok(isUpdated);
         }
         catch (ArgumentException ex)
