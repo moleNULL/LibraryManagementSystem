@@ -68,7 +68,7 @@ public class AuthorService : IAuthorService
 
     public async Task<bool> DeleteAuthorsAsync(IEnumerable<int> authorIds)
     {
-        if (authorIds.Any(bookId => bookId < 1))
+        if (authorIds.Any(authorId => authorId < 1))
         {
             throw new ArgumentException("AuthorId cannot be negative or zero");
         }

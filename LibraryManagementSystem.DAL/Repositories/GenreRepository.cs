@@ -54,7 +54,7 @@ public class GenreRepository : IGenreRepository
             return true;
         }
 
-        throw new NotFoundException($"There is no author with Id: {genreEntity.Id}");
+        throw new NotFoundException($"There is no genre with Id: {genreEntity.Id}");
     }
 
     public async Task<bool> DeleteGenresAsync(IEnumerable<int> genreIds)
@@ -63,7 +63,7 @@ public class GenreRepository : IGenreRepository
         foreach (var id in genreIds)
         {
             bool result = await DeleteGenreByIdAsync(id);
-            areAnyDeleted |= result; // if any author is deleted return true
+            areAnyDeleted |= result; // if any genre is deleted return true
         }
 
         return areAnyDeleted;

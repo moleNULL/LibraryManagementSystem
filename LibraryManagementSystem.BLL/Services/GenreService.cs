@@ -68,7 +68,7 @@ public class GenreService : IGenreService
 
     public async Task<bool> DeleteGenresAsync(IEnumerable<int> genreIds)
     {
-        if (genreIds.Any(bookId => bookId < 1))
+        if (genreIds.Any(genreId => genreId < 1))
         {
             throw new ArgumentException("GenreId cannot be negative or zero");
         }
