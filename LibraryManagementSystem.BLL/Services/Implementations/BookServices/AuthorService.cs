@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces;
-using LibraryManagementSystem.BLL.Services.Interfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 
-namespace LibraryManagementSystem.BLL.Services;
+namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices;
 
 public class AuthorService : IAuthorService
 {
@@ -26,10 +26,7 @@ public class AuthorService : IAuthorService
 
     public async Task<AuthorDto?> GetAuthorByIdAsync(int id)
     {
-        if (id < 1)
-        {
-            throw new ArgumentException("AuthorId cannot be negative or zero");
-        }
+        ValidateId(id);
         
         var authorEntity = await _authorRepository.GetAuthorByIdAsync(id);
         if (authorEntity is not null)
@@ -57,10 +54,7 @@ public class AuthorService : IAuthorService
 
     public async Task<bool> UpdateAuthorAsync(AuthorDto authorDto)
     {
-        if (authorDto.Id < 1)
-        {
-            throw new ArgumentException("AuthorId cannot be negative or zero");
-        }
+        ValidateId(authorDto.Id);
             
         var authorEntity = _mapper.Map<AuthorEntity>(authorDto);
         return await _authorRepository.UpdateAuthorAsync(authorEntity);
@@ -68,9 +62,9 @@ public class AuthorService : IAuthorService
 
     public async Task<bool> DeleteAuthorsAsync(IEnumerable<int> authorIds)
     {
-        if (authorIds.Any(authorId => authorId < 1))
+        foreach (int id in authorIds)
         {
-            throw new ArgumentException("AuthorId cannot be negative or zero");
+            ValidateId(id);
         }
         
         return await _authorRepository.DeleteAuthorsAsync(authorIds);
@@ -78,11 +72,16 @@ public class AuthorService : IAuthorService
 
     public async Task<bool> DeleteAuthorByIdAsync(int id)
     {
+        ValidateId(id);
+
+        return await _authorRepository.DeleteAuthorByIdAsync(id);
+    }
+    
+    private void ValidateId(int id)
+    {
         if (id < 1)
         {
             throw new ArgumentException("AuthorId cannot be negative or zero");
         }
-
-        return await _authorRepository.DeleteAuthorByIdAsync(id);
     }
 }

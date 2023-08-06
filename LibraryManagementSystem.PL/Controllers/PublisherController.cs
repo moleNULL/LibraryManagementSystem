@@ -3,45 +3,44 @@ using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
-using LibraryManagementSystem.PL.ViewModels.GenreViewModels;
-using LibraryManagementSystem.PL.ViewModels.LanguageViewModels;
+using LibraryManagementSystem.PL.ViewModels.PublisherViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers;
 
-[Route($"api/languages")]
+[Route("api/publishers")]
 [ApiController]
-public class LanguageController : ControllerBase
+public class PublisherController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly ILanguageService _languageService;
+    private readonly IPublisherService _publisherService;
 
-    public LanguageController(IMapper mapper, ILanguageService languageService)
+    public PublisherController(IMapper mapper, IPublisherService publisherService)
     {
         _mapper = mapper;
-        _languageService = languageService;
+        _publisherService = publisherService;
     }
     
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<LanguageViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<PublisherViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> Get()
     {
         try
         {
-            var languagesDto = await _languageService.GetLanguagesAsync();
-            var languagesViewModel = _mapper.Map<IEnumerable<LanguageDto>, IEnumerable<LanguageViewModel>>(languagesDto);
+            var publishersDto = await _publisherService.GetPublishersAsync();
+            var publishersViewModel = _mapper.Map<IEnumerable<PublisherDto>, IEnumerable<PublisherViewModel>>(publishersDto);
             
-            return Ok(languagesViewModel);
+            return Ok(publishersViewModel);
         }
         catch (Exception ex)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching languages");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching publishers");
         }
     }
     
     [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(LanguageViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PublisherViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
@@ -49,14 +48,14 @@ public class LanguageController : ControllerBase
     {
         try
         {
-            var languageDto = await _languageService.GetLanguageByIdAsync(id);
-            if (languageDto is not null)
+            var publisherDto = await _publisherService.GetPublisherByIdAsync(id);
+            if (publisherDto is not null)
             {
-                var languageViewModel = _mapper.Map<LanguageDto, LanguageViewModel>(languageDto);
-                return Ok(languageViewModel);
+                var publisherViewModel = _mapper.Map<PublisherDto, PublisherViewModel>(publisherDto);
+                return Ok(publisherViewModel);
             }
 
-            return NotFound($"There is no language with id: {id}");
+            return NotFound($"There is no publisher with id: {id}");
         }
         catch (ArgumentException ex)
         {
@@ -64,20 +63,20 @@ public class LanguageController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the language");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the publisher");
         }
     }
     
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(LanguageAddUpdateViewModel languageToAddViewModel)
+    public async Task<IActionResult> Add(PublisherAddUpdateViewModel publisherToAddViewModel)
     {
-        var languageDto = _mapper.Map<LanguageAddUpdateViewModel, LanguageDto>(languageToAddViewModel);
+        var publisherDto = _mapper.Map<PublisherAddUpdateViewModel, PublisherDto>(publisherToAddViewModel);
         
         try
         {
-            int insertedId = await _languageService.AddLanguageAsync(languageDto);
+            int insertedId = await _publisherService.AddPublisherAsync(publisherDto);
             return Ok(insertedId);
         }
         catch (ArgumentException ex)
@@ -90,14 +89,14 @@ public class LanguageController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, LanguageAddUpdateViewModel languageToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, PublisherAddUpdateViewModel publisherToUpdateViewModel)
     {
-        var languageDto = _mapper.Map<LanguageDto>(languageToUpdateViewModel);
-        languageDto.Id = id;
+        var publisherDto = _mapper.Map<PublisherDto>(publisherToUpdateViewModel);
+        publisherDto.Id = id;
 
         try
         {
-            bool isUpdated = await _languageService.UpdateLanguageAsync(languageDto);
+            bool isUpdated = await _publisherService.UpdatePublisherAsync(publisherDto);
             return Ok(isUpdated);
         }
         catch (NotFoundException ex)
@@ -113,13 +112,13 @@ public class LanguageController : ControllerBase
     [HttpDelete]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Delete(LanguageDeleteViewModel languagesToDeleteViewModel)
+    public async Task<IActionResult> Delete(PublisherDeleteViewModel publishersToDeleteViewModel)
     {
-        var languageIds = languagesToDeleteViewModel.LanguageIds;
+        var publisherIds = publishersToDeleteViewModel.PublisherIds;
 
         try
         {
-            bool areDeleted = await _languageService.DeleteLanguageAsync(languageIds);
+            bool areDeleted = await _publisherService.DeletePublishersAsync(publisherIds);
             return Ok(areDeleted);   
         }
         catch (ArgumentException ex)
@@ -135,7 +134,7 @@ public class LanguageController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _languageService.DeleteLanguageByIdAsync(id);
+            bool isUpdated = await _publisherService.DeletePublisherByIdAsync(id);
             return Ok(isUpdated);
         }
         catch (ArgumentException ex)

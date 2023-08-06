@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces;
-using LibraryManagementSystem.BLL.Services.Interfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 
-namespace LibraryManagementSystem.BLL.Services
+namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
 {
     public class BookService : IBookService
     {
@@ -27,10 +27,7 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task<BookDto?> GetBookByIdAsync(int id)
         {
-            if (id < 1)
-            {
-                throw new ArgumentException("BookId cannot be negative or zero");
-            }
+            ValidateId(id);
 
             var bookEntity = await _bookRepository.GetBookByIdAsync(id);
             if (bookEntity is not null)
@@ -58,10 +55,7 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task<bool> UpdateBookAsync(BookDto bookDto)
         {
-            if (bookDto.Id < 1)
-            {
-                throw new ArgumentException("BookId cannot be negative or zero");
-            }
+            ValidateId(bookDto.Id);
             
             var bookEntity = _mapper.Map<BookEntity>(bookDto);
             return await _bookRepository.UpdateBookAsync(bookEntity);
@@ -69,9 +63,9 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task<bool> DeleteBooksAsync(IEnumerable<int> bookIds)
         {
-            if (bookIds.Any(bookId => bookId < 1))
+            foreach (int id in bookIds)
             {
-                throw new ArgumentException("BookId cannot be negative or zero");
+                ValidateId(id);
             }
             
             return await _bookRepository.DeleteBooksAsync(bookIds);
@@ -79,12 +73,17 @@ namespace LibraryManagementSystem.BLL.Services
 
         public async Task<bool> DeleteBookByIdAsync(int id)
         {
+            ValidateId(id);
+
+            return await _bookRepository.DeleteBookByIdAsync(id);
+        }
+        
+        private void ValidateId(int id)
+        {
             if (id < 1)
             {
                 throw new ArgumentException("BookId cannot be negative or zero");
             }
-
-            return await _bookRepository.DeleteBookByIdAsync(id);
         }
     }
 }

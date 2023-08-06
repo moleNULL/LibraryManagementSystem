@@ -1,9 +1,11 @@
-using LibraryManagementSystem.BLL.Repositories.Interfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
 using LibraryManagementSystem.BLL.Services;
-using LibraryManagementSystem.BLL.Services.Interfaces;
+using LibraryManagementSystem.BLL.Services.Implementations.BookServices;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 using LibraryManagementSystem.DAL;
 using LibraryManagementSystem.DAL.Configurations.BookConfigurations;
 using LibraryManagementSystem.DAL.Repositories;
+using LibraryManagementSystem.DAL.Repositories.BookRepositories;
 using LibraryManagementSystem.PL.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +45,9 @@ namespace LibraryManagementSystem.PL
 
             builder.Services.AddScoped<ILanguageRepository, LanguageRepository>();
             builder.Services.AddScoped<ILanguageService, LanguageService>();
+
+            builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+            builder.Services.AddScoped<IPublisherService, PublisherService>();
 
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.Configure<BookConfiguration>(configuration);

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces;
-using LibraryManagementSystem.BLL.Services.Interfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 
-namespace LibraryManagementSystem.BLL.Services;
+namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices;
 
 public class GenreService : IGenreService
 {
@@ -27,10 +27,7 @@ public class GenreService : IGenreService
 
     public async Task<GenreDto?> GetGenreByIdAsync(int id)
     {
-        if (id < 1)
-        {
-            throw new ArgumentException("GenreId cannot be negative or zero");
-        }
+        ValidateId(id);
         
         var genreEntity = await _genreRepository.GetGenreByIdAsync(id);
         if (genreEntity is not null)
@@ -57,10 +54,7 @@ public class GenreService : IGenreService
 
     public async Task<bool> UpdateGenreAsync(GenreDto genreDto)
     {
-        if (genreDto.Id < 1)
-        {
-            throw new ArgumentException("GenreId cannot be negative or zero");
-        }
+        ValidateId(genreDto.Id);
             
         var genreEntity = _mapper.Map<GenreEntity>(genreDto);
         return await _genreRepository.UpdateGenreAsync(genreEntity);
@@ -68,9 +62,9 @@ public class GenreService : IGenreService
 
     public async Task<bool> DeleteGenresAsync(IEnumerable<int> genreIds)
     {
-        if (genreIds.Any(genreId => genreId < 1))
+        foreach (int id in genreIds)
         {
-            throw new ArgumentException("GenreId cannot be negative or zero");
+            ValidateId(id);
         }
         
         return await _genreRepository.DeleteGenresAsync(genreIds);
@@ -78,11 +72,16 @@ public class GenreService : IGenreService
 
     public async Task<bool> DeleteGenreByIdAsync(int id)
     {
+        ValidateId(id);
+
+        return await _genreRepository.DeleteGenreByIdAsync(id);
+    }
+    
+    private void ValidateId(int id)
+    {
         if (id < 1)
         {
             throw new ArgumentException("GenreId cannot be negative or zero");
         }
-
-        return await _genreRepository.DeleteGenreByIdAsync(id);
     }
 }

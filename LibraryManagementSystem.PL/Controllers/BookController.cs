@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.BLL.Services.Interfaces;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using LibraryManagementSystem.BLL.Exceptions;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 
 namespace LibraryManagementSystem.PL.Controllers
 {

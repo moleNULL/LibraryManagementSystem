@@ -1,7 +1,6 @@
-﻿using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
+﻿using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.BLL.Repositories.Interfaces;
+namespace LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
 
 public interface IGenreRepository
 {

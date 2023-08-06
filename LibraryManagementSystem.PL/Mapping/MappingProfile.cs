@@ -6,6 +6,7 @@ using LibraryManagementSystem.PL.ViewModels.AuthorViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels;
 using LibraryManagementSystem.PL.ViewModels.GenreViewModels;
 using LibraryManagementSystem.PL.ViewModels.LanguageViewModels;
+using LibraryManagementSystem.PL.ViewModels.PublisherViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
 {
@@ -60,6 +61,10 @@ namespace LibraryManagementSystem.PL.Mapping
             CreateMap<LanguageEntity, LanguageDto>().ReverseMap();
             CreateMap<LanguageDto, LanguageViewModel>();
             CreateMap<LanguageAddUpdateViewModel, LanguageDto>();
+
+            CreateMap<PublisherEntity, PublisherDto>().ReverseMap();
+            CreateMap<PublisherDto, PublisherViewModel>();
+            CreateMap<PublisherAddUpdateViewModel, PublisherDto>();
         }
     }
 }

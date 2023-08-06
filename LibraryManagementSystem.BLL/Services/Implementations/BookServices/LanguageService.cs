@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces;
-using LibraryManagementSystem.BLL.Services.Interfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 
-namespace LibraryManagementSystem.BLL.Services;
+namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices;
 
 public class LanguageService : ILanguageService
 {
@@ -27,10 +27,7 @@ public class LanguageService : ILanguageService
 
     public async Task<LanguageDto?> GetLanguageByIdAsync(int id)
     {
-        if (id < 1)
-        {
-            throw new ArgumentException("LanguageId cannot be negative or zero");
-        }
+        ValidateId(id);
         
         var languageEntity = await _languageRepository.GetLanguageByIdAsync(id);
         if (languageEntity is not null)
@@ -57,10 +54,7 @@ public class LanguageService : ILanguageService
 
     public async Task<bool> UpdateLanguageAsync(LanguageDto languageDto)
     {
-        if (languageDto.Id < 1)
-        {
-            throw new ArgumentException("LanguageId cannot be negative or zero");
-        }
+        ValidateId(languageDto.Id);
             
         var languageEntity = _mapper.Map<LanguageEntity>(languageDto);
         return await _languageRepository.UpdateLanguageAsync(languageEntity);
@@ -68,9 +62,9 @@ public class LanguageService : ILanguageService
 
     public async Task<bool> DeleteLanguageAsync(IEnumerable<int> languageIds)
     {
-        if (languageIds.Any(languageId => languageId < 1))
+        foreach (int id in languageIds)
         {
-            throw new ArgumentException("LanguageId cannot be negative or zero");
+            ValidateId(id);
         }
         
         return await _languageRepository.DeleteLanguagesAsync(languageIds);
@@ -78,11 +72,16 @@ public class LanguageService : ILanguageService
 
     public async Task<bool> DeleteLanguageByIdAsync(int id)
     {
+        ValidateId(id);
+
+        return await _languageRepository.DeleteLanguageByIdAsync(id);
+    }
+    
+    private void ValidateId(int id)
+    {
         if (id < 1)
         {
             throw new ArgumentException("LanguageId cannot be negative or zero");
         }
-
-        return await _languageRepository.DeleteLanguageByIdAsync(id);
     }
 }

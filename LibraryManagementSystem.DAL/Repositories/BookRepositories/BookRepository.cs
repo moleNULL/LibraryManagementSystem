@@ -1,10 +1,10 @@
 ﻿using LibraryManagementSystem.BLL.Comparers;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem.DAL.Repositories
+namespace LibraryManagementSystem.DAL.Repositories.BookRepositories
 {
     public class BookRepository : IBookRepository
     {

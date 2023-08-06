@@ -2,7 +2,7 @@
 using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.BLL.Services.Interfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 using LibraryManagementSystem.PL.ViewModels.GenreViewModels;
 using Microsoft.AspNetCore.Mvc;
 
