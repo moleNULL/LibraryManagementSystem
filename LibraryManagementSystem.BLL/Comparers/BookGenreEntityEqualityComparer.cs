@@ -6,17 +6,22 @@ namespace LibraryManagementSystem.BLL.Comparers
     {
         public bool Equals(BookGenreEntity? x, BookGenreEntity? y)
         {
-            if (x!.BookId != y!.BookId)
+            if (x == y)
+            {
+                return true;
+            }
+
+            if (x is null)
             {
                 return false;
             }
 
-            if (x!.GenreId != y!.GenreId)
+            if (y is null)
             {
                 return false;
             }
 
-            return true;
+            return x.BookId == y.BookId && x.GenreId == y.GenreId;
         }
 
         public int GetHashCode(BookGenreEntity obj)

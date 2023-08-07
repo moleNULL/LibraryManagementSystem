@@ -6,22 +6,22 @@ public class AuthorEntityComparer : IEqualityComparer<AuthorEntity>
 {
     public bool Equals(AuthorEntity? x, AuthorEntity? y)
     {
-        if (x!.Id != y!.Id)
+        if (x == y)
         {
-            return false;
+            return true;
         }
-        
-        if (x!.FirstName != y!.FirstName)
+
+        if (x is null)
         {
             return false;
         }
 
-        if (x!.LastName != y!.LastName)
+        if (y is null)
         {
             return false;
         }
 
-        return true;
+        return x.Id == y.Id && x.FirstName == y.FirstName && x.LastName == y.LastName;
     }
 
     public int GetHashCode(AuthorEntity obj)

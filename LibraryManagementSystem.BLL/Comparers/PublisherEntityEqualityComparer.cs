@@ -6,22 +6,17 @@ public class PublisherEntityEqualityComparer : IEqualityComparer<PublisherEntity
 {
     public bool Equals(PublisherEntity? x, PublisherEntity? y)
     {
-        if (ReferenceEquals(x, y))
+        if (x == y)
         {
             return true;
         }
 
-        if (ReferenceEquals(x, null))
+        if (x is null)
         {
             return false;
         }
 
-        if (ReferenceEquals(y, null))
-        {
-            return false;
-        }
-
-        if (x.GetType() != y.GetType())
+        if (y is null)
         {
             return false;
         }

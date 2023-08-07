@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.BLL.Models.Dtos;
+﻿using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 
 namespace LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 

@@ -6,17 +6,22 @@ public class LanguageEntityEqualityComparer : IEqualityComparer<LanguageEntity>
 {
     public bool Equals(LanguageEntity? x, LanguageEntity? y)
     {
-        if (x!.Id != y!.Id)
+        if (x == y)
+        {
+            return true;
+        }
+
+        if (x is null)
         {
             return false;
         }
 
-        if (x!.Name != y!.Name)
+        if (y is null)
         {
             return false;
         }
-
-        return true;
+        
+        return x.Id == y.Id && x.Name == y.Name;
     }
 
     public int GetHashCode(LanguageEntity obj)

@@ -7,72 +7,62 @@ namespace LibraryManagementSystem.BLL.Comparers
     {
         public bool Equals(BookEntity? x, BookEntity? y)
         {
-            if (x!.Id != y!.Id)
+            if (x == y)
+            {
+                return true;
+            }
+
+            if (x is null)
             {
                 return false;
             }
 
-            if (x!.Title != y!.Title)
+            if (y is null)
             {
                 return false;
             }
-
-            if (x!.PictureName != y!.PictureName)
-            {
-                return false;
-            }
-
-            if (x!.PagesNumber != y!.PagesNumber)
-            {
-                return false;
-            }
-
-            if (x!.Year != y!.Year)
-            {
-                return false;
-            }
-
-            if (x!.PublisherId != y!.PublisherId)
-            {
-                return false;
-            }
-
-            if (x!.AuthorId != y!.AuthorId)
-            {
-                return false;
-            }
-
-            if (x!.DescriptionId != y!.DescriptionId)
-            {
-                return false;
-            }
-
-            if (x!.WarehouseId != y!.WarehouseId)
-            {
-                return false;
-            }
-
-            if (x!.LanguageId != y!.LanguageId)
-            {
-                return false;
-            }
-
-            if (!Enumerable.SequenceEqual(x!.BookGenres, y!.BookGenres, new BookGenreEntityEqualityComparer()))
-            {
-                return false;
-            }
-
-            if (x!.BookLoanId != y!.BookLoanId)
-            {
-                return false;
-            }
-
-            return true;
+            
+            return x.Id == y.Id &&
+                   x.Title == y.Title &&
+                   x.PictureName == y.PictureName &&
+                   x.PagesNumber == y.PagesNumber &&
+                   x.Year == y.Year &&
+                   x.PublisherId == y.PublisherId &&
+                   x.AuthorId == y.AuthorId &&
+                   x.DescriptionId == y.DescriptionId &&
+                   x.WarehouseId == y.WarehouseId &&
+                   x.LanguageId == y.LanguageId &&
+                   Enumerable.SequenceEqual(x.BookGenres, y.BookGenres, new BookGenreEntityEqualityComparer()) &&
+                   x.BookLoanId == y.BookLoanId;
         }
 
-        public int GetHashCode([DisallowNull] BookEntity obj)
+        public int GetHashCode(BookEntity obj)
         {
-            return base.GetHashCode();
+            var hashCode = new HashCode();
+            
+            hashCode.Add(obj.Id);
+            hashCode.Add(obj.Title);
+            hashCode.Add(obj.PictureName);
+            hashCode.Add(obj.PagesNumber);
+            hashCode.Add(obj.Year);
+            hashCode.Add(obj.PublisherId);
+            hashCode.Add(obj.AuthorId);
+            hashCode.Add(obj.DescriptionId ?? 0);
+            hashCode.Add(obj.WarehouseId);
+            hashCode.Add(obj.LanguageId);
+            
+            if (obj.BookGenres is not null)
+            {
+                foreach (var genre in obj.BookGenres)
+                {
+                    hashCode.Add(genre.BookId);
+                    hashCode.Add(genre.GenreId);
+                }
+            }
+
+            hashCode.Add(obj.BookLoanId ?? 0);
+            
+            return hashCode.ToHashCode();
         }
     }
 }

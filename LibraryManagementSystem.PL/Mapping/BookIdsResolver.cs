@@ -1,5 +1,5 @@
 using AutoMapper;
-using LibraryManagementSystem.BLL.Models.Dtos;
+using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
 namespace LibraryManagementSystem.PL.Mapping;
