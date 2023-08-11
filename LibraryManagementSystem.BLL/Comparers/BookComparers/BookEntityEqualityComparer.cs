@@ -1,7 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
+﻿using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.BLL.Comparers
+namespace LibraryManagementSystem.BLL.Comparers.BookComparers
 {
     public class BookEntityEqualityComparer : IEqualityComparer<BookEntity>
     {

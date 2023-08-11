@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.BLL.Comparers;
+﻿using LibraryManagementSystem.BLL.Comparers.BookComparers;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
@@ -26,8 +26,11 @@ namespace LibraryManagementSystem.DAL.Repositories.BookRepositories
 
         public async Task<BookEntity?> GetBookByIdAsync(int id)
         {
-            var bookEntity = await _dbContext.Books.Include(b => b.BookGenres).FirstOrDefaultAsync(b => b.Id == id);
-            return bookEntity;
+            return await _dbContext.Books
+                .Include(b => b.BookGenres)
+                .Include(b => b.Description)
+                .Include(b => b.Warehouse)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<int> AddBookAsync(BookEntity bookEntity)

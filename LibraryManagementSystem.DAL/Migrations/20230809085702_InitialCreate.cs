@@ -180,6 +180,54 @@ namespace LibraryManagementSystem.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GenreEntityStudentEntity",
+                columns: table => new
+                {
+                    FavoriteGenresId = table.Column<int>(type: "int", nullable: false),
+                    StudentsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GenreEntityStudentEntity", x => new { x.FavoriteGenresId, x.StudentsId });
+                    table.ForeignKey(
+                        name: "FK_GenreEntityStudentEntity_Genres_FavoriteGenresId",
+                        column: x => x.FavoriteGenresId,
+                        principalTable: "Genres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GenreEntityStudentEntity_Students_StudentsId",
+                        column: x => x.StudentsId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentGenres",
+                columns: table => new
+                {
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    GenreId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentGenres", x => new { x.StudentId, x.GenreId });
+                    table.ForeignKey(
+                        name: "FK_StudentGenres_Genres_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Genres",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentGenres_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -369,6 +417,16 @@ namespace LibraryManagementSystem.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "Address", "CityId", "Email", "EntryDate", "FirstName", "LastName", "PictureName" },
+                values: new object[,]
+                {
+                    { 1, "", null, "", new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4447), "Christopher", "Anderson", "christopher_andersen.png" },
+                    { 2, "", null, "", new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4665), "John", "Mitchell", "john_mitchell.png" },
+                    { 3, "", null, "", new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4680), "Michael", "Williams", "michael_williams.png" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Warehouse",
                 columns: new[] { "Id", "BookId", "Price", "Quantity" },
                 values: new object[,]
@@ -420,6 +478,22 @@ namespace LibraryManagementSystem.DAL.Migrations
                     { 18, 8, null, 18, 3, 389, "norwegian_wood.png", 2, "Norwegian Wood", 18, 1987 },
                     { 19, 8, null, 19, 3, 928, "1q84.png", 2, "1Q84", 19, 2009 },
                     { 20, 8, null, 20, 3, 607, "the_wind-up_bird_chronicle.png", 2, "The Wind-Up Bird Chronicle", 20, 1997 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StudentGenres",
+                columns: new[] { "GenreId", "StudentId" },
+                values: new object[,]
+                {
+                    { 2, 1 },
+                    { 8, 1 },
+                    { 10, 1 },
+                    { 5, 2 },
+                    { 9, 2 },
+                    { 10, 2 },
+                    { 3, 3 },
+                    { 6, 3 },
+                    { 11, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -511,6 +585,11 @@ namespace LibraryManagementSystem.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_GenreEntityStudentEntity_StudentsId",
+                table: "GenreEntityStudentEntity",
+                column: "StudentsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_CityId",
                 table: "Students",
                 column: "CityId");
@@ -524,6 +603,12 @@ namespace LibraryManagementSystem.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "BookGenres");
+
+            migrationBuilder.DropTable(
+                name: "GenreEntityStudentEntity");
+
+            migrationBuilder.DropTable(
+                name: "StudentGenres");
 
             migrationBuilder.DropTable(
                 name: "Books");

@@ -4,7 +4,7 @@ namespace LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
 
 public interface IAuthorService
 {
-    Task<IEnumerable<AuthorDto>> GetAuthorsAsync();
+    Task<IEnumerable<AuthorSimpleDto>> GetAuthorsAsync();
     Task<AuthorDto?> GetAuthorByIdAsync(int id);
     Task<int> AddAuthorAsync(AuthorDto authorDto);
     Task<bool> UpdateAuthorAsync(AuthorDto authorDto);

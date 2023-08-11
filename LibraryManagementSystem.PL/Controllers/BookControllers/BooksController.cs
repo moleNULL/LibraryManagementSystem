@@ -1,41 +1,63 @@
 ﻿using System.Net;
+using System.Security.Claims;
 using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
-using LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels1;
+using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
+using LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers.BookControllers
 {
-    [Route("api/v1/books/books")]
+    [Route("api/v1/books")]
     [ApiController]
     public class BooksController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IBookService _bookService;
+        private readonly IStudentService _studentService;
 
-        public BooksController(IMapper mapper, IBookService bookService)
+        public BooksController(IMapper mapper, IBookService bookService, IStudentService studentService)
         {
             _mapper = mapper;
             _bookService = bookService;
+            _studentService = studentService;
         }
 
+        [Authorize]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<BookViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookSimpleViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> Get()
         {
+            string? email = HttpContext.User.Identity?.Name;
+            
             try
             {
-                var booksDto = await _bookService.GetBooksAsync();
-                var booksViewModel = _mapper.Map<IEnumerable<BookViewModel>>(booksDto);
-
-                return Ok(booksViewModel);    
+                var students = await _studentService.GetStudentsAsync();
+                var student = students.FirstOrDefault(student => student.Email == email);
+                
+                if (student is null)
+                {
+                    return Unauthorized(null);
+                }
+                
+                var booksSimpleDtoAll = await _bookService.GetBooksAsync();
+                
+                var booksSimpleDtoFiltered = 
+                    booksSimpleDtoAll.Where(book => book.GenreIds.Any(genreId => student.FavoriteGenreIds.Contains(genreId)));
+                
+                var booksSimpleViewModel = _mapper.Map<IEnumerable<BookSimpleViewModel>>(booksSimpleDtoFiltered);
+                
+                return Ok(booksSimpleViewModel);    
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching books");
+                return StatusCode(
+                    (int)HttpStatusCode.InternalServerError, 
+                    $"An error occurred while fetching books: {ex.Message}");
             }
         }
 

@@ -1,12 +1,15 @@
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
-using LibraryManagementSystem.BLL.Services;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterface;
 using LibraryManagementSystem.BLL.Services.Implementations.BookServices;
+using LibraryManagementSystem.BLL.Services.Implementations.StudentServices;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
 using LibraryManagementSystem.DAL;
 using LibraryManagementSystem.DAL.Configurations.BookConfigurations;
-using LibraryManagementSystem.DAL.Repositories;
 using LibraryManagementSystem.DAL.Repositories.BookRepositories;
+using LibraryManagementSystem.DAL.Repositories.StudentRepositories;
 using LibraryManagementSystem.PL.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.PL
@@ -18,6 +21,18 @@ namespace LibraryManagementSystem.PL
             var configuration = GetConfiguration();
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SecurityTokenValidators.Clear();
+                options.SecurityTokenValidators.Add(new GoogleTokenValidator("461786025188-f0hs6dtdnqmj636r5t8r5ei26vqtn8mb.apps.googleusercontent.com"));
+            });
+            
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -30,7 +45,10 @@ namespace LibraryManagementSystem.PL
             {
                 options.AddPolicy("AllowAnyOriginPolicy", builder =>
                 {
-                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
 
@@ -48,6 +66,9 @@ namespace LibraryManagementSystem.PL
 
             builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
             builder.Services.AddScoped<IPublisherService, PublisherService>();
+
+            builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+            builder.Services.AddScoped<IStudentService, StudentService>();
 
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.Configure<BookConfiguration>(configuration);

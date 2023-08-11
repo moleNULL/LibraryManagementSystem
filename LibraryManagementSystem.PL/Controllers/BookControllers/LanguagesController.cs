@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers.BookControllers;
 
-[Route($"api/v1/books/languages")]
+[Route($"api/v1/languages")]
 [ApiController]
 public class LanguagesController : ControllerBase
 {
@@ -70,9 +70,9 @@ public class LanguagesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(LanguageAddUpdateViewModel languageToAddViewModel)
+    public async Task<IActionResult> Add(LanguageAddViewModel languageToAddViewModel)
     {
-        var languageDto = _mapper.Map<LanguageAddUpdateViewModel, LanguageDto>(languageToAddViewModel);
+        var languageDto = _mapper.Map<LanguageAddViewModel, LanguageDto>(languageToAddViewModel);
         
         try
         {
@@ -89,7 +89,7 @@ public class LanguagesController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, LanguageAddUpdateViewModel languageToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, LanguageUpdateViewModel languageToUpdateViewModel)
     {
         var languageDto = _mapper.Map<LanguageDto>(languageToUpdateViewModel);
         languageDto.Id = id;

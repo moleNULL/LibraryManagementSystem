@@ -1,6 +1,6 @@
 ﻿using LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
 
-namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels1
+namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels
 {
     public class BookViewModel
     {

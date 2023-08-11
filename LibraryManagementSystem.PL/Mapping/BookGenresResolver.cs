@@ -9,10 +9,10 @@ public class BookGenresResolver : IMemberValueResolver<BookDto, BookEntity, IEnu
     public object Resolve(BookDto source, BookEntity destination, 
         IEnumerable<int> sourceMember, object destMember, ResolutionContext context)
     {
-        return source.GenreIds.Select(i => new BookGenreEntity
+        return source.GenreIds.Select(id => new BookGenreEntity
         {
-            BookId = destination.Id,
-            GenreId = i,
+            BookId = source.Id,
+            GenreId = id,
         }).ToList();
     }
 }

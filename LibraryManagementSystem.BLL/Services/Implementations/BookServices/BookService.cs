@@ -17,12 +17,12 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<BookDto>> GetBooksAsync()
+        public async Task<IEnumerable<BookSimpleDto>> GetBooksAsync()
         {
             var booksEntity = await _bookRepository.GetBooksAsync();
-            var booksDto = _mapper.Map<IEnumerable<BookDto>>(booksEntity);
+            var booksSimpleDto = _mapper.Map<IEnumerable<BookSimpleDto>>(booksEntity);
 
-            return booksDto;
+            return booksSimpleDto;
         }
 
         public async Task<BookDto?> GetBookByIdAsync(int id)

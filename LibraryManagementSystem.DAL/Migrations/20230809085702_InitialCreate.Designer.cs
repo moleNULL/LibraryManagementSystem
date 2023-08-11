@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230731162500_InitialCreate")]
+    [Migration("20230809085702_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,6 +38,21 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasIndex("GenresId");
 
                     b.ToTable("BookEntityGenreEntity");
+                });
+
+            modelBuilder.Entity("GenreEntityStudentEntity", b =>
+                {
+                    b.Property<int>("FavoriteGenresId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FavoriteGenresId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("GenreEntityStudentEntity");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.BookEntities.AuthorEntity", b =>
@@ -1178,6 +1193,98 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Students", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "",
+                            Email = "",
+                            EntryDate = new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4447),
+                            FirstName = "Christopher",
+                            LastName = "Anderson",
+                            PictureName = "christopher_andersen.png"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "",
+                            Email = "",
+                            EntryDate = new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4665),
+                            FirstName = "John",
+                            LastName = "Mitchell",
+                            PictureName = "john_mitchell.png"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "",
+                            Email = "",
+                            EntryDate = new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4680),
+                            FirstName = "Michael",
+                            LastName = "Williams",
+                            PictureName = "michael_williams.png"
+                        });
+                });
+
+            modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.StudentGenreEntity", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId", "GenreId");
+
+                    b.ToTable("StudentGenres", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            StudentId = 1,
+                            GenreId = 2
+                        },
+                        new
+                        {
+                            StudentId = 1,
+                            GenreId = 8
+                        },
+                        new
+                        {
+                            StudentId = 1,
+                            GenreId = 10
+                        },
+                        new
+                        {
+                            StudentId = 2,
+                            GenreId = 5
+                        },
+                        new
+                        {
+                            StudentId = 2,
+                            GenreId = 9
+                        },
+                        new
+                        {
+                            StudentId = 2,
+                            GenreId = 10
+                        },
+                        new
+                        {
+                            StudentId = 3,
+                            GenreId = 3
+                        },
+                        new
+                        {
+                            StudentId = 3,
+                            GenreId = 6
+                        },
+                        new
+                        {
+                            StudentId = 3,
+                            GenreId = 11
+                        });
                 });
 
             modelBuilder.Entity("BookEntityGenreEntity", b =>
@@ -1191,6 +1298,21 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.GenreEntity", null)
                         .WithMany()
                         .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GenreEntityStudentEntity", b =>
+                {
+                    b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.GenreEntity", null)
+                        .WithMany()
+                        .HasForeignKey("FavoriteGenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.StudentEntity", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1292,6 +1414,25 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.Navigation("City");
                 });
 
+            modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.StudentGenreEntity", b =>
+                {
+                    b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.GenreEntity", "Genre")
+                        .WithMany("StudentGenres")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.StudentEntity", "Student")
+                        .WithMany("StudentGenres")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Genre");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.BookEntities.AuthorEntity", b =>
                 {
                     b.Navigation("Books");
@@ -1311,6 +1452,8 @@ namespace LibraryManagementSystem.DAL.Migrations
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.BookEntities.GenreEntity", b =>
                 {
                     b.Navigation("BookGenres");
+
+                    b.Navigation("StudentGenres");
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.BookEntities.LanguageEntity", b =>
@@ -1348,6 +1491,8 @@ namespace LibraryManagementSystem.DAL.Migrations
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.StudentEntity", b =>
                 {
                     b.Navigation("BookLoans");
+
+                    b.Navigation("StudentGenres");
                 });
 #pragma warning restore 612, 618
         }

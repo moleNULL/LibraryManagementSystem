@@ -32,6 +32,8 @@ namespace LibraryManagementSystem.DAL
         public DbSet<WarehouseEntity> Warehouse { get; set; }
 
         public DbSet<CityEntity> Cities { get; set; }
+        
+        public DbSet<StudentGenreEntity> StudentGenres { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,6 +60,7 @@ namespace LibraryManagementSystem.DAL
         private void ApplyStudentConfigurations(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
+            modelBuilder.ApplyConfiguration(new StudentGenreConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
         }
 

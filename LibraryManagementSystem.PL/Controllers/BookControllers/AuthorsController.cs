@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers.BookControllers;
 
-[Route("api/v1/books/authors")]
+[Route("api/v1/authors")]
 [ApiController]
 public class AuthorsController : ControllerBase
 {
@@ -22,16 +22,16 @@ public class AuthorsController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<AuthorViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<AuthorSimpleViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> Get()
     {
         try
         {
-            var authorsDto = await _authorService.GetAuthorsAsync();
-            var authorViewModel = _mapper.Map<IEnumerable<AuthorDto>, IEnumerable<AuthorViewModel>>(authorsDto);
+            var authorsSimpleDto = await _authorService.GetAuthorsAsync();
+            var authorSimpleViewModel = _mapper.Map<IEnumerable<AuthorSimpleDto>, IEnumerable<AuthorSimpleViewModel>>(authorsSimpleDto);
 
-            return Ok(authorViewModel);
+            return Ok(authorSimpleViewModel);
         }
         catch (Exception ex)
         {
@@ -70,9 +70,9 @@ public class AuthorsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(AuthorAddUpdateViewModel authorToAddViewModel)
+    public async Task<IActionResult> Add(AuthorAddViewModel authorToAddViewModel)
     {
-        var authorDto = _mapper.Map<AuthorAddUpdateViewModel, AuthorDto>(authorToAddViewModel);
+        var authorDto = _mapper.Map<AuthorAddViewModel, AuthorDto>(authorToAddViewModel);
         
         try
         {
@@ -89,9 +89,9 @@ public class AuthorsController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, AuthorAddUpdateViewModel authorToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, AuthorUpdateViewModel authorToViewModel)
     {
-        var authorDto = _mapper.Map<AuthorDto>(authorToUpdateViewModel);
+        var authorDto = _mapper.Map<AuthorDto>(authorToViewModel);
         authorDto.Id = id;
 
         try

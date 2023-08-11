@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers.BookControllers;
 
-[Route("api/v1/books/genres")]
+[Route("api/v1/genres")]
 [ApiController]
 public class GenresController : ControllerBase
 {
@@ -70,9 +70,9 @@ public class GenresController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(GenreAddUpdateViewModel genreToAddViewModel)
+    public async Task<IActionResult> Add(GenreAddViewModel genreToAddViewModel)
     {
-        var genreDto = _mapper.Map<GenreAddUpdateViewModel, GenreDto>(genreToAddViewModel);
+        var genreDto = _mapper.Map<GenreAddViewModel, GenreDto>(genreToAddViewModel);
         
         try
         {
@@ -89,7 +89,7 @@ public class GenresController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, GenreAddUpdateViewModel genreToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, GenreUpdateViewModel genreToUpdateViewModel)
     {
         var genreDto = _mapper.Map<GenreDto>(genreToUpdateViewModel);
         genreDto.Id = id;

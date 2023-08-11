@@ -1,6 +1,6 @@
 ﻿using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.BLL.Comparers;
+namespace LibraryManagementSystem.BLL.Comparers.BookComparers;
 
 public class LanguageEntityEqualityComparer : IEqualityComparer<LanguageEntity>
 {
@@ -21,7 +21,8 @@ public class LanguageEntityEqualityComparer : IEqualityComparer<LanguageEntity>
             return false;
         }
         
-        return x.Id == y.Id && x.Name == y.Name;
+        return x.Id == y.Id && 
+               x.Name == y.Name;
     }
 
     public int GetHashCode(LanguageEntity obj)

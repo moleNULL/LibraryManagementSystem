@@ -1,6 +1,6 @@
 ﻿using LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
 
-namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels1
+namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels
 {
     public class BookUpdateViewModel
     {
@@ -12,7 +12,7 @@ namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels1
         public int PublisherId { get; set; }
         public int AuthorId { get; set; }
         public string? Description { get; set; }
-        public WarehouseAddUpdateViewModel Warehouse { get; set; } = null!;
+        public WarehouseUpdateViewModel Warehouse { get; set; } = null!;
         public int LanguageId { get; set; }
         public IEnumerable<int> GenreIds { get; set; } = new List<int>();
     }

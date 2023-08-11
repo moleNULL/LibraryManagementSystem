@@ -4,7 +4,7 @@ using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
 namespace LibraryManagementSystem.PL.Mapping;
 
-public class BookIdsResolver: IMemberValueResolver<BookEntity, BookDto, ICollection<BookGenreEntity>, object>
+public class BookGenreIdsResolver: IMemberValueResolver<BookEntity, BookDto, ICollection<BookGenreEntity>, object>
 {
     public object Resolve(BookEntity source, BookDto destination, 
         ICollection<BookGenreEntity> sourceMember, object destMember, ResolutionContext context)

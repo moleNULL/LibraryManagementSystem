@@ -16,12 +16,12 @@ public class AuthorService : IAuthorService
         _mapper = mapper;
         _authorRepository = authorRepository;
     }
-    public async Task<IEnumerable<AuthorDto>> GetAuthorsAsync()
+    public async Task<IEnumerable<AuthorSimpleDto>> GetAuthorsAsync()
     {
         var authorsEntity = await _authorRepository.GetAuthorsAsync();
-        var authorsDto = _mapper.Map<IEnumerable<AuthorEntity>, IEnumerable<AuthorDto>>(authorsEntity);
+        var authorsSimpleDto = _mapper.Map<IEnumerable<AuthorEntity>, IEnumerable<AuthorSimpleDto>>(authorsEntity);
 
-        return authorsDto;
+        return authorsSimpleDto;
     }
 
     public async Task<AuthorDto?> GetAuthorByIdAsync(int id)
@@ -43,8 +43,9 @@ public class AuthorService : IAuthorService
         var authorEntity = _mapper.Map<AuthorEntity>(authorDto);
         var authorsInDbEntity = await _authorRepository.GetAuthorsAsync();
 
-        if (!authorsInDbEntity.Any(
-                aid => aid.FirstName == authorEntity.FirstName && aid.LastName == authorEntity.LastName))
+        if (!authorsInDbEntity.Any(aid => 
+                aid.FirstName == authorEntity.FirstName &&
+                aid.LastName == authorEntity.LastName))
         {
             return await _authorRepository.AddAuthorAsync(authorEntity);
         }

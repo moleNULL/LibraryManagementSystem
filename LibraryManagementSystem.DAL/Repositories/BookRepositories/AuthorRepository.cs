@@ -1,4 +1,4 @@
-﻿using LibraryManagementSystem.BLL.Comparers;
+﻿using LibraryManagementSystem.BLL.Comparers.BookComparers;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;

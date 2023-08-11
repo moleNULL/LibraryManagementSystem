@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.PL.Controllers.BookControllers;
 
-[Route("api/v1/books/publishers")]
+[Route("api/v1/publishers")]
 [ApiController]
 public class PublishersController : ControllerBase
 {
@@ -70,9 +70,9 @@ public class PublishersController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(PublisherAddUpdateViewModel publisherToAddViewModel)
+    public async Task<IActionResult> Add(PublisherAddViewModel publisherToAddViewModel)
     {
-        var publisherDto = _mapper.Map<PublisherAddUpdateViewModel, PublisherDto>(publisherToAddViewModel);
+        var publisherDto = _mapper.Map<PublisherAddViewModel, PublisherDto>(publisherToAddViewModel);
         
         try
         {
@@ -89,9 +89,9 @@ public class PublishersController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, PublisherAddUpdateViewModel publisherToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, PublisherUpdateViewModel publisherToViewModel)
     {
-        var publisherDto = _mapper.Map<PublisherDto>(publisherToUpdateViewModel);
+        var publisherDto = _mapper.Map<PublisherDto>(publisherToViewModel);
         publisherDto.Id = id;
 
         try

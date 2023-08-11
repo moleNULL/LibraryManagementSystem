@@ -7,6 +7,7 @@ namespace LibraryManagementSystem.DAL.Extensions
         public static void Seed(this ModelBuilder modelBuilder)
         {
             BookSeedExtensions.Seed(modelBuilder);
+            StudentSeedExtensions.Seed(modelBuilder);
         }
     }
 }

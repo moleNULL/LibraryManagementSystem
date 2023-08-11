@@ -4,7 +4,7 @@ namespace LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces
 {
     public interface IBookService
     {
-        Task<IEnumerable<BookDto>> GetBooksAsync();
+        Task<IEnumerable<BookSimpleDto>> GetBooksAsync();
         Task<BookDto?> GetBookByIdAsync(int id);
         Task<int> AddBookAsync(BookDto bookDto);
         Task<bool> UpdateBookAsync(BookDto bookDto);

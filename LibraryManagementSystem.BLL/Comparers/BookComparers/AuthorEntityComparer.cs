@@ -1,6 +1,6 @@
 ﻿using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.BLL.Comparers;
+namespace LibraryManagementSystem.BLL.Comparers.BookComparers;
 
 public class AuthorEntityComparer : IEqualityComparer<AuthorEntity>
 {
@@ -21,7 +21,9 @@ public class AuthorEntityComparer : IEqualityComparer<AuthorEntity>
             return false;
         }
 
-        return x.Id == y.Id && x.FirstName == y.FirstName && x.LastName == y.LastName;
+        return x.Id == y.Id && 
+               x.FirstName == y.FirstName && 
+               x.LastName == y.LastName;
     }
 
     public int GetHashCode(AuthorEntity obj)
