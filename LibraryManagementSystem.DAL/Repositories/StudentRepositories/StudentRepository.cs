@@ -1,7 +1,7 @@
 ﻿using LibraryManagementSystem.BLL.Comparers.StudentComparers;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterface;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DAL.Repositories.StudentRepositories;
@@ -76,7 +76,7 @@ public class StudentRepository : IStudentRepository
     public async Task<bool> DeleteStudentsAsync(IEnumerable<int> studentIds)
     {
         bool areAnyDeleted = false;
-        foreach (var id in studentIds)
+        foreach (int id in studentIds)
         {
             bool result = await DeleteStudentByIdAsync(id);
             areAnyDeleted |= result; // if any student is deleted return true

@@ -2,7 +2,7 @@
 using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
-using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterface;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
 using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
 
 namespace LibraryManagementSystem.BLL.Services.Implementations.StudentServices;
@@ -21,7 +21,8 @@ public class StudentService : IStudentService
     public async Task<IEnumerable<StudentDto>> GetStudentsAsync()
     {
         var studentsEntity = await _studentRepository.GetStudentsAsync();
-        var studentsDto = _mapper.Map<IEnumerable<StudentEntity>, IEnumerable<StudentDto>>(studentsEntity);
+        var studentsDto = 
+            _mapper.Map<IEnumerable<StudentEntity>, IEnumerable<StudentDto>>(studentsEntity);
 
         return studentsDto;
     }

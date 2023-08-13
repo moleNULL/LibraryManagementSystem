@@ -60,7 +60,7 @@ public class LanguageRepository : ILanguageRepository
     public async Task<bool> DeleteLanguagesAsync(IEnumerable<int> languageIds)
     {
         bool areAnyDeleted = false;
-        foreach (var id in languageIds)
+        foreach (int id in languageIds)
         {
             bool result = await DeleteLanguageByIdAsync(id);
             areAnyDeleted |= result; // if any language is deleted return true

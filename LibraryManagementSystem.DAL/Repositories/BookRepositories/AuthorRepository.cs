@@ -61,7 +61,7 @@ public class AuthorRepository : IAuthorRepository
     public async Task<bool> DeleteAuthorsAsync(IEnumerable<int> authorIds)
     {
         bool areAnyDeleted = false;
-        foreach (var id in authorIds)
+        foreach (int id in authorIds)
         {
             bool result = await DeleteAuthorByIdAsync(id);
             areAnyDeleted |= result; // if any author is deleted return true

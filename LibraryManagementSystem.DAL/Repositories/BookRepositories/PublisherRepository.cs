@@ -35,8 +35,8 @@ public class PublisherRepository : IPublisherRepository
 
     public async Task<bool> UpdatePublisherAsync(PublisherEntity publisherEntity)
     {
-        var existingPublisherEntity = 
-            await _dbContext.Publishers.FirstOrDefaultAsync(publisher => publisher.Id == publisherEntity.Id);
+        var existingPublisherEntity = await _dbContext.Publishers
+            .FirstOrDefaultAsync(publisher => publisher.Id == publisherEntity.Id);
 
         if (existingPublisherEntity is not null)
         {
@@ -60,7 +60,7 @@ public class PublisherRepository : IPublisherRepository
     public async Task<bool> DeletePublishersAsync(IEnumerable<int> publisherIds)
     {
         bool areAnyDeleted = false;
-        foreach (var id in publisherIds)
+        foreach (int id in publisherIds)
         {
             bool result = await DeletePublisherByIdAsync(id);
             areAnyDeleted |= result; // if any publisher is deleted return true
@@ -71,8 +71,8 @@ public class PublisherRepository : IPublisherRepository
 
     public async Task<bool> DeletePublisherByIdAsync(int id)
     {
-        var publisherToDelete = 
-            await _dbContext.Publishers.FirstOrDefaultAsync(publisher => publisher.Id == id);
+        var publisherToDelete = await _dbContext.Publishers
+            .FirstOrDefaultAsync(publisher => publisher.Id == id);
         
         if (publisherToDelete is not null)
         {

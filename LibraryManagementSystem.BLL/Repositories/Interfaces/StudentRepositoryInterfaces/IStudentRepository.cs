@@ -1,6 +1,6 @@
 ﻿using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 
-namespace LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterface;
+namespace LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
 
 public interface IStudentRepository
 {

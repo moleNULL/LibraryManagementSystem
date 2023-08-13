@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
+using LibraryManagementSystem.BLL.Models.Entities;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.AuthorViewModels;
@@ -9,6 +11,7 @@ using LibraryManagementSystem.PL.ViewModels.BookViewModels.GenreViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.PublisherViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
+using LibraryManagementSystem.PL.ViewModels.LibrarianViewModels.LibrarianViewModels;
 using LibraryManagementSystem.PL.ViewModels.StudentViewModels.StudentViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
@@ -19,6 +22,7 @@ namespace LibraryManagementSystem.PL.Mapping
         {
             MapBookModels();
             MapStudentModels();
+            MapLibrarianModels();
         }
 
         private void MapBookModels()
@@ -34,6 +38,11 @@ namespace LibraryManagementSystem.PL.Mapping
         private void MapStudentModels()
         {
             MapStudents();
+        }
+
+        private void MapLibrarianModels()
+        {
+            MapLibrarians();
         }
         
         private void MapAuthors()
@@ -131,6 +140,14 @@ namespace LibraryManagementSystem.PL.Mapping
             CreateMap<StudentDto, StudentViewModel>();
             CreateMap<StudentAddViewModel, StudentDto>();
             CreateMap<StudentUpdateViewModel, StudentDto>();
+        }
+
+        private void MapLibrarians()
+        {
+            CreateMap<LibrarianEntity, LibrarianDto>().ReverseMap();
+            CreateMap<LibrarianDto, LibrarianViewModel>();
+            CreateMap<LibrarianAddViewModel, LibrarianDto>();
+            CreateMap<LibrarianUpdateViewModel, LibrarianDto>();
         }
     }
 }

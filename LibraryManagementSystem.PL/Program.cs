@@ -1,11 +1,15 @@
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
-using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterface;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.LibrarianRepositoryInterfaces;
+using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
 using LibraryManagementSystem.BLL.Services.Implementations.BookServices;
+using LibraryManagementSystem.BLL.Services.Implementations.LibrarianServices;
 using LibraryManagementSystem.BLL.Services.Implementations.StudentServices;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.LibrarianServiceInterfaces;
 using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
 using LibraryManagementSystem.DAL;
 using LibraryManagementSystem.DAL.Configurations.BookConfigurations;
+using LibraryManagementSystem.DAL.Repositories;
 using LibraryManagementSystem.DAL.Repositories.BookRepositories;
 using LibraryManagementSystem.DAL.Repositories.StudentRepositories;
 using LibraryManagementSystem.PL.Helpers;
@@ -69,6 +73,9 @@ namespace LibraryManagementSystem.PL
 
             builder.Services.AddScoped<IStudentRepository, StudentRepository>();
             builder.Services.AddScoped<IStudentService, StudentService>();
+
+            builder.Services.AddScoped<ILibrarianRepository, LibrarianRepository>();
+            builder.Services.AddScoped<ILibrarianService, LibrarianService>();
 
             builder.Services.AddAutoMapper(typeof(Program));
             builder.Services.Configure<BookConfiguration>(configuration);

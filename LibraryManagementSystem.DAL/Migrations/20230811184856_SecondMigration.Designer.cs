@@ -4,6 +4,7 @@ using LibraryManagementSystem.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230811184856_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1128,26 +1131,6 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Librarians", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "",
-                            EntryDate = new DateTime(2018, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Karina",
-                            LastName = "Kovalenko",
-                            PictureName = "karina_kovalenko.png"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "",
-                            EntryDate = new DateTime(2011, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Roman",
-                            LastName = "Zozylya",
-                            PictureName = "roman_zozylya.png"
-                        });
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.CityEntity", b =>
@@ -1217,7 +1200,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                             Id = 1,
                             Address = "123 Taras Shevchenko Street, Kyiv",
                             Email = "christopher.anderson.test@gmail.com",
-                            EntryDate = new DateTime(2023, 8, 12, 20, 57, 12, 921, DateTimeKind.Local).AddTicks(491),
+                            EntryDate = new DateTime(2023, 8, 11, 21, 48, 55, 943, DateTimeKind.Local).AddTicks(453),
                             FirstName = "Christopher",
                             LastName = "Anderson",
                             PictureName = "christopher_anderson.png"
@@ -1227,7 +1210,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                             Id = 2,
                             Address = "56 Petro Sahaidachny Street, Poltava",
                             Email = "john.mitchell.library@gmail.com",
-                            EntryDate = new DateTime(2023, 8, 11, 20, 57, 12, 921, DateTimeKind.Local).AddTicks(569),
+                            EntryDate = new DateTime(2023, 8, 10, 21, 48, 55, 943, DateTimeKind.Local).AddTicks(517),
                             FirstName = "John",
                             LastName = "Mitchell",
                             PictureName = "john_mitchell.png"
@@ -1237,7 +1220,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                             Id = 3,
                             Address = "89 Lesya Ukrainka, Kharkiv",
                             Email = "michael.williams.library@gmail.com",
-                            EntryDate = new DateTime(2023, 8, 10, 20, 57, 12, 921, DateTimeKind.Local).AddTicks(581),
+                            EntryDate = new DateTime(2023, 8, 9, 21, 48, 55, 943, DateTimeKind.Local).AddTicks(524),
                             FirstName = "Michael",
                             LastName = "Williams",
                             PictureName = "michael_williams.png"

@@ -115,7 +115,7 @@ namespace LibraryManagementSystem.DAL.Repositories.BookRepositories
                 await _dbContext.Books.Where(b => bookIds.Contains(b.Id)).ToListAsync();*/
 
             bool areAnyDeleted = false;
-            foreach (var id in bookIds)
+            foreach (int id in bookIds)
             {
                 bool result = await DeleteBookByIdAsync(id);
                 areAnyDeleted |= result; // if any book is deleted return true

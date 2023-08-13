@@ -8,6 +8,7 @@ namespace LibraryManagementSystem.DAL.Extensions
         {
             BookSeedExtensions.Seed(modelBuilder);
             StudentSeedExtensions.Seed(modelBuilder);
+            LibrarianSeedExtensions.Seed(modelBuilder);
         }
     }
 }

@@ -60,7 +60,7 @@ public class GenreRepository : IGenreRepository
     public async Task<bool> DeleteGenresAsync(IEnumerable<int> genreIds)
     {
         bool areAnyDeleted = false;
-        foreach (var id in genreIds)
+        foreach (int id in genreIds)
         {
             bool result = await DeleteGenreByIdAsync(id);
             areAnyDeleted |= result; // if any genre is deleted return true
