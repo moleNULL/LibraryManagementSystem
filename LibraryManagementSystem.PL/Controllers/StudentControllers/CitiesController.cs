@@ -1,48 +1,48 @@
 ﻿using System.Net;
 using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
-using LibraryManagementSystem.BLL.Models.Dtos;
-using LibraryManagementSystem.BLL.Services.Interfaces.LibrarianServiceInterfaces;
-using LibraryManagementSystem.PL.ViewModels.LibrarianViewModels.LibrarianViewModels;
+using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
+using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
+using LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryManagementSystem.PL.Controllers.LibrarianControllers;
+namespace LibraryManagementSystem.PL.Controllers.StudentControllers;
 
-[Route("api/v1/librarians")]
+[Route("api/v1/cities")]
 [ApiController]
-public class LibrarianController : ControllerBase
+public class CitiesController : ControllerBase
 {
     private readonly IMapper _mapper;
-    private readonly ILibrarianService _librarianService;
+    private readonly ICityService _cityService;
 
-    public LibrarianController(IMapper mapper, ILibrarianService librarianService)
+    public CitiesController(IMapper mapper, ICityService cityService)
     {
         _mapper = mapper;
-        _librarianService = librarianService;
+        _cityService = cityService;
     }
     
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<LibrarianViewModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<CityViewModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> Get()
     {
         try
         {
-            var librariansDto = await _librarianService.GetLibrariansAsync();
-            var librariansViewModel = _mapper.Map<IEnumerable<LibrarianViewModel>>(librariansDto);
+            var citiesDto = await _cityService.GetCitiesAsync();
+            var citiesViewModel = _mapper.Map<IEnumerable<CityViewModel>>(citiesDto);
 
-            return Ok(librariansViewModel);    
+            return Ok(citiesViewModel);    
         }
         catch (Exception ex)
         {
             return StatusCode(
                 (int)HttpStatusCode.InternalServerError, 
-                $"An error occurred while fetching librarians: {ex.Message}");
+                $"An error occurred while fetching cities: {ex.Message}");
         }
     }
     
     [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(LibrarianViewModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CityViewModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
@@ -50,14 +50,14 @@ public class LibrarianController : ControllerBase
     {
         try
         {
-            var librarianDto = await _librarianService.GetLibrarianByIdAsync(id);
-            if (librarianDto is not null)
+            var cityDto = await _cityService.GetCityByIdAsync(id);
+            if (cityDto is not null)
             {
-                var librarianViewModel = _mapper.Map<LibrarianViewModel>(librarianDto);
-                return Ok(librarianViewModel);
+                var cityViewModel = _mapper.Map<CityViewModel>(cityDto);
+                return Ok(cityViewModel);
             }
 
-            return NotFound($"There is no librarian with id: {id}");
+            return NotFound($"There is no city with id: {id}");
         }
         catch (ArgumentException ex)
         {
@@ -65,20 +65,20 @@ public class LibrarianController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the librarian");
+            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the city");
         }
     }
     
     [HttpPost]
     [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(LibrarianAddViewModel librarianToAddViewModel)
+    public async Task<IActionResult> Add(CityAddViewModel cityToAddViewModel)
     {
-        var librarianDto = _mapper.Map<LibrarianAddViewModel, LibrarianDto>(librarianToAddViewModel);
+        var cityDto = _mapper.Map<CityAddViewModel, CityDto>(cityToAddViewModel);
         
         try
         {
-            int insertedId = await _librarianService.AddLibrarianAsync(librarianDto);
+            int insertedId = await _cityService.AddCityAsync(cityDto);
             return Ok(insertedId);
         }
         catch (ArgumentException ex)
@@ -91,14 +91,14 @@ public class LibrarianController : ControllerBase
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, LibrarianUpdateViewModel librarianToUpdateViewModel)
+    public async Task<IActionResult> Update(int id, CityUpdateViewModel cityToUpdateViewModel)
     {
-        var librarianDto = _mapper.Map<LibrarianUpdateViewModel, LibrarianDto>(librarianToUpdateViewModel);
-        librarianDto.Id = id;
+        var cityDto = _mapper.Map<CityUpdateViewModel, CityDto>(cityToUpdateViewModel);
+        cityDto.Id = id;
 
         try
         {
-            bool isUpdated = await _librarianService.UpdateLibrarianAsync(librarianDto);
+            bool isUpdated = await _cityService.UpdateCityAsync(cityDto);
             return Ok(isUpdated);
         }
         catch (NotFoundException ex)
@@ -114,13 +114,13 @@ public class LibrarianController : ControllerBase
     [HttpDelete]
     [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Delete(LibrarianDeleteViewModel librariansToDeleteViewModel)
+    public async Task<IActionResult> Delete(CityDeleteViewModel citiesToDeleteViewModel)
     {
-        var librarianIds = librariansToDeleteViewModel.LibrarianIds;
+        var cityIds = citiesToDeleteViewModel.CityIds;
 
         try
         {
-            bool areDeleted = await _librarianService.DeleteLibrariansAsync(librarianIds);
+            bool areDeleted = await _cityService.DeleteCitiesAsync(cityIds);
             return Ok(areDeleted);   
         }
         catch (ArgumentException ex)
@@ -136,7 +136,7 @@ public class LibrarianController : ControllerBase
     {
         try
         {
-            bool isUpdated = await _librarianService.DeleteLibrarianByIdAsync(id);
+            bool isUpdated = await _cityService.DeleteCityByIdAsync(id);
             return Ok(isUpdated);
         }
         catch (ArgumentException ex)

@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Security.Claims;
 using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;

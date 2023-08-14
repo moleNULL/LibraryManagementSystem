@@ -12,6 +12,7 @@ using LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.PublisherViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
 using LibraryManagementSystem.PL.ViewModels.LibrarianViewModels.LibrarianViewModels;
+using LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels;
 using LibraryManagementSystem.PL.ViewModels.StudentViewModels.StudentViewModels;
 
 namespace LibraryManagementSystem.PL.Mapping
@@ -38,6 +39,7 @@ namespace LibraryManagementSystem.PL.Mapping
         private void MapStudentModels()
         {
             MapStudents();
+            MapCities();
         }
 
         private void MapLibrarianModels()
@@ -140,6 +142,14 @@ namespace LibraryManagementSystem.PL.Mapping
             CreateMap<StudentDto, StudentViewModel>();
             CreateMap<StudentAddViewModel, StudentDto>();
             CreateMap<StudentUpdateViewModel, StudentDto>();
+        }
+
+        private void MapCities()
+        {
+            CreateMap<CityEntity, CityDto>().ReverseMap();
+            CreateMap<CityDto, CityViewModel>();
+            CreateMap<CityAddViewModel, CityDto>();
+            CreateMap<CityUpdateViewModel, CityDto>();
         }
 
         private void MapLibrarians()

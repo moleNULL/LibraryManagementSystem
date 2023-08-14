@@ -1,4 +1,5 @@
-﻿using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
+﻿using System.Collections;
+using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DAL.Extensions;
@@ -9,6 +10,7 @@ public static class StudentSeedExtensions
     {
         modelBuilder.Entity<StudentEntity>().HasData(GetPreconfiguredStudents());
         modelBuilder.Entity<StudentGenreEntity>().HasData(GetPreconfiguredStudentGenres());
+        modelBuilder.Entity<CityEntity>().HasData(GetPreconfiguredCities());
     }
 
     private static IEnumerable<StudentEntity> GetPreconfiguredStudents()
@@ -24,7 +26,7 @@ public static class StudentSeedExtensions
                 PictureName = "christopher_anderson.png",
                 CityId = null,
                 Address = "123 Taras Shevchenko Street, Kyiv",
-                EntryDate = DateTime.Now
+                EntryDate = new DateTime(2014, 09, 01)
             },
             new StudentEntity()
             {
@@ -35,7 +37,7 @@ public static class StudentSeedExtensions
                 PictureName = "john_mitchell.png",
                 CityId = null,
                 Address = "56 Petro Sahaidachny Street, Poltava",
-                EntryDate = DateTime.Now - TimeSpan.FromDays(1)
+                EntryDate = new DateTime(2016, 09, 01)
             },
             new StudentEntity()
             {
@@ -46,7 +48,7 @@ public static class StudentSeedExtensions
                 PictureName = "michael_williams.png",
                 CityId = null,
                 Address = "89 Lesya Ukrainka, Kharkiv",
-                EntryDate = DateTime.Now - TimeSpan.FromDays(2)
+                EntryDate = new DateTime(2019, 09, 01)
             }
         };
     }
@@ -66,6 +68,24 @@ public static class StudentSeedExtensions
             new StudentGenreEntity() { StudentId = 3, GenreId = 3 },
             new StudentGenreEntity() { StudentId = 3, GenreId = 6 },
             new StudentGenreEntity() { StudentId = 3, GenreId = 11 },
+        };
+    }
+
+    private static IEnumerable<CityEntity> GetPreconfiguredCities()
+    {
+        return new List<CityEntity>()
+        {
+            new CityEntity() { Id = 1, Name = "Kyiv" },
+            new CityEntity() { Id = 2, Name = "Kharkiv" },
+            new CityEntity() { Id = 3, Name = "Poltava" },
+            new CityEntity() { Id = 4, Name = "Lviv" },
+            new CityEntity() { Id = 5, Name = "Dnipro" },
+            
+            new CityEntity() { Id = 6, Name = "Uzhgorod" },
+            new CityEntity() { Id = 7, Name = "Ivano-Frankivsk" },
+            new CityEntity() { Id = 8, Name = "Zaporizhzhia" },
+            new CityEntity() { Id = 9, Name = "Kherson" },
+            new CityEntity() { Id = 10, Name = "Sumy" },
         };
     }
 }
