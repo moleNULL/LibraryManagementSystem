@@ -180,30 +180,6 @@ namespace LibraryManagementSystem.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GenreEntityStudentEntity",
-                columns: table => new
-                {
-                    FavoriteGenresId = table.Column<int>(type: "int", nullable: false),
-                    StudentsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GenreEntityStudentEntity", x => new { x.FavoriteGenresId, x.StudentsId });
-                    table.ForeignKey(
-                        name: "FK_GenreEntityStudentEntity_Genres_FavoriteGenresId",
-                        column: x => x.FavoriteGenresId,
-                        principalTable: "Genres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GenreEntityStudentEntity_Students_StudentsId",
-                        column: x => x.StudentsId,
-                        principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StudentGenres",
                 columns: table => new
                 {
@@ -214,8 +190,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     table.PrimaryKey("PK_StudentGenres", x => new { x.StudentId, x.GenreId });
                     table.ForeignKey(
-                        name: "FK_StudentGenres_Genres_StudentId",
-                        column: x => x.StudentId,
+                        name: "FK_StudentGenres_Genres_GenreId",
+                        column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -286,30 +262,6 @@ namespace LibraryManagementSystem.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookEntityGenreEntity",
-                columns: table => new
-                {
-                    BooksId = table.Column<int>(type: "int", nullable: false),
-                    GenresId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookEntityGenreEntity", x => new { x.BooksId, x.GenresId });
-                    table.ForeignKey(
-                        name: "FK_BookEntityGenreEntity_Books_BooksId",
-                        column: x => x.BooksId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookEntityGenreEntity_Genres_GenresId",
-                        column: x => x.GenresId,
-                        principalTable: "Genres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BookGenres",
                 columns: table => new
                 {
@@ -346,6 +298,23 @@ namespace LibraryManagementSystem.DAL.Migrations
                     { 6, "Stephen", "King" },
                     { 7, "George", "Martin" },
                     { 8, "Haruki", "Murakami" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Kyiv" },
+                    { 2, "Kharkiv" },
+                    { 3, "Poltava" },
+                    { 4, "Lviv" },
+                    { 5, "Dnipro" },
+                    { 6, "Uzhgorod" },
+                    { 7, "Ivano-Frankivsk" },
+                    { 8, "Zaporizhzhia" },
+                    { 9, "Kherson" },
+                    { 10, "Sumy" }
                 });
 
             migrationBuilder.InsertData(
@@ -405,6 +374,15 @@ namespace LibraryManagementSystem.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Librarians",
+                columns: new[] { "Id", "Email", "EntryDate", "FirstName", "LastName", "PictureName" },
+                values: new object[,]
+                {
+                    { 1, "", new DateTime(2018, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Karina", "Kovalenko", "karina_kovalenko.png" },
+                    { 2, "", new DateTime(2011, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Roman", "Zozylya", "roman_zozylya.png" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Publishers",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -421,9 +399,9 @@ namespace LibraryManagementSystem.DAL.Migrations
                 columns: new[] { "Id", "Address", "CityId", "Email", "EntryDate", "FirstName", "LastName", "PictureName" },
                 values: new object[,]
                 {
-                    { 1, "", null, "", new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4447), "Christopher", "Anderson", "christopher_andersen.png" },
-                    { 2, "", null, "", new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4665), "John", "Mitchell", "john_mitchell.png" },
-                    { 3, "", null, "", new DateTime(2023, 8, 9, 11, 57, 2, 25, DateTimeKind.Local).AddTicks(4680), "Michael", "Williams", "michael_williams.png" }
+                    { 1, "123 Taras Shevchenko Street, Kyiv", null, "christopher.anderson.test@gmail.com", new DateTime(2014, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Christopher", "Anderson", "christopher_anderson.png" },
+                    { 2, "56 Petro Sahaidachny Street, Poltava", null, "john.mitchell.library@gmail.com", new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "John", "Mitchell", "john_mitchell.png" },
+                    { 3, "89 Lesya Ukrainka, Kharkiv", null, "michael.williams.library@gmail.com", new DateTime(2019, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Michael", "Williams", "michael_williams.png" }
                 });
 
             migrationBuilder.InsertData(
@@ -530,11 +508,6 @@ namespace LibraryManagementSystem.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookEntityGenreEntity_GenresId",
-                table: "BookEntityGenreEntity",
-                column: "GenresId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BookGenres_GenreId",
                 table: "BookGenres",
                 column: "GenreId");
@@ -583,11 +556,11 @@ namespace LibraryManagementSystem.DAL.Migrations
                 table: "Books",
                 column: "WarehouseId",
                 unique: true);
-
+            
             migrationBuilder.CreateIndex(
-                name: "IX_GenreEntityStudentEntity_StudentsId",
-                table: "GenreEntityStudentEntity",
-                column: "StudentsId");
+                name: "IX_StudentGenres_GenreId",
+                table: "StudentGenres",
+                column: "GenreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Students_CityId",
@@ -599,13 +572,7 @@ namespace LibraryManagementSystem.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookEntityGenreEntity");
-
-            migrationBuilder.DropTable(
                 name: "BookGenres");
-
-            migrationBuilder.DropTable(
-                name: "GenreEntityStudentEntity");
 
             migrationBuilder.DropTable(
                 name: "StudentGenres");

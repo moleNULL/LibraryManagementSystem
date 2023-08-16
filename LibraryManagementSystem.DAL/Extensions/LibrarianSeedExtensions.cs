@@ -27,9 +27,9 @@ public static class LibrarianSeedExtensions
             new LibrarianEntity()
             {
                 Id = 2,
-                FirstName = "Roman",
-                LastName = "Zozylya",
-                Email = "",
+                FirstName = "Dennis",
+                LastName = "Van.",
+                Email = "destoki1997@gmail.com",
                 PictureName = "roman_zozylya.png",
                 EntryDate = new DateTime(2011, 05, 01)
             },

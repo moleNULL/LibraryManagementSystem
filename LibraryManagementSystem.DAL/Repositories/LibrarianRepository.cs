@@ -25,6 +25,11 @@ public class LibrarianRepository : ILibrarianRepository
         return await _dbContext.Librarians.FirstOrDefaultAsync(librarian => librarian.Id == id);
     }
 
+    public async Task<LibrarianEntity?> GetLibrarianByEmailAsync(string email)
+    {
+        return await _dbContext.Librarians.FirstOrDefaultAsync(librarian => librarian.Email == email);
+    }
+
     public async Task<int> AddLibrarianAsync(LibrarianEntity librarianEntity)
     {
         _dbContext.Librarians.Add(librarianEntity);

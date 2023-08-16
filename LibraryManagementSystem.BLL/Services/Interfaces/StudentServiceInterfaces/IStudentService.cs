@@ -6,6 +6,7 @@ public interface IStudentService
 {
     Task<IEnumerable<StudentDto>> GetStudentsAsync();
     Task<StudentDto?> GetStudentByIdAsync(int id);
+    Task<StudentDto?> GetStudentByEmailAsync(string email);
     Task<int> AddStudentAsync(StudentDto studentDto);
     Task<bool> UpdateStudentAsync(StudentDto studentDto);
     Task<bool> DeleteStudentsAsync(IEnumerable<int> bookIds);

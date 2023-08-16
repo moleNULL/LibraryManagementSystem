@@ -16,10 +16,10 @@ public class StudentGenreConfiguration : IEntityTypeConfiguration<StudentGenreEn
             .WithMany(s => s.StudentGenres)
             .HasForeignKey(sg => sg.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
-
+        
         builder.HasOne(sg => sg.Genre)
             .WithMany(g => g.StudentGenres)
-            .HasForeignKey(sg => sg.StudentId)
+            .HasForeignKey(sg => sg.GenreId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

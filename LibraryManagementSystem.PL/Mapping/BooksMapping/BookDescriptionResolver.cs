@@ -2,7 +2,7 @@
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.PL.Mapping;
+namespace LibraryManagementSystem.PL.Mapping.BooksMapping;
 
 public class BookDescriptionResolver : IMemberValueResolver<BookDto, BookEntity, string?, object?>
 {

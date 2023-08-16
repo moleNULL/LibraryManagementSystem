@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
@@ -27,7 +28,7 @@ public class PublisherService : IPublisherService
 
     public async Task<PublisherDto?> GetPublisherByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         var publisherEntity = await _publisherRepository.GetPublisherByIdAsync(id);
         if (publisherEntity is not null)
@@ -54,7 +55,7 @@ public class PublisherService : IPublisherService
 
     public async Task<bool> UpdatePublisherAsync(PublisherDto publisherDto)
     {
-        ValidateId(publisherDto.Id);
+        ValidationHelper.ValidateId(publisherDto.Id);
             
         var publisherEntity = _mapper.Map<PublisherEntity>(publisherDto);
         return await _publisherRepository.UpdatePublisherAsync(publisherEntity);
@@ -64,7 +65,7 @@ public class PublisherService : IPublisherService
     {
         foreach (int id in publisherIds)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
         }
         
         return await _publisherRepository.DeletePublishersAsync(publisherIds);
@@ -72,16 +73,8 @@ public class PublisherService : IPublisherService
 
     public async Task<bool> DeletePublisherByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         return await _publisherRepository.DeletePublisherByIdAsync(id);
-    }
-
-    private void ValidateId(int id)
-    {
-        if (id < 1)
-        {
-            throw new ArgumentException("PublisherId cannot be negative or zero");
-        }
     }
 }

@@ -2,7 +2,7 @@
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 
-namespace LibraryManagementSystem.PL.Mapping;
+namespace LibraryManagementSystem.PL.Mapping.StudentsMapping;
 
 public class StudentGenresResolver : IMemberValueResolver<StudentDto, StudentEntity, IEnumerable<int>, object>
 {

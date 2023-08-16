@@ -1,53 +1,29 @@
 ﻿using AutoMapper;
-using LibraryManagementSystem.BLL.Models.Dtos;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
-using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
-using LibraryManagementSystem.BLL.Models.Entities;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
-using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
+using LibraryManagementSystem.PL.Mapping.BooksMapping;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.AuthorViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.GenreViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.PublisherViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
-using LibraryManagementSystem.PL.ViewModels.LibrarianViewModels.LibrarianViewModels;
-using LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels;
-using LibraryManagementSystem.PL.ViewModels.StudentViewModels.StudentViewModels;
 
-namespace LibraryManagementSystem.PL.Mapping
+namespace LibraryManagementSystem.PL.Mapping;
+
+public class MappingBooksProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingBooksProfile()
     {
-        public MappingProfile()
-        {
-            MapBookModels();
-            MapStudentModels();
-            MapLibrarianModels();
-        }
-
-        private void MapBookModels()
-        {
-            MapAuthors();
-            MapBooks();
-            MapGenres();
-            MapLanguages();
-            MapPublishers();
-            MapWarehouses();
-        }
-
-        private void MapStudentModels()
-        {
-            MapStudents();
-            MapCities();
-        }
-
-        private void MapLibrarianModels()
-        {
-            MapLibrarians();
-        }
-        
-        private void MapAuthors()
+        MapAuthors();
+        MapBooks();
+        MapGenres();
+        MapLanguages();
+        MapPublishers();
+        MapWarehouses();
+    }
+    
+    private void MapAuthors()
         {
             CreateMap<AuthorEntity, AuthorDto>().ReverseMap();
             CreateMap<AuthorEntity, AuthorSimpleDto>()
@@ -124,40 +100,4 @@ namespace LibraryManagementSystem.PL.Mapping
             CreateMap<WarehouseAddViewModel, WarehouseDto>();
             CreateMap<WarehouseUpdateViewModel, WarehouseDto>();
         }
-
-
-        private void MapStudents()
-        {
-            CreateMap<StudentEntity, StudentDto>().ForMember("FavoriteGenreIds", options =>
-            {
-                options.MapFrom<StudentFavoriteGenreIdsResolver, ICollection<StudentGenreEntity>>(studentEntity => studentEntity.StudentGenres);
-            });
-            
-            CreateMap<StudentDto, StudentEntity>()
-                .ForMember("StudentGenres", options =>
-                {
-                    options.MapFrom<StudentGenresResolver, IEnumerable<int>>(studentDto => studentDto.FavoriteGenreIds);
-                });
-            
-            CreateMap<StudentDto, StudentViewModel>();
-            CreateMap<StudentAddViewModel, StudentDto>();
-            CreateMap<StudentUpdateViewModel, StudentDto>();
-        }
-
-        private void MapCities()
-        {
-            CreateMap<CityEntity, CityDto>().ReverseMap();
-            CreateMap<CityDto, CityViewModel>();
-            CreateMap<CityAddViewModel, CityDto>();
-            CreateMap<CityUpdateViewModel, CityDto>();
-        }
-
-        private void MapLibrarians()
-        {
-            CreateMap<LibrarianEntity, LibrarianDto>().ReverseMap();
-            CreateMap<LibrarianDto, LibrarianViewModel>();
-            CreateMap<LibrarianAddViewModel, LibrarianDto>();
-            CreateMap<LibrarianUpdateViewModel, LibrarianDto>();
-        }
-    }
 }

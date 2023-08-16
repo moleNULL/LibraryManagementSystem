@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
@@ -29,9 +30,21 @@ public class StudentService : IStudentService
 
     public async Task<StudentDto?> GetStudentByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         var studentEntity = await _studentRepository.GetStudentByIdAsync(id);
+        if (studentEntity is not null)
+        {
+            var studentDto = _mapper.Map<StudentEntity, StudentDto>(studentEntity);
+            return studentDto;    
+        }
+
+        return null;
+    }
+
+    public async Task<StudentDto?> GetStudentByEmailAsync(string email)
+    {
+        var studentEntity = await _studentRepository.GetStudentByEmailAsync(email);
         if (studentEntity is not null)
         {
             var studentDto = _mapper.Map<StudentEntity, StudentDto>(studentEntity);
@@ -56,7 +69,7 @@ public class StudentService : IStudentService
 
     public async Task<bool> UpdateStudentAsync(StudentDto studentDto)
     {
-        ValidateId(studentDto.Id);
+        ValidationHelper.ValidateId(studentDto.Id);
             
         var studentEntity = _mapper.Map<StudentEntity>(studentDto);
         return await _studentRepository.UpdateStudentAsync(studentEntity);
@@ -66,7 +79,7 @@ public class StudentService : IStudentService
     {
         foreach (int id in bookIds)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
         }
         
         return await _studentRepository.DeleteStudentsAsync(bookIds);
@@ -74,16 +87,8 @@ public class StudentService : IStudentService
 
     public async Task<bool> DeleteStudentByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
 
         return await _studentRepository.DeleteStudentByIdAsync(id);
-    }
-    
-    private void ValidateId(int id)
-    {
-        if (id < 1)
-        {
-            throw new ArgumentException("StudentId cannot be negative or zero");
-        }
     }
 }

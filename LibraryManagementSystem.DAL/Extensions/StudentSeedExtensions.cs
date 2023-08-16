@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
+﻿using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystem.DAL.Extensions;
@@ -86,6 +85,8 @@ public static class StudentSeedExtensions
             new CityEntity() { Id = 8, Name = "Zaporizhzhia" },
             new CityEntity() { Id = 9, Name = "Kherson" },
             new CityEntity() { Id = 10, Name = "Sumy" },
+            
+            new CityEntity() { Id = 11, Name = "Chernihiv" },
         };
     }
 }

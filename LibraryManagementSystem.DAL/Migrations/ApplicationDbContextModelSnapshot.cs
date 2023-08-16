@@ -17,7 +17,7 @@ namespace LibraryManagementSystem.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -1142,10 +1142,10 @@ namespace LibraryManagementSystem.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            Email = "",
+                            Email = "destoki1997@gmail.com",
                             EntryDate = new DateTime(2011, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FirstName = "Roman",
-                            LastName = "Zozylya",
+                            FirstName = "Dennis",
+                            LastName = "Van.",
                             PictureName = "roman_zozylya.png"
                         });
                 });
@@ -1217,6 +1217,11 @@ namespace LibraryManagementSystem.DAL.Migrations
                         {
                             Id = 10,
                             Name = "Sumy"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Chernihiv"
                         });
                 });
 
@@ -1305,6 +1310,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("StudentId", "GenreId");
+
+                    b.HasIndex("GenreId");
 
                     b.ToTable("StudentGenres", (string)null);
 
@@ -1487,7 +1494,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.GenreEntity", "Genre")
                         .WithMany("StudentGenres")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

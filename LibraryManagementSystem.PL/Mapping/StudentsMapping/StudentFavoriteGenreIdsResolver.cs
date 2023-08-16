@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
-using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 
-namespace LibraryManagementSystem.PL.Mapping;
+namespace LibraryManagementSystem.PL.Mapping.StudentsMapping;
 
 
 public class StudentFavoriteGenreIdsResolver : IMemberValueResolver<StudentEntity, StudentDto, ICollection<StudentGenreEntity>, object>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
@@ -27,7 +28,7 @@ public class LanguageService : ILanguageService
 
     public async Task<LanguageDto?> GetLanguageByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         var languageEntity = await _languageRepository.GetLanguageByIdAsync(id);
         if (languageEntity is not null)
@@ -54,7 +55,7 @@ public class LanguageService : ILanguageService
 
     public async Task<bool> UpdateLanguageAsync(LanguageDto languageDto)
     {
-        ValidateId(languageDto.Id);
+        ValidationHelper.ValidateId(languageDto.Id);
             
         var languageEntity = _mapper.Map<LanguageEntity>(languageDto);
         return await _languageRepository.UpdateLanguageAsync(languageEntity);
@@ -64,7 +65,7 @@ public class LanguageService : ILanguageService
     {
         foreach (int id in languageIds)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
         }
         
         return await _languageRepository.DeleteLanguagesAsync(languageIds);
@@ -72,16 +73,8 @@ public class LanguageService : ILanguageService
 
     public async Task<bool> DeleteLanguageByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
 
         return await _languageRepository.DeleteLanguageByIdAsync(id);
-    }
-    
-    private void ValidateId(int id)
-    {
-        if (id < 1)
-        {
-            throw new ArgumentException("LanguageId cannot be negative or zero");
-        }
     }
 }

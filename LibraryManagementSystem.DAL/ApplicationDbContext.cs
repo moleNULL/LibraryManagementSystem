@@ -16,7 +16,7 @@ namespace LibraryManagementSystem.DAL
             : base(options)
         {
         }
-
+        
         public DbSet<BookEntity> Books { get; set; }
         public DbSet<LibrarianEntity> Librarians { get; set; }
         public DbSet<StudentEntity> Students { get; set; }

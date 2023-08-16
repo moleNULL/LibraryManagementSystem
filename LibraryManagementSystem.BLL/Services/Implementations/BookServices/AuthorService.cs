@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
@@ -26,7 +27,7 @@ public class AuthorService : IAuthorService
 
     public async Task<AuthorDto?> GetAuthorByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         var authorEntity = await _authorRepository.GetAuthorByIdAsync(id);
         if (authorEntity is not null)
@@ -55,7 +56,7 @@ public class AuthorService : IAuthorService
 
     public async Task<bool> UpdateAuthorAsync(AuthorDto authorDto)
     {
-        ValidateId(authorDto.Id);
+        ValidationHelper.ValidateId(authorDto.Id);
             
         var authorEntity = _mapper.Map<AuthorEntity>(authorDto);
         return await _authorRepository.UpdateAuthorAsync(authorEntity);
@@ -65,7 +66,7 @@ public class AuthorService : IAuthorService
     {
         foreach (int id in authorIds)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
         }
         
         return await _authorRepository.DeleteAuthorsAsync(authorIds);
@@ -73,16 +74,8 @@ public class AuthorService : IAuthorService
 
     public async Task<bool> DeleteAuthorByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
 
         return await _authorRepository.DeleteAuthorByIdAsync(id);
-    }
-    
-    private void ValidateId(int id)
-    {
-        if (id < 1)
-        {
-            throw new ArgumentException("AuthorId cannot be negative or zero");
-        }
     }
 }

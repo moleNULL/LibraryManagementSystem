@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
@@ -28,7 +29,7 @@ public class CityService : ICityService
 
     public async Task<CityDto?> GetCityByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         var cityEntity = await _cityRepository.GetCityByIdAsync(id);
         if (cityEntity is not null)
@@ -55,7 +56,7 @@ public class CityService : ICityService
 
     public async Task<bool> UpdateCityAsync(CityDto cityDto)
     {
-        ValidateId(cityDto.Id);
+        ValidationHelper.ValidateId(cityDto.Id);
             
         var cityEntity = _mapper.Map<CityEntity>(cityDto);
         return await _cityRepository.UpdateCityAsync(cityEntity);
@@ -65,7 +66,7 @@ public class CityService : ICityService
     {
         foreach (int id in cityIds)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
         }
         
         return await _cityRepository.DeleteCitiesAsync(cityIds);
@@ -73,16 +74,8 @@ public class CityService : ICityService
 
     public async Task<bool> DeleteCityByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
 
         return await _cityRepository.DeleteCityByIdAsync(id);        
-    }
-    
-    private void ValidateId(int id)
-    {
-        if (id < 1)
-        {
-            throw new ArgumentException("CityId cannot be negative or zero");
-        }
     }
 }

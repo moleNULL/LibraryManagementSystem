@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManagementSystem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230811184856_SecondMigration")]
-    partial class SecondMigration
+    [Migration("20230814174101_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1131,6 +1131,26 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Librarians", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "",
+                            EntryDate = new DateTime(2018, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Karina",
+                            LastName = "Kovalenko",
+                            PictureName = "karina_kovalenko.png"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "",
+                            EntryDate = new DateTime(2011, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Roman",
+                            LastName = "Zozylya",
+                            PictureName = "roman_zozylya.png"
+                        });
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.CityEntity", b =>
@@ -1149,6 +1169,58 @@ namespace LibraryManagementSystem.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cities", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Kyiv"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Kharkiv"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Poltava"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Lviv"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Dnipro"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Uzhgorod"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Ivano-Frankivsk"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Zaporizhzhia"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Kherson"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Sumy"
+                        });
                 });
 
             modelBuilder.Entity("LibraryManagementSystem.BLL.Models.Entities.StudentEntities.StudentEntity", b =>
@@ -1200,7 +1272,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                             Id = 1,
                             Address = "123 Taras Shevchenko Street, Kyiv",
                             Email = "christopher.anderson.test@gmail.com",
-                            EntryDate = new DateTime(2023, 8, 11, 21, 48, 55, 943, DateTimeKind.Local).AddTicks(453),
+                            EntryDate = new DateTime(2014, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Christopher",
                             LastName = "Anderson",
                             PictureName = "christopher_anderson.png"
@@ -1210,7 +1282,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                             Id = 2,
                             Address = "56 Petro Sahaidachny Street, Poltava",
                             Email = "john.mitchell.library@gmail.com",
-                            EntryDate = new DateTime(2023, 8, 10, 21, 48, 55, 943, DateTimeKind.Local).AddTicks(517),
+                            EntryDate = new DateTime(2016, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "John",
                             LastName = "Mitchell",
                             PictureName = "john_mitchell.png"
@@ -1220,7 +1292,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                             Id = 3,
                             Address = "89 Lesya Ukrainka, Kharkiv",
                             Email = "michael.williams.library@gmail.com",
-                            EntryDate = new DateTime(2023, 8, 9, 21, 48, 55, 943, DateTimeKind.Local).AddTicks(524),
+                            EntryDate = new DateTime(2019, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Michael",
                             LastName = "Williams",
                             PictureName = "michael_williams.png"
@@ -1236,6 +1308,8 @@ namespace LibraryManagementSystem.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("StudentId", "GenreId");
+
+                    b.HasIndex("GenreId");
 
                     b.ToTable("StudentGenres", (string)null);
 
@@ -1418,7 +1492,7 @@ namespace LibraryManagementSystem.DAL.Migrations
                 {
                     b.HasOne("LibraryManagementSystem.BLL.Models.Entities.BookEntities.GenreEntity", "Genre")
                         .WithMany("StudentGenres")
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

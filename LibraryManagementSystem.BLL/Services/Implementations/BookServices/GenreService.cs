@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
@@ -27,7 +28,7 @@ public class GenreService : IGenreService
 
     public async Task<GenreDto?> GetGenreByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
         
         var genreEntity = await _genreRepository.GetGenreByIdAsync(id);
         if (genreEntity is not null)
@@ -54,7 +55,7 @@ public class GenreService : IGenreService
 
     public async Task<bool> UpdateGenreAsync(GenreDto genreDto)
     {
-        ValidateId(genreDto.Id);
+        ValidationHelper.ValidateId(genreDto.Id);
             
         var genreEntity = _mapper.Map<GenreEntity>(genreDto);
         return await _genreRepository.UpdateGenreAsync(genreEntity);
@@ -64,7 +65,7 @@ public class GenreService : IGenreService
     {
         foreach (int id in genreIds)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
         }
         
         return await _genreRepository.DeleteGenresAsync(genreIds);
@@ -72,16 +73,8 @@ public class GenreService : IGenreService
 
     public async Task<bool> DeleteGenreByIdAsync(int id)
     {
-        ValidateId(id);
+        ValidationHelper.ValidateId(id);
 
         return await _genreRepository.DeleteGenreByIdAsync(id);
-    }
-    
-    private void ValidateId(int id)
-    {
-        if (id < 1)
-        {
-            throw new ArgumentException("GenreId cannot be negative or zero");
-        }
     }
 }

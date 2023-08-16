@@ -18,13 +18,22 @@ public class StudentRepository : IStudentRepository
     public async Task<IEnumerable<StudentEntity>> GetStudentsAsync()
     {
         return await _dbContext.Students
-            .Include(s => s.StudentGenres)
+            .Include(student => student.StudentGenres)
             .ToListAsync();
     }
 
     public async Task<StudentEntity?> GetStudentByIdAsync(int id)
     {
-        return await _dbContext.Students.FirstOrDefaultAsync(student => student.Id == id);
+        return await _dbContext.Students
+            .Include(student => student.StudentGenres)
+            .FirstOrDefaultAsync(student => student.Id == id);
+    }
+
+    public async Task<StudentEntity?> GetStudentByEmailAsync(string email)
+    {
+        return await _dbContext.Students
+            .Include(student => student.StudentGenres)
+            .FirstOrDefaultAsync(student => student.Email == email);
     }
 
     public async Task<int> AddStudentAsync(StudentEntity studentEntity)

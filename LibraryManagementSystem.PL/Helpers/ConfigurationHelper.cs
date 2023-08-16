@@ -10,5 +10,14 @@
                 .Build()
                 .GetConnectionString("DbConnection");
         }
+
+        public static string GetGoogleAuthClientId()
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(path: "appsettings.json", optional: true, reloadOnChange: true)
+                .Build()
+                .GetValue<string>("Authentication:GoogleClientId")!;
+        }
     }
 }

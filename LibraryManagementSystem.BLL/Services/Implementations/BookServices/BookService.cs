@@ -1,20 +1,27 @@
 ﻿using AutoMapper;
+using LibraryManagementSystem.BLL.Helpers;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.BookRepositoryInterfaces;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
+using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
 
 namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
 {
     public class BookService : IBookService
     {
-        private readonly IBookRepository _bookRepository;
         private readonly IMapper _mapper;
+        private readonly IBookRepository _bookRepository;
+        private readonly IStudentService _studentService;
 
-        public BookService(IBookRepository bookRepository, IMapper mapper)
+        public BookService(
+            IMapper mapper, 
+            IBookRepository bookRepository, 
+            IStudentService studentService)
         {
-            _bookRepository = bookRepository;
             _mapper = mapper;
+            _bookRepository = bookRepository;
+            _studentService = studentService;
         }
 
         public async Task<IEnumerable<BookSimpleDto>> GetBooksAsync()
@@ -25,9 +32,26 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
             return booksSimpleDto;
         }
 
+        public async Task<IEnumerable<BookSimpleDto>> GetBooksFilteredByRoleAsync(string email)
+        {
+            var booksEntity = await _bookRepository.GetBooksAsync();
+            
+            var booksSimpleDto = _mapper.Map<IEnumerable<BookSimpleDto>>(booksEntity);
+            var studentDto = await _studentService.GetStudentByEmailAsync(email);
+
+            var booksFilteredDto = booksSimpleDto
+                .Where(book => 
+                    book.GenreIds
+                        .Any(genreId => 
+                            studentDto!.FavoriteGenreIds
+                                .Contains(genreId)));
+
+            return booksFilteredDto;
+        }
+
         public async Task<BookDto?> GetBookByIdAsync(int id)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
 
             var bookEntity = await _bookRepository.GetBookByIdAsync(id);
             if (bookEntity is not null)
@@ -55,7 +79,7 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
 
         public async Task<bool> UpdateBookAsync(BookDto bookDto)
         {
-            ValidateId(bookDto.Id);
+            ValidationHelper.ValidateId(bookDto.Id);
             
             var bookEntity = _mapper.Map<BookEntity>(bookDto);
             return await _bookRepository.UpdateBookAsync(bookEntity);
@@ -65,7 +89,7 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
         {
             foreach (int id in bookIds)
             {
-                ValidateId(id);
+                ValidationHelper.ValidateId(id);
             }
             
             return await _bookRepository.DeleteBooksAsync(bookIds);
@@ -73,17 +97,9 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
 
         public async Task<bool> DeleteBookByIdAsync(int id)
         {
-            ValidateId(id);
+            ValidationHelper.ValidateId(id);
 
             return await _bookRepository.DeleteBookByIdAsync(id);
-        }
-        
-        private void ValidateId(int id)
-        {
-            if (id < 1)
-            {
-                throw new ArgumentException("BookId cannot be negative or zero");
-            }
         }
     }
 }

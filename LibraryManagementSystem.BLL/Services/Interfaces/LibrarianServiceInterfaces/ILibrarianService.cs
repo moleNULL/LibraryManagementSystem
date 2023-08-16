@@ -6,6 +6,7 @@ public interface ILibrarianService
 {
     Task<IEnumerable<LibrarianDto>> GetLibrariansAsync();
     Task<LibrarianDto?> GetLibrarianByIdAsync(int id);
+    Task<LibrarianDto?> GetLibrarianByEmailAsync(string email);
     Task<int> AddLibrarianAsync(LibrarianDto librarianDto);
     Task<bool> UpdateLibrarianAsync(LibrarianDto librarianDto);
     Task<bool> DeleteLibrariansAsync(IEnumerable<int> librarianIds);

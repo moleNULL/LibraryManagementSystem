@@ -4,7 +4,7 @@ using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace LibraryManagementSystem.PL
+namespace LibraryManagementSystem.PL.Validators
 {
     public class GoogleTokenValidator : ISecurityTokenValidator
     {
