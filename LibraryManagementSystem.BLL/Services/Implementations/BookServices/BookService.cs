@@ -68,8 +68,9 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
             var bookEntity = _mapper.Map<BookEntity>(bookDto);
             var booksInDbEntity = await _bookRepository.GetBooksAsync();
 
-            if (!booksInDbEntity.Any(
-                bid => bid.Title == bookEntity.Title && bid.AuthorId == bookEntity.AuthorId))
+            if (!booksInDbEntity.Any(bid => 
+                    bid.Title == bookEntity.Title && 
+                    bid.AuthorId == bookEntity.AuthorId))
             {
                 return await _bookRepository.AddBookAsync(bookEntity);
             }
