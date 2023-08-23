@@ -31,7 +31,7 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
 
             return booksSimpleDto;
         }
-
+        
         public async Task<IEnumerable<BookSimpleDto>> GetBooksFilteredByRoleAsync(string email)
         {
             var booksEntity = await _bookRepository.GetBooksAsync();

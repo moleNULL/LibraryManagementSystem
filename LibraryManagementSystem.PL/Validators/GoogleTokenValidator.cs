@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.PL.Validators
                 {
                     new Claim(ClaimTypes.NameIdentifier, payload.Email),
                     new Claim(ClaimTypes.Name, payload.Email),
-                    new Claim(JwtRegisteredClaimNames.FamilyName, payload.FamilyName),
+                    new Claim(JwtRegisteredClaimNames.FamilyName, payload.FamilyName ?? ""),
                     new Claim(JwtRegisteredClaimNames.GivenName, payload.GivenName),
                     new Claim(JwtRegisteredClaimNames.Email, payload.Email),
                     new Claim(JwtRegisteredClaimNames.Name, payload.Name),

@@ -14,8 +14,8 @@ public class BookServiceTests
     private readonly IBookService _bookService;
     
     private readonly IMapper _mapper;
-    private readonly Mock<IBookRepository> _bookRepository;
-    private readonly Mock<IStudentService> _studentService;
+    private readonly Mock<IBookRepository> _mockedBookRepository;
+    private readonly Mock<IStudentService> _mockedStudentService;
 
     public BookServiceTests()
     {
@@ -25,10 +25,10 @@ public class BookServiceTests
         });
         _mapper = mapperConfig.CreateMapper();
         
-        _bookRepository = new Mock<IBookRepository>();
-        _studentService = new Mock<IStudentService>();
+        _mockedBookRepository = new Mock<IBookRepository>();
+        _mockedStudentService = new Mock<IStudentService>();
 
-        _bookService = new BookService(_mapper, _bookRepository.Object, _studentService.Object);
+        _bookService = new BookService(_mapper, _mockedBookRepository.Object, _mockedStudentService.Object);
     }
     
     [Fact]
@@ -39,34 +39,35 @@ public class BookServiceTests
         var expectedBooksEntity = 
             BooksFakeDataGenerator.GenerateBooksEntity(objectNumbersToGenerate);
 
-        _bookRepository.Setup(b => b.GetBooksAsync())
+        _mockedBookRepository.Setup(b => b.GetBooksAsync())
             .ReturnsAsync(expectedBooksEntity);
+
+        var expectedBooksDto = 
+            _mapper.Map<IEnumerable<BookEntity>, IEnumerable<BookSimpleDto>>(expectedBooksEntity);
         
         // Act
         var result = await _bookService.GetBooksAsync();
         
         // Assert
-        result.Should().NotBeNull();
-        result.Should().NotBeEmpty();
+        result.Should().NotBeNullOrEmpty();
         result.Should().HaveCount(objectNumbersToGenerate);
-        result.Select(b => b.Description).Should().NotBeNull();
-        result.Select(b => b.GenreIds).Should().NotBeNull();
-        result.Select(b => b.GenreIds).Should().NotBeEmpty();
+        result.Should().BeEquivalentTo(expectedBooksDto);
+        result.Select(b => b.GenreIds).Should().NotBeNullOrEmpty();
     }
 
     [Fact]
     public async Task GetBooksAsync_ShouldHandleEmptyList()
     {
         // Arrange
-        _bookRepository.Setup(b => b.GetBooksAsync())
+        _mockedBookRepository.Setup(b => b.GetBooksAsync())
             .ReturnsAsync(new List<BookEntity>());
         
         // Act
         var result = await _bookService.GetBooksAsync();
 
         // Assert
-        result.Should().NotBeNull();
         result.Should().BeEmpty();
+        result.Should().NotBeNull();
     }
 
     [Theory]
@@ -80,22 +81,26 @@ public class BookServiceTests
             BooksFakeDataGenerator.GenerateBooksEntity(objectNumbersToGenerate);
         var expectedStudentDto = StudentFakeDataGenerator.GenerateStudentDto();
 
-        _bookRepository.Setup(b => b.GetBooksAsync())
+        _mockedBookRepository.Setup(b => b.GetBooksAsync())
             .ReturnsAsync(expectedBooksEntity);
-        _studentService.Setup(s => s.GetStudentByEmailAsync(email))
+        _mockedStudentService.Setup(s => s.GetStudentByEmailAsync(email))
             .ReturnsAsync(expectedStudentDto);
+
+        var expectedBooksDto =
+            _mapper.Map<IEnumerable<BookEntity>, IEnumerable<BookSimpleDto>>(expectedBooksEntity);
         
         // Act
         var result = await _bookService.GetBooksFilteredByRoleAsync(email);
 
         // Assert
-        result.Should().NotBeNull();
-        result.Should().NotBeEmpty();
-        result.Select(b => b.GenreIds).Should().NotBeEmpty();
+        result.Should().NotBeNullOrEmpty();
+        result.Should().BeEquivalentTo(expectedBooksDto);
+        result.Select(b => b.GenreIds).Should().NotBeNullOrEmpty();
     }
 
     [Theory]
     [InlineData("unauthorized@gmail.com")]
+    [InlineData("unauthenticated@gmail.com")]
     public async Task GetBooksFilteredByRoleAsync_ShouldHandleEmptyFavoriteGenres(string email)
     {
         // Arrange
@@ -106,10 +111,13 @@ public class BookServiceTests
         var expectedStudentDto = StudentFakeDataGenerator.GenerateStudentDto();
         expectedStudentDto.FavoriteGenreIds = Array.Empty<int>();
 
-        _bookRepository.Setup(b => b.GetBooksAsync())
+        _mockedBookRepository.Setup(b => b.GetBooksAsync())
             .ReturnsAsync(expectedBooksEntity);
-        _studentService.Setup(s => s.GetStudentByEmailAsync(email))
+        _mockedStudentService.Setup(s => s.GetStudentByEmailAsync(email))
             .ReturnsAsync(expectedStudentDto);
+        
+        var expectedBooksDto =
+            _mapper.Map<IEnumerable<BookEntity>, IEnumerable<BookSimpleDto>>(expectedBooksEntity);
         
         // Act
         var result = await _bookService.GetBooksFilteredByRoleAsync(email);
@@ -117,6 +125,61 @@ public class BookServiceTests
         // Assert
         result.Should().BeEmpty();
         result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(expectedBooksDto);
+    }
+    
+    [Theory]
+    [InlineData(5)]
+    [InlineData(15)]
+    public async Task GetBookByIdAsync_ShouldRetrieveAndMapBook(int bookId)
+    {
+        // Arrange
+        var expectedBookEntity = BooksFakeDataGenerator.GenerateFakerBookEntity().Generate();
+        expectedBookEntity.Id = bookId;
+
+        _mockedBookRepository.Setup(b => b.GetBookByIdAsync(bookId))
+            .ReturnsAsync(expectedBookEntity);
+
+        var expectedBookDto = _mapper.Map<BookEntity, BookDto>(expectedBookEntity);
+        
+        // Act
+        var result = await _bookService.GetBookByIdAsync(bookId);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.Id.Should().Be(bookId);
+        result.Should().BeEquivalentTo(expectedBookDto);
+    }
+
+    [Theory]
+    [InlineData(-5)]
+    [InlineData(0)]
+    public void GetBookByIdAsync_ShouldThrowException_IfInvalidId(int bookId)
+    {
+        // Arrange
+        
+        // Act
+        Func<Task> act = async () => await _bookService.GetBookByIdAsync(bookId);
+
+        // Assert
+        act.Should().ThrowAsync<ArgumentException>().WithMessage("Id cannot be negative or zero");
+    }
+
+    [Fact]
+    public async Task GetBookByIdAsync_ShouldReturnNull_IfBookEntityNotFound()
+    {
+        // Arrange
+        BookEntity? expectedBookEntity = null;
+        int bookId = new Random().Next(1, 2000); // must be non-negative
+
+        _mockedBookRepository.Setup(b => b.GetBookByIdAsync(bookId))
+            .ReturnsAsync(expectedBookEntity);
+        
+        // Act
+        var result = await _bookService.GetBookByIdAsync(bookId);
+
+        // Assert
+        result.Should().BeNull();
     }
 
     [Fact]
@@ -129,8 +192,8 @@ public class BookServiceTests
 
         var expectedBooksEntity = BooksFakeDataGenerator.GenerateBooksEntity(objectNumbersToGenerate);
         
-        _bookRepository.Setup(b => b.GetBooksAsync()).ReturnsAsync(expectedBooksEntity);
-        _bookRepository.Setup(b => b.AddBookAsync(It.IsAny<BookEntity>()))
+        _mockedBookRepository.Setup(b => b.GetBooksAsync()).ReturnsAsync(expectedBooksEntity);
+        _mockedBookRepository.Setup(b => b.AddBookAsync(It.IsAny<BookEntity>()))
             .ReturnsAsync(expectedInsertedId);
 
         // Act
@@ -163,7 +226,7 @@ public class BookServiceTests
         bool expectedUpdateResult = true;
         var bookDto = BooksFakeDataGenerator.GenerateBookDto();
 
-        _bookRepository.Setup(b => b.UpdateBookAsync(It.IsAny<BookEntity>()))
+        _mockedBookRepository.Setup(b => b.UpdateBookAsync(It.IsAny<BookEntity>()))
             .ReturnsAsync(expectedUpdateResult);
         
         // Act
@@ -180,7 +243,7 @@ public class BookServiceTests
         bool expectedUpdateResult = false;
         var bookDto = BooksFakeDataGenerator.GenerateBookDto();
 
-        _bookRepository.Setup(b => b.UpdateBookAsync(It.IsAny<BookEntity>()))
+        _mockedBookRepository.Setup(b => b.UpdateBookAsync(It.IsAny<BookEntity>()))
             .ReturnsAsync(expectedUpdateResult);
         
         // Act
@@ -211,7 +274,7 @@ public class BookServiceTests
         var bookIds = new List<int> { 1, 3, 5 };
         bool expectedDeleteResult = true;
 
-        _bookRepository.Setup(b => b.DeleteBooksAsync(bookIds))
+        _mockedBookRepository.Setup(b => b.DeleteBooksAsync(bookIds))
             .ReturnsAsync(expectedDeleteResult);
         
         // Act
@@ -228,7 +291,7 @@ public class BookServiceTests
         var bookIds = new List<int> { 505, 666, 10004 };
         bool expectedDeleteResult = false;
 
-        _bookRepository.Setup(b => b.DeleteBooksAsync(bookIds))
+        _mockedBookRepository.Setup(b => b.DeleteBooksAsync(bookIds))
             .ReturnsAsync(expectedDeleteResult);
         
         // Act
@@ -251,14 +314,16 @@ public class BookServiceTests
         act.Should().ThrowAsync<ArgumentException>().WithMessage("Id cannot be negative or zero");
     }
 
-    [Fact]
-    public async Task DeleteBookByIdAsync_ShouldReturnTrue_IfBooksWereDeleted()
+    [Theory]
+    [InlineData(3)]
+    [InlineData(10)]
+    [InlineData(19)]
+    public async Task DeleteBookByIdAsync_ShouldReturnTrue_IfBooksWereDeleted(int bookId)
     {
         // Arrange
-        int bookId = 13;
         bool expectedDeleteResult = true;
 
-        _bookRepository.Setup(b => b.DeleteBookByIdAsync(bookId))
+        _mockedBookRepository.Setup(b => b.DeleteBookByIdAsync(bookId))
             .ReturnsAsync(expectedDeleteResult);
 
         // Act
@@ -268,14 +333,15 @@ public class BookServiceTests
         result.Should().BeTrue();
     }
     
-    [Fact]
-    public async Task DeleteBookByIdAsync_ShouldReturnFalse_IfBooksWerentDeleted()
+    [Theory]
+    [InlineData(666)]
+    [InlineData(1000)]
+    public async Task DeleteBookByIdAsync_ShouldReturnFalse_IfBooksWerentDeleted(int bookId)
     {
         // Arrange
-        int bookId = 666;
         bool expectedDeleteResult = false;
 
-        _bookRepository.Setup(b => b.DeleteBookByIdAsync(bookId))
+        _mockedBookRepository.Setup(b => b.DeleteBookByIdAsync(bookId))
             .ReturnsAsync(expectedDeleteResult);
 
         // Act
@@ -285,11 +351,13 @@ public class BookServiceTests
         result.Should().BeFalse();
     }
     
-    [Fact]
-    public void DeleteBookByIdAsync_ShouldThrowException_IfInvalidId()
+    [Theory]
+    [InlineData(-50)]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public void DeleteBookByIdAsync_ShouldThrowException_IfInvalidId(int bookId)
     {
         // Arrange
-        int bookId = -1;
         
         // Act
         Func<Task> act = async () => await _bookService.DeleteBookByIdAsync(bookId);
