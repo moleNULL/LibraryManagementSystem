@@ -1,6 +1,7 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels;
-
-public class CityDeleteViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels
 {
-    public IEnumerable<int> CityIds { get; set; } = new List<int>();
+    public class CityDeleteViewModel
+    {
+        public IEnumerable<int> CityIds { get; set; } = new List<int>();
+    }
 }

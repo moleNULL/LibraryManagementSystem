@@ -2,17 +2,18 @@ using AutoMapper;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.PL.Mapping.BooksMapping;
-
-public class BookGenresResolver : IMemberValueResolver<BookDto, BookEntity, IEnumerable<int>, object>
+namespace LibraryManagementSystem.PL.Mapping.BooksMapping
 {
-    public object Resolve(BookDto source, BookEntity destination, 
-        IEnumerable<int> sourceMember, object destMember, ResolutionContext context)
+    public class BookGenresResolver : IMemberValueResolver<BookDto, BookEntity, IEnumerable<int>, object>
     {
-        return source.GenreIds.Select(id => new BookGenreEntity
+        public object Resolve(BookDto source, BookEntity destination, 
+            IEnumerable<int> sourceMember, object destMember, ResolutionContext context)
         {
-            BookId = source.Id,
-            GenreId = id,
-        }).ToList();
+            return source.GenreIds.Select(id => new BookGenreEntity
+            {
+                BookId = source.Id,
+                GenreId = id,
+            }).ToList();
+        }
     }
 }

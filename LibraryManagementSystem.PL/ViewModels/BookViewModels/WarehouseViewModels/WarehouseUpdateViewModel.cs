@@ -1,7 +1,8 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
-
-public class WarehouseUpdateViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels
 {
-    public decimal Price { get; set; }
-    public int Quantity { get; set; }
+    public class WarehouseUpdateViewModel
+    {
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+    }
 }

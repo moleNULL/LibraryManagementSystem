@@ -2,22 +2,23 @@
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.PL.Mapping.BooksMapping;
-
-public class BookDescriptionResolver : IMemberValueResolver<BookDto, BookEntity, string?, object?>
+namespace LibraryManagementSystem.PL.Mapping.BooksMapping
 {
-    public object? Resolve(BookDto source, BookEntity destination, 
-        string? sourceMember, object? destMember, ResolutionContext context)
+    public class BookDescriptionResolver : IMemberValueResolver<BookDto, BookEntity, string?, object?>
     {
-        if (source.Description is not null)
+        public object? Resolve(BookDto source, BookEntity destination, 
+            string? sourceMember, object? destMember, ResolutionContext context)
         {
-            return new DescriptionEntity()
+            if (source.Description is not null)
             {
-                BookId = source.Id,
-                Description = source.Description
-            };    
-        }
+                return new DescriptionEntity()
+                {
+                    BookId = source.Id,
+                    Description = source.Description
+                };    
+            }
 
-        return null;
+            return null;
+        }
     }
 }

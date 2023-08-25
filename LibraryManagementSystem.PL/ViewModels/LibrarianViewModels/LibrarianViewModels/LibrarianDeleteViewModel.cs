@@ -1,6 +1,7 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.LibrarianViewModels.LibrarianViewModels;
-
-public class LibrarianDeleteViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.LibrarianViewModels.LibrarianViewModels
 {
-    public IEnumerable<int> LibrarianIds { get; set; } = new List<int>();
+    public class LibrarianDeleteViewModel
+    {
+        public IEnumerable<int> LibrarianIds { get; set; } = new List<int>();
+    }
 }

@@ -28,7 +28,7 @@ namespace LibraryManagementSystem.PL.Validators
 
         public ClaimsPrincipal ValidateToken(string securityToken, TokenValidationParameters validationParameters, out SecurityToken validatedToken)
         {
-            validatedToken = null;
+            validatedToken = null!;
             try
             {
                 var payload = GoogleJsonWebSignature.ValidateAsync(securityToken, new GoogleJsonWebSignature.ValidationSettings()

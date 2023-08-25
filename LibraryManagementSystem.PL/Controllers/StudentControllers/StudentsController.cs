@@ -6,142 +6,143 @@ using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
 using LibraryManagementSystem.PL.ViewModels.StudentViewModels.StudentViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryManagementSystem.PL.Controllers.StudentControllers;
-
-[Route("api/v1/students")]
-[ApiController]
-public class StudentsController : ControllerBase
+namespace LibraryManagementSystem.PL.Controllers.StudentControllers
 {
-    private readonly IMapper _mapper;
-    private readonly IStudentService _studentService;
+    [Route("api/v1/students")]
+    [ApiController]
+    public class StudentsController : ControllerBase
+    {
+        private readonly IMapper _mapper;
+        private readonly IStudentService _studentService;
 
-    public StudentsController(IMapper mapper, IStudentService studentService)
-    {
-        _mapper = mapper;
-        _studentService = studentService;
-    }
-    
-    [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<StudentViewModel>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> Get()
-    {
-        try
+        public StudentsController(IMapper mapper, IStudentService studentService)
         {
-            var studentsDto = await _studentService.GetStudentsAsync();
-            var studentsViewModel = _mapper.Map<IEnumerable<StudentViewModel>>(studentsDto);
-
-            return Ok(studentsViewModel);    
+            _mapper = mapper;
+            _studentService = studentService;
         }
-        catch (Exception ex)
-        {
-            return StatusCode(
-                (int)HttpStatusCode.InternalServerError, 
-                $"An error occurred while fetching students: {ex.Message}");
-        }
-    }
     
-    [HttpGet("{id:int}")]
-    [ProducesResponseType(typeof(StudentViewModel), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> Get(int id)
-    {
-        try
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<StudentViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Get()
         {
-            var studentDto = await _studentService.GetStudentByIdAsync(id);
-            if (studentDto is not null)
+            try
             {
-                var studentViewModel = _mapper.Map<StudentDto, StudentViewModel>(studentDto);
-                return Ok(studentViewModel);
+                var studentsDto = await _studentService.GetStudentsAsync();
+                var studentsViewModel = _mapper.Map<IEnumerable<StudentViewModel>>(studentsDto);
+
+                return Ok(studentsViewModel);    
             }
-
-            return NotFound($"There is no student with id: {id}");
+            catch (Exception ex)
+            {
+                return StatusCode(
+                    (int)HttpStatusCode.InternalServerError, 
+                    $"An error occurred while fetching students: {ex.Message}");
+            }
         }
-        catch (ArgumentException ex)
+    
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(StudentViewModel), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> Get(int id)
         {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the student");
-        }
-    }
+            try
+            {
+                var studentDto = await _studentService.GetStudentByIdAsync(id);
+                if (studentDto is not null)
+                {
+                    var studentViewModel = _mapper.Map<StudentDto, StudentViewModel>(studentDto);
+                    return Ok(studentViewModel);
+                }
 
-    [HttpPost]
-    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Add(StudentAddViewModel studentToAddViewModel)
-    {
-        var studentDto = _mapper.Map<StudentAddViewModel, StudentDto>(studentToAddViewModel);
+                return NotFound($"There is no student with id: {id}");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the student");
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Add(StudentAddViewModel studentToAddViewModel)
+        {
+            var studentDto = _mapper.Map<StudentAddViewModel, StudentDto>(studentToAddViewModel);
         
-        try
-        {
-            int insertedId = await _studentService.AddStudentAsync(studentDto);
-            return Ok(insertedId);
+            try
+            {
+                int insertedId = await _studentService.AddStudentAsync(studentDto);
+                return Ok(insertedId);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
-    [HttpPut("{id:int}")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Update(int id, StudentUpdateViewModel studentToUpdateViewModel)
-    {
-        var studentDto = _mapper.Map<StudentDto>(studentToUpdateViewModel);
-        studentDto.Id = id;
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Update(int id, StudentUpdateViewModel studentToUpdateViewModel)
+        {
+            var studentDto = _mapper.Map<StudentDto>(studentToUpdateViewModel);
+            studentDto.Id = id;
 
-        try
-        {
-            bool isUpdated = await _studentService.UpdateStudentAsync(studentDto);
-            return Ok(isUpdated);
+            try
+            {
+                bool isUpdated = await _studentService.UpdateStudentAsync(studentDto);
+                return Ok(isUpdated);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (NotFoundException ex)
-        {
-            return NotFound(ex.Message);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
-    [HttpDelete]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Delete(StudentDeleteViewModel studentsToDeleteViewModel)
-    {
-        var studentIds = studentsToDeleteViewModel.StudentIds;
+        [HttpDelete]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Delete(StudentDeleteViewModel studentsToDeleteViewModel)
+        {
+            var studentIds = studentsToDeleteViewModel.StudentIds;
 
-        try
-        {
-            bool areDeleted = await _studentService.DeleteStudentsAsync(studentIds);
-            return Ok(areDeleted);   
+            try
+            {
+                bool areDeleted = await _studentService.DeleteStudentsAsync(studentIds);
+                return Ok(areDeleted);   
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
-    [HttpDelete("{id:int}")]
-    [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> Delete(int id)
-    {
-        try
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Delete(int id)
         {
-            bool isUpdated = await _studentService.DeleteStudentByIdAsync(id);
-            return Ok(isUpdated);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
+            try
+            {
+                bool isUpdated = await _studentService.DeleteStudentByIdAsync(id);
+                return Ok(isUpdated);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

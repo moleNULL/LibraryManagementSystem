@@ -5,39 +5,40 @@ using LibraryManagementSystem.PL.Mapping.StudentsMapping;
 using LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels;
 using LibraryManagementSystem.PL.ViewModels.StudentViewModels.StudentViewModels;
 
-namespace LibraryManagementSystem.PL.Mapping;
-
-public class MappingStudentsProfile : Profile
+namespace LibraryManagementSystem.PL.Mapping
 {
-    public MappingStudentsProfile()
+    public class MappingStudentsProfile : Profile
     {
-        MapStudents();
-        MapCities();
-    }
-    
-    private void MapStudents()
-    {
-        CreateMap<StudentEntity, StudentDto>().ForMember("FavoriteGenreIds", options =>
+        public MappingStudentsProfile()
         {
-            options.MapFrom<StudentFavoriteGenreIdsResolver, ICollection<StudentGenreEntity>>(studentEntity => studentEntity.StudentGenres);
-        });
-            
-        CreateMap<StudentDto, StudentEntity>()
-            .ForMember("StudentGenres", options =>
+            MapStudents();
+            MapCities();
+        }
+    
+        private void MapStudents()
+        {
+            CreateMap<StudentEntity, StudentDto>().ForMember("FavoriteGenreIds", options =>
             {
-                options.MapFrom<StudentGenresResolver, IEnumerable<int>>(studentDto => studentDto.FavoriteGenreIds);
+                options.MapFrom<StudentFavoriteGenreIdsResolver, ICollection<StudentGenreEntity>>(studentEntity => studentEntity.StudentGenres);
             });
             
-        CreateMap<StudentDto, StudentViewModel>();
-        CreateMap<StudentAddViewModel, StudentDto>();
-        CreateMap<StudentUpdateViewModel, StudentDto>();
-    }
+            CreateMap<StudentDto, StudentEntity>()
+                .ForMember("StudentGenres", options =>
+                {
+                    options.MapFrom<StudentGenresResolver, IEnumerable<int>>(studentDto => studentDto.FavoriteGenreIds);
+                });
+            
+            CreateMap<StudentDto, StudentViewModel>();
+            CreateMap<StudentAddViewModel, StudentDto>();
+            CreateMap<StudentUpdateViewModel, StudentDto>();
+        }
 
-    private void MapCities()
-    {
-        CreateMap<CityEntity, CityDto>().ReverseMap();
-        CreateMap<CityDto, CityViewModel>();
-        CreateMap<CityAddViewModel, CityDto>();
-        CreateMap<CityUpdateViewModel, CityDto>();
+        private void MapCities()
+        {
+            CreateMap<CityEntity, CityDto>().ReverseMap();
+            CreateMap<CityDto, CityViewModel>();
+            CreateMap<CityAddViewModel, CityDto>();
+            CreateMap<CityUpdateViewModel, CityDto>();
+        }
     }
 }

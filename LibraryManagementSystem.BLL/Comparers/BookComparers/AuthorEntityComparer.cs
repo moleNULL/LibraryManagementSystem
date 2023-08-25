@@ -1,33 +1,34 @@
 ﻿using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.BLL.Comparers.BookComparers;
-
-public class AuthorEntityComparer : IEqualityComparer<AuthorEntity>
+namespace LibraryManagementSystem.BLL.Comparers.BookComparers
 {
-    public bool Equals(AuthorEntity? x, AuthorEntity? y)
+    public class AuthorEntityComparer : IEqualityComparer<AuthorEntity>
     {
-        if (x == y)
+        public bool Equals(AuthorEntity? x, AuthorEntity? y)
         {
-            return true;
+            if (x == y)
+            {
+                return true;
+            }
+
+            if (x is null)
+            {
+                return false;
+            }
+
+            if (y is null)
+            {
+                return false;
+            }
+
+            return x.Id == y.Id && 
+                   x.FirstName == y.FirstName && 
+                   x.LastName == y.LastName;
         }
 
-        if (x is null)
+        public int GetHashCode(AuthorEntity obj)
         {
-            return false;
+            return HashCode.Combine(obj.Id, obj.FirstName, obj.LastName);
         }
-
-        if (y is null)
-        {
-            return false;
-        }
-
-        return x.Id == y.Id && 
-               x.FirstName == y.FirstName && 
-               x.LastName == y.LastName;
-    }
-
-    public int GetHashCode(AuthorEntity obj)
-    {
-        return HashCode.Combine(obj.Id, obj.FirstName, obj.LastName);
     }
 }

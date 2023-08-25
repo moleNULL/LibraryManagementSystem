@@ -9,21 +9,21 @@ using LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.PublisherViewModels;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.WarehouseViewModels;
 
-namespace LibraryManagementSystem.PL.Mapping;
-
-public class MappingBooksProfile : Profile
+namespace LibraryManagementSystem.PL.Mapping
 {
-    public MappingBooksProfile()
+    public class MappingBooksProfile : Profile
     {
-        MapAuthors();
-        MapBooks();
-        MapGenres();
-        MapLanguages();
-        MapPublishers();
-        MapWarehouses();
-    }
+        public MappingBooksProfile()
+        {
+            MapAuthors();
+            MapBooks();
+            MapGenres();
+            MapLanguages();
+            MapPublishers();
+            MapWarehouses();
+        }
     
-    private void MapAuthors()
+        private void MapAuthors()
         {
             CreateMap<AuthorEntity, AuthorDto>().ReverseMap();
             CreateMap<AuthorEntity, AuthorSimpleDto>()
@@ -45,14 +45,14 @@ public class MappingBooksProfile : Profile
                 {
                     options.MapFrom(bookEntity => bookEntity.BookGenres.Select(bg => bg.GenreId));
                 })
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description.Description));
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description!.Description));
             
             CreateMap<BookEntity, BookDto>()
                 .ForMember("GenreIds", options =>
                 {
                     options.MapFrom<BookGenreIdsResolver, ICollection<BookGenreEntity>>(bookEntity => bookEntity.BookGenres);
                 })
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description.Description));
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description!.Description));
             
             CreateMap<BookDto, BookEntity>()
                 .ForMember("BookGenres", options =>
@@ -100,4 +100,5 @@ public class MappingBooksProfile : Profile
             CreateMap<WarehouseAddViewModel, WarehouseDto>();
             CreateMap<WarehouseUpdateViewModel, WarehouseDto>();
         }
+    }
 }

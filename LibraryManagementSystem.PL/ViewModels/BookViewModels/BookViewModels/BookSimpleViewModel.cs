@@ -1,12 +1,13 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels;
-
-public class BookSimpleViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels
 {
-    public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public int Year { get; set; }
-    public string? Description { get; set; }
+    public class BookSimpleViewModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public int Year { get; set; }
+        public string? Description { get; set; }
     
-    public int AuthorId { get; set; }
-    public IEnumerable<int> GenreIds { get; set; } = new List<int>();
+        public int AuthorId { get; set; }
+        public IEnumerable<int> GenreIds { get; set; } = new List<int>();
+    }
 }

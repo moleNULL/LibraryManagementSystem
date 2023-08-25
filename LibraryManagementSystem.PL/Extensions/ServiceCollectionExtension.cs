@@ -11,46 +11,47 @@ using LibraryManagementSystem.DAL.Repositories;
 using LibraryManagementSystem.DAL.Repositories.BookRepositories;
 using LibraryManagementSystem.DAL.Repositories.StudentRepositories;
 
-namespace LibraryManagementSystem.PL.Extensions;
-
-public static class ServiceCollectionExtension
+namespace LibraryManagementSystem.PL.Extensions
 {
-    public static IServiceCollection RegisterLibraryBookServices(this IServiceCollection services)
+    public static class ServiceCollectionExtension
     {
-        services.AddScoped<IAuthorRepository, AuthorRepository>();
-        services.AddScoped<IAuthorService, AuthorService>();
+        public static IServiceCollection RegisterLibraryBookServices(this IServiceCollection services)
+        {
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IAuthorService, AuthorService>();
         
-        services.AddScoped<IBookRepository, BookRepository>();
-        services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IBookService, BookService>();
 
-        services.AddScoped<IGenreRepository, GenreRepository>();
-        services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IGenreService, GenreService>();
 
-        services.AddScoped<ILanguageRepository, LanguageRepository>();
-        services.AddScoped<ILanguageService, LanguageService>();
+            services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddScoped<ILanguageService, LanguageService>();
 
-        services.AddScoped<IPublisherRepository, PublisherRepository>();
-        services.AddScoped<IPublisherService, PublisherService>();
+            services.AddScoped<IPublisherRepository, PublisherRepository>();
+            services.AddScoped<IPublisherService, PublisherService>();
 
-        return services;
-    }
+            return services;
+        }
 
-    public static IServiceCollection RegisterLibraryStudentServices(this IServiceCollection services)
-    {
-        services.AddScoped<IStudentRepository, StudentRepository>();
-        services.AddScoped<IStudentService, StudentService>();
+        public static IServiceCollection RegisterLibraryStudentServices(this IServiceCollection services)
+        {
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentService, StudentService>();
 
-        services.AddScoped<ICityRepository, CityRepository>();
-        services.AddScoped<ICityService, CityService>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<ICityService, CityService>();
 
-        return services;
-    }
+            return services;
+        }
 
-    public static IServiceCollection RegisterLibraryLibrarianServices(this IServiceCollection services)
-    {
-        services.AddScoped<ILibrarianRepository, LibrarianRepository>();
-        services.AddScoped<ILibrarianService, LibrarianService>();
+        public static IServiceCollection RegisterLibraryLibrarianServices(this IServiceCollection services)
+        {
+            services.AddScoped<ILibrarianRepository, LibrarianRepository>();
+            services.AddScoped<ILibrarianService, LibrarianService>();
 
-        return services;
+            return services;
+        }
     }
 }

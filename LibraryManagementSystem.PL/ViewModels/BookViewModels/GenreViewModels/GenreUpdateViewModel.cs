@@ -1,6 +1,7 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.GenreViewModels;
-
-public class GenreUpdateViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.GenreViewModels
 {
-    public string Name { get; set; } = string.Empty;
+    public class GenreUpdateViewModel
+    {
+        public string Name { get; set; } = string.Empty;
+    }
 }

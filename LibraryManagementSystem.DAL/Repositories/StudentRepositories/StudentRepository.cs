@@ -4,109 +4,110 @@ using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.StudentRepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryManagementSystem.DAL.Repositories.StudentRepositories;
-
-public class StudentRepository : IStudentRepository
+namespace LibraryManagementSystem.DAL.Repositories.StudentRepositories
 {
-    private readonly ApplicationDbContext _dbContext;
+    public class StudentRepository : IStudentRepository
+    {
+        private readonly ApplicationDbContext _dbContext;
     
-    public StudentRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-    
-    public async Task<IEnumerable<StudentEntity>> GetStudentsAsync()
-    {
-        return await _dbContext.Students
-            .Include(student => student.StudentGenres)
-            .ToListAsync();
-    }
-
-    public async Task<StudentEntity?> GetStudentByIdAsync(int id)
-    {
-        return await _dbContext.Students
-            .Include(student => student.StudentGenres)
-            .FirstOrDefaultAsync(student => student.Id == id);
-    }
-
-    public async Task<StudentEntity?> GetStudentByEmailAsync(string email)
-    {
-        return await _dbContext.Students
-            .Include(student => student.StudentGenres)
-            .FirstOrDefaultAsync(student => student.Email == email);
-    }
-
-    public async Task<int> AddStudentAsync(StudentEntity studentEntity)
-    {
-        _dbContext.Students.Add(studentEntity);
-        await _dbContext.SaveChangesAsync();
-
-        return studentEntity.Id;
-    }
-
-    public async Task<bool> UpdateStudentAsync(StudentEntity studentEntity)
-    {
-        var existingStudentEntity = await _dbContext.Students
-            .Include(student => student.StudentGenres)
-            .FirstOrDefaultAsync(student => student.Id == studentEntity.Id);
-
-        if (existingStudentEntity is not null)
+        public StudentRepository(ApplicationDbContext dbContext)
         {
-            var studentComparer = new StudentEntityEqualityComparer();
-            if (!studentComparer.Equals(existingStudentEntity, studentEntity))
+            _dbContext = dbContext;
+        }
+    
+        public async Task<IEnumerable<StudentEntity>> GetStudentsAsync()
+        {
+            return await _dbContext.Students
+                .Include(student => student.StudentGenres)
+                .ToListAsync();
+        }
+
+        public async Task<StudentEntity?> GetStudentByIdAsync(int id)
+        {
+            return await _dbContext.Students
+                .Include(student => student.StudentGenres)
+                .FirstOrDefaultAsync(student => student.Id == id);
+        }
+
+        public async Task<StudentEntity?> GetStudentByEmailAsync(string email)
+        {
+            return await _dbContext.Students
+                .Include(student => student.StudentGenres)
+                .FirstOrDefaultAsync(student => student.Email == email);
+        }
+
+        public async Task<int> AddStudentAsync(StudentEntity studentEntity)
+        {
+            _dbContext.Students.Add(studentEntity);
+            await _dbContext.SaveChangesAsync();
+
+            return studentEntity.Id;
+        }
+
+        public async Task<bool> UpdateStudentAsync(StudentEntity studentEntity)
+        {
+            var existingStudentEntity = await _dbContext.Students
+                .Include(student => student.StudentGenres)
+                .FirstOrDefaultAsync(student => student.Id == studentEntity.Id);
+
+            if (existingStudentEntity is not null)
             {
-                existingStudentEntity.FirstName = studentEntity.FirstName;
-                existingStudentEntity.LastName = studentEntity.LastName;
-                existingStudentEntity.Email = studentEntity.Email;
-                existingStudentEntity.PictureName = studentEntity.PictureName;
-                existingStudentEntity.CityId = studentEntity.CityId;
-                existingStudentEntity.Address = studentEntity.Address;
-                existingStudentEntity.EntryDate = studentEntity.EntryDate;
-
-                if (!Enumerable.SequenceEqual(
-                        studentEntity.StudentGenres, existingStudentEntity.StudentGenres, new StudentGenreEntityEqualityComparer()))
+                var studentComparer = new StudentEntityEqualityComparer();
+                if (!studentComparer.Equals(existingStudentEntity, studentEntity))
                 {
-                    _dbContext.StudentGenres.RemoveRange(existingStudentEntity.StudentGenres);
-                    existingStudentEntity.StudentGenres = studentEntity.StudentGenres;
-                }
-                
-                _dbContext.Students.Update(existingStudentEntity);
-                int countUpdated = await _dbContext.SaveChangesAsync();
+                    existingStudentEntity.FirstName = studentEntity.FirstName;
+                    existingStudentEntity.LastName = studentEntity.LastName;
+                    existingStudentEntity.Email = studentEntity.Email;
+                    existingStudentEntity.PictureName = studentEntity.PictureName;
+                    existingStudentEntity.CityId = studentEntity.CityId;
+                    existingStudentEntity.Address = studentEntity.Address;
+                    existingStudentEntity.EntryDate = studentEntity.EntryDate;
 
-                return countUpdated > 0;
+                    if (!Enumerable.SequenceEqual(
+                            studentEntity.StudentGenres, existingStudentEntity.StudentGenres, new StudentGenreEntityEqualityComparer()))
+                    {
+                        _dbContext.StudentGenres.RemoveRange(existingStudentEntity.StudentGenres);
+                        existingStudentEntity.StudentGenres = studentEntity.StudentGenres;
+                    }
+                
+                    _dbContext.Students.Update(existingStudentEntity);
+                    int countUpdated = await _dbContext.SaveChangesAsync();
+
+                    return countUpdated > 0;
+                }
+
+                return true;
             }
 
-            return true;
+            throw new NotFoundException($"There is no student with Id: {studentEntity.Id}");
         }
 
-        throw new NotFoundException($"There is no student with Id: {studentEntity.Id}");
-    }
-
-    public async Task<bool> DeleteStudentsAsync(IEnumerable<int> studentIds)
-    {
-        bool areAnyDeleted = false;
-        foreach (int id in studentIds)
+        public async Task<bool> DeleteStudentsAsync(IEnumerable<int> studentIds)
         {
-            bool result = await DeleteStudentByIdAsync(id);
-            areAnyDeleted |= result; // if any student is deleted return true
+            bool areAnyDeleted = false;
+            foreach (int id in studentIds)
+            {
+                bool result = await DeleteStudentByIdAsync(id);
+                areAnyDeleted |= result; // if any student is deleted return true
+            }
+
+            return areAnyDeleted;
         }
 
-        return areAnyDeleted;
-    }
-
-    public async Task<bool> DeleteStudentByIdAsync(int id)
-    {
-        var studentToDelete = 
-            await _dbContext.Students.FirstOrDefaultAsync(student => student.Id == id);
+        public async Task<bool> DeleteStudentByIdAsync(int id)
+        {
+            var studentToDelete = 
+                await _dbContext.Students.FirstOrDefaultAsync(student => student.Id == id);
         
-        if (studentToDelete is not null)
-        {
-            _dbContext.Students.Remove(studentToDelete);
-            int countDeleted = await _dbContext.SaveChangesAsync();
+            if (studentToDelete is not null)
+            {
+                _dbContext.Students.Remove(studentToDelete);
+                int countDeleted = await _dbContext.SaveChangesAsync();
 
-            return countDeleted > 0;
+                return countDeleted > 0;
+            }
+
+            return false;
         }
-
-        return false;
     }
 }

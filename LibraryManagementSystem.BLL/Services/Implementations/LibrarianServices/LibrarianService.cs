@@ -5,89 +5,90 @@ using LibraryManagementSystem.BLL.Models.Entities;
 using LibraryManagementSystem.BLL.Repositories.Interfaces.LibrarianRepositoryInterfaces;
 using LibraryManagementSystem.BLL.Services.Interfaces.LibrarianServiceInterfaces;
 
-namespace LibraryManagementSystem.BLL.Services.Implementations.LibrarianServices;
-
-public class LibrarianService : ILibrarianService
+namespace LibraryManagementSystem.BLL.Services.Implementations.LibrarianServices
 {
-    private readonly IMapper _mapper;
-    private readonly ILibrarianRepository _librarianRepository;
-
-    public LibrarianService(IMapper mapper, ILibrarianRepository librarianRepository)
+    public class LibrarianService : ILibrarianService
     {
-        _mapper = mapper;
-        _librarianRepository = librarianRepository;
-    }
+        private readonly IMapper _mapper;
+        private readonly ILibrarianRepository _librarianRepository;
+
+        public LibrarianService(IMapper mapper, ILibrarianRepository librarianRepository)
+        {
+            _mapper = mapper;
+            _librarianRepository = librarianRepository;
+        }
     
-    public async Task<IEnumerable<LibrarianDto>> GetLibrariansAsync()
-    {
-        var librariansEntity = await _librarianRepository.GetLibrariansAsync();
-        var librariansDto = 
-            _mapper.Map<IEnumerable<LibrarianEntity>, IEnumerable<LibrarianDto>>(librariansEntity);
-
-        return librariansDto;
-    }
-
-    public async Task<LibrarianDto?> GetLibrarianByIdAsync(int id)
-    {
-        ValidationHelper.ValidateId(id);
-        
-        var librarianEntity = await _librarianRepository.GetLibrarianByIdAsync(id);
-        if (librarianEntity is not null)
+        public async Task<IEnumerable<LibrarianDto>> GetLibrariansAsync()
         {
-            var librarianDto = _mapper.Map<LibrarianEntity, LibrarianDto>(librarianEntity);
-            return librarianDto;    
+            var librariansEntity = await _librarianRepository.GetLibrariansAsync();
+            var librariansDto = 
+                _mapper.Map<IEnumerable<LibrarianEntity>, IEnumerable<LibrarianDto>>(librariansEntity);
+
+            return librariansDto;
         }
 
-        return null;
-    }
-
-    public async Task<LibrarianDto?> GetLibrarianByEmailAsync(string email)
-    {
-        var librarianEntity = await _librarianRepository.GetLibrarianByEmailAsync(email);
-        if (librarianEntity is not null)
-        {
-            var librarianDto = _mapper.Map<LibrarianEntity, LibrarianDto>(librarianEntity);
-            return librarianDto;    
-        }
-
-        return null;
-    }
-
-    public async Task<int> AddLibrarianAsync(LibrarianDto librarianDto)
-    {
-        var librarianEntity = _mapper.Map<LibrarianEntity>(librarianDto);
-        var librariansInDbEntity = await _librarianRepository.GetLibrariansAsync();
-
-        if (librariansInDbEntity.All(lid => lid.Email != librarianEntity.Email))
-        {
-            return await _librarianRepository.AddLibrarianAsync(librarianEntity);
-        }
-
-        throw new ArgumentException("This librarian already exists");
-    }
-
-    public async Task<bool> UpdateLibrarianAsync(LibrarianDto librarianDto)
-    {
-        ValidationHelper.ValidateId(librarianDto.Id);
-            
-        var librarianEntity = _mapper.Map<LibrarianEntity>(librarianDto);
-        return await _librarianRepository.UpdateLibrarianAsync(librarianEntity);
-    }
-
-    public async Task<bool> DeleteLibrariansAsync(IEnumerable<int> librarianIds)
-    {
-        foreach (int id in librarianIds)
+        public async Task<LibrarianDto?> GetLibrarianByIdAsync(int id)
         {
             ValidationHelper.ValidateId(id);
-        }
         
-        return await _librarianRepository.DeleteLibrariansAsync(librarianIds);
-    }
+            var librarianEntity = await _librarianRepository.GetLibrarianByIdAsync(id);
+            if (librarianEntity is not null)
+            {
+                var librarianDto = _mapper.Map<LibrarianEntity, LibrarianDto>(librarianEntity);
+                return librarianDto;    
+            }
 
-    public async Task<bool> DeleteLibrarianByIdAsync(int id)
-    {
-        ValidationHelper.ValidateId(id);
+            return null;
+        }
 
-        return await _librarianRepository.DeleteLibrarianByIdAsync(id);
+        public async Task<LibrarianDto?> GetLibrarianByEmailAsync(string email)
+        {
+            var librarianEntity = await _librarianRepository.GetLibrarianByEmailAsync(email);
+            if (librarianEntity is not null)
+            {
+                var librarianDto = _mapper.Map<LibrarianEntity, LibrarianDto>(librarianEntity);
+                return librarianDto;    
+            }
+
+            return null;
+        }
+
+        public async Task<int> AddLibrarianAsync(LibrarianDto librarianDto)
+        {
+            var librarianEntity = _mapper.Map<LibrarianEntity>(librarianDto);
+            var librariansInDbEntity = await _librarianRepository.GetLibrariansAsync();
+
+            if (librariansInDbEntity.All(lid => lid.Email != librarianEntity.Email))
+            {
+                return await _librarianRepository.AddLibrarianAsync(librarianEntity);
+            }
+
+            throw new ArgumentException("This librarian already exists");
+        }
+
+        public async Task<bool> UpdateLibrarianAsync(LibrarianDto librarianDto)
+        {
+            ValidationHelper.ValidateId(librarianDto.Id);
+            
+            var librarianEntity = _mapper.Map<LibrarianEntity>(librarianDto);
+            return await _librarianRepository.UpdateLibrarianAsync(librarianEntity);
+        }
+
+        public async Task<bool> DeleteLibrariansAsync(IEnumerable<int> librarianIds)
+        {
+            foreach (int id in librarianIds)
+            {
+                ValidationHelper.ValidateId(id);
+            }
+        
+            return await _librarianRepository.DeleteLibrariansAsync(librarianIds);
+        }
+
+        public async Task<bool> DeleteLibrarianByIdAsync(int id)
+        {
+            ValidationHelper.ValidateId(id);
+
+            return await _librarianRepository.DeleteLibrarianByIdAsync(id);
+        }
     }
 }

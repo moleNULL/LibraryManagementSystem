@@ -1,6 +1,7 @@
+using LibraryManagementSystem.BLL.Services.Implementations;
+using LibraryManagementSystem.BLL.Services.Interfaces;
 using LibraryManagementSystem.DAL;
 using LibraryManagementSystem.PL.Extensions;
-using LibraryManagementSystem.PL.Filters;
 using LibraryManagementSystem.PL.Helpers;
 using LibraryManagementSystem.PL.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,16 +40,17 @@ namespace LibraryManagementSystem.PL
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAnyOriginPolicy", corsPolicyBuilder =>
+                options.AddPolicy("AllowSpecificOriginPolicy", corsPolicyBuilder =>
                 {
                     corsPolicyBuilder
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:3000")
                         .AllowAnyMethod()
-                        .WithExposedHeaders("*");
+                        .AllowAnyHeader()
+                        .AllowCredentials();
                 });
             });
 
+            builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.RegisterLibraryBookServices();
             builder.Services.RegisterLibraryStudentServices();
             builder.Services.RegisterLibraryLibrarianServices();
@@ -63,10 +65,10 @@ namespace LibraryManagementSystem.PL
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowAnyOriginPolicy");
+            app.UseCors("AllowSpecificOriginPolicy");
             
             app.UseHttpsRedirection();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -1,10 +1,11 @@
-﻿namespace LibraryManagementSystem.BLL.Exceptions;
-
-public class NotFoundException : ArgumentException
+﻿namespace LibraryManagementSystem.BLL.Exceptions
 {
-    public NotFoundException(string message)
-        : base(message)
+    public class NotFoundException : ArgumentException
     {
+        public NotFoundException(string message)
+            : base(message)
+        {
         
+        }
     }
 }

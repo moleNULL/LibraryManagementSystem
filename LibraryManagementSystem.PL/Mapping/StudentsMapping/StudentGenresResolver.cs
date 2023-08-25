@@ -2,17 +2,18 @@
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 
-namespace LibraryManagementSystem.PL.Mapping.StudentsMapping;
-
-public class StudentGenresResolver : IMemberValueResolver<StudentDto, StudentEntity, IEnumerable<int>, object>
+namespace LibraryManagementSystem.PL.Mapping.StudentsMapping
 {
-    public object Resolve(StudentDto source, StudentEntity destination, 
-        IEnumerable<int> sourceMember, object destMember, ResolutionContext context)
+    public class StudentGenresResolver : IMemberValueResolver<StudentDto, StudentEntity, IEnumerable<int>, object>
     {
-        return source.FavoriteGenreIds.Select(id => new StudentGenreEntity
+        public object Resolve(StudentDto source, StudentEntity destination, 
+            IEnumerable<int> sourceMember, object destMember, ResolutionContext context)
         {
-            StudentId = source.Id,
-            GenreId = id
-        });
+            return source.FavoriteGenreIds.Select(id => new StudentGenreEntity
+            {
+                StudentId = source.Id,
+                GenreId = id
+            });
+        }
     }
 }

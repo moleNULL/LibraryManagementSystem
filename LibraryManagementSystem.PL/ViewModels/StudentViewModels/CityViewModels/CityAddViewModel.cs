@@ -1,6 +1,7 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels;
-
-public class CityAddViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.StudentViewModels.CityViewModels
 {
-    public string Name { get; set; } = string.Empty;
+    public class CityAddViewModel
+    {
+        public string Name { get; set; } = string.Empty;
+    }
 }

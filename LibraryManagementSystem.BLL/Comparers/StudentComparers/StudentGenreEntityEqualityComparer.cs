@@ -1,32 +1,33 @@
 ﻿using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 
-namespace LibraryManagementSystem.BLL.Comparers.StudentComparers;
-
-public class StudentGenreEntityEqualityComparer : IEqualityComparer<StudentGenreEntity>
+namespace LibraryManagementSystem.BLL.Comparers.StudentComparers
 {
-    public bool Equals(StudentGenreEntity? x, StudentGenreEntity? y)
+    public class StudentGenreEntityEqualityComparer : IEqualityComparer<StudentGenreEntity>
     {
-        if (x == y)
+        public bool Equals(StudentGenreEntity? x, StudentGenreEntity? y)
         {
-            return true;
+            if (x == y)
+            {
+                return true;
+            }
+
+            if (x is null)
+            {
+                return false;
+            }
+
+            if (y is null)
+            {
+                return false;
+            }
+
+            return x.StudentId == y.StudentId && 
+                   x.GenreId == y.GenreId;
         }
 
-        if (x is null)
+        public int GetHashCode(StudentGenreEntity obj)
         {
-            return false;
+            return HashCode.Combine(obj.StudentId, obj.GenreId);
         }
-
-        if (y is null)
-        {
-            return false;
-        }
-
-        return x.StudentId == y.StudentId && 
-               x.GenreId == y.GenreId;
-    }
-
-    public int GetHashCode(StudentGenreEntity obj)
-    {
-        return HashCode.Combine(obj.StudentId, obj.GenreId);
     }
 }

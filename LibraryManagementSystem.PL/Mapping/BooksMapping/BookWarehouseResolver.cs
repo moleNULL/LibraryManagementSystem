@@ -2,18 +2,19 @@
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Models.Entities.BookEntities;
 
-namespace LibraryManagementSystem.PL.Mapping.BooksMapping;
-
-public class BookWarehouseResolver : IMemberValueResolver<BookDto, BookEntity, WarehouseDto, object>
+namespace LibraryManagementSystem.PL.Mapping.BooksMapping
 {
-    public object Resolve(BookDto source, BookEntity destination, WarehouseDto sourceMember, object destMember,
-        ResolutionContext context)
+    public class BookWarehouseResolver : IMemberValueResolver<BookDto, BookEntity, WarehouseDto, object>
     {
-        return new WarehouseEntity
+        public object Resolve(BookDto source, BookEntity destination, WarehouseDto sourceMember, object destMember,
+            ResolutionContext context)
         {
-            Price = sourceMember.Price,
-            Quantity = sourceMember.Quantity,
-            BookId = source.Id
-        };
+            return new WarehouseEntity
+            {
+                Price = sourceMember.Price,
+                Quantity = sourceMember.Quantity,
+                BookId = source.Id
+            };
+        }
     }
 }

@@ -1,7 +1,8 @@
-﻿namespace LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
-
-public class LanguageDto
+﻿namespace LibraryManagementSystem.BLL.Models.Dtos.BookDtos
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public class LanguageDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }

@@ -1,6 +1,7 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels;
-
-public class LanguageDeleteViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels
 {
-    public IEnumerable<int> LanguageIds { get; set; } = new List<int>();
+    public class LanguageDeleteViewModel
+    {
+        public IEnumerable<int> LanguageIds { get; set; } = new List<int>();
+    }
 }

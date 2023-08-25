@@ -1,6 +1,7 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.PublisherViewModels;
-
-public class PublisherAddViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.PublisherViewModels
 {
-    public string Name { get; set; } = string.Empty;
+    public class PublisherAddViewModel
+    {
+        public string Name { get; set; } = string.Empty;
+    }
 }

@@ -2,15 +2,15 @@
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Models.Entities.StudentEntities;
 
-namespace LibraryManagementSystem.PL.Mapping.StudentsMapping;
-
-
-public class StudentFavoriteGenreIdsResolver : IMemberValueResolver<StudentEntity, StudentDto, ICollection<StudentGenreEntity>, object>
+namespace LibraryManagementSystem.PL.Mapping.StudentsMapping
 {
-    public object Resolve(StudentEntity source, StudentDto destination, 
-        ICollection<StudentGenreEntity> sourceMember, object destMember,
-        ResolutionContext context)
+    public class StudentFavoriteGenreIdsResolver : IMemberValueResolver<StudentEntity, StudentDto, ICollection<StudentGenreEntity>, object>
     {
-        return source.StudentGenres.Select(sg => sg.GenreId);
+        public object Resolve(StudentEntity source, StudentDto destination, 
+            ICollection<StudentGenreEntity> sourceMember, object destMember,
+            ResolutionContext context)
+        {
+            return source.StudentGenres.Select(sg => sg.GenreId);
+        }
     }
 }

@@ -1,7 +1,8 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels;
-
-public class LanguageViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.LanguageViewModels
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
+    public class LanguageViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
 }

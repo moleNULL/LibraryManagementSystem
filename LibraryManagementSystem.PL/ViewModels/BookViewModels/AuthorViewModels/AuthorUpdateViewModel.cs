@@ -1,7 +1,8 @@
-﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.AuthorViewModels;
-
-public class AuthorUpdateViewModel
+﻿namespace LibraryManagementSystem.PL.ViewModels.BookViewModels.AuthorViewModels
 {
-    public string FirstName { get; set; } = string.Empty;
-    public string LastName { get; set; } = string.Empty;
+    public class AuthorUpdateViewModel
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+    }
 }

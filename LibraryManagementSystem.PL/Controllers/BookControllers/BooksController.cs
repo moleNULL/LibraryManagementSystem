@@ -3,8 +3,6 @@ using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
-using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
-using LibraryManagementSystem.PL.Filters;
 using LibraryManagementSystem.PL.ViewModels.BookViewModels.BookViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,41 +15,40 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
     {
         private readonly IMapper _mapper;
         private readonly IBookService _bookService;
-        private readonly IStudentService _studentService;
 
-        public BooksController(IMapper mapper, IBookService bookService, IStudentService studentService)
+        public BooksController(IMapper mapper, IBookService bookService)
         {
             _mapper = mapper;
             _bookService = bookService;
-            _studentService = studentService;
         }
         
-        [TypeFilter(typeof(AuthorizationFilter))]
+        [Authorize]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<BookSimpleViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
             string email = HttpContext.User.Identity!.Name!;
-            bool? isLibrarian = HttpContext.Items["IsLibrarian"] as bool?;
-            bool? isStudent = HttpContext.Items["IsStudent"] as bool?;
+            
+            HttpContext.Request.Cookies.TryGetValue(Constants.USER_ROLE_COOKIE_NAME, out string? userRole);
+            if (userRole is null)
+            {
+                return Forbid($"{Constants.USER_ROLE_COOKIE_NAME} is null");
+            }
             
             try
             {
-                // it cannot be null because AuthorizationFilter will not allow anyone to reach this action except for
-                // a student or a librarian
                 IEnumerable<BookSimpleDto> booksSimpleDto = null!;
                 
-                if (isLibrarian == true)
+                if (userRole == Constants.LIBRARIAN_ROLE)    
                 {
                     booksSimpleDto = await _bookService.GetBooksAsync();
                 }
-                else if (isStudent == true)
+                else if (userRole == Constants.STUDENT_ROLE)
                 {
                     booksSimpleDto = await _bookService.GetBooksFilteredByRoleAsync(email);
                 }
-                                 
-                Response.Headers.Add("User-Role", isLibrarian == true ? "librarian" : "student");
+                
                 var booksSimpleViewModel = _mapper.Map<IEnumerable<BookSimpleViewModel>>(booksSimpleDto);
                 
                 return Ok(booksSimpleViewModel);    
@@ -59,16 +56,16 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
             catch (Exception ex)
             {
                 return StatusCode(
-                    (int)HttpStatusCode.InternalServerError, 
+                    StatusCodes.Status500InternalServerError, 
                     $"An error occurred while fetching books: {ex.Message}");
             }
         }
 
         [HttpGet("{id:int}")]
-        [ProducesResponseType(typeof(BookViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BookViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -86,9 +83,9 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the book");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching the book");
             }
         }
 

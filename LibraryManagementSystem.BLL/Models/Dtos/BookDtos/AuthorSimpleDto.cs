@@ -1,7 +1,8 @@
-﻿namespace LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
-
-public class AuthorSimpleDto
+﻿namespace LibraryManagementSystem.BLL.Models.Dtos.BookDtos
 {
-    public int Id { get; set; }
-    public string FullName { get; set; } = string.Empty;
+    public class AuthorSimpleDto
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; } = string.Empty;
+    }
 }
