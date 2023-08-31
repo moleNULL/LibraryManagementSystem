@@ -40,7 +40,7 @@ namespace LibraryManagementSystem.PL
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOriginPolicy", corsPolicyBuilder =>
+                options.AddPolicy("AllowReactAppPolicy", corsPolicyBuilder =>
                 {
                     corsPolicyBuilder
                         .WithOrigins("http://localhost:3000")
@@ -65,7 +65,7 @@ namespace LibraryManagementSystem.PL
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowSpecificOriginPolicy");
+            app.UseCors("AllowReactAppPolicy");
             
             app.UseHttpsRedirection();
             

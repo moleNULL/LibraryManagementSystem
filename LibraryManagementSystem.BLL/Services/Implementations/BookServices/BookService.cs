@@ -23,7 +23,7 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
             _bookRepository = bookRepository;
             _studentService = studentService;
         }
-
+        
         public async Task<IEnumerable<BookSimpleDto>> GetBooksAsync()
         {
             var booksEntity = await _bookRepository.GetBooksAsync();
