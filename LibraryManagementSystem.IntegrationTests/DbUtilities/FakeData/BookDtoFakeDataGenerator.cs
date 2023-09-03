@@ -1,0 +1,43 @@
+﻿namespace LibraryManagementSystem.IntegrationTests.DbUtilities.FakeData
+{
+    public static class BookDtoFakeDataGenerator
+    {
+        private const int MIN_YEAR = 1920;
+        private const int MAX_YEAR = 2023;
+        private const int MIN_PUBLISHER_ID = 1;
+        private const int MAX_PUBLISHER_ID = 5;
+        private const int MIN_AUTHOR_ID = 1;
+        private const int MAX_AUTHOR_ID = 8;
+        private const int MIN_LANGUAGE_ID = 1;
+        private const int MAX_LANGUAGE_ID = 4;
+        private const int MIN_QUANTITY = 4;
+        private const int MAX_QUANTITY = 15;
+
+        public static Faker<BookDto> GenerateFakerBookDto()
+        {
+            return new Faker<BookDto>()
+                .RuleFor(b => b.Id, f => f.IndexFaker + 1)
+                .RuleFor(b => b.Title, f => f.Lorem.Sentence(f.Random.Int(1, 5)))
+                .RuleFor(b => b.PictureName, f => f.Internet.Avatar())
+                .RuleFor(b => b.Year, f => f.Random.Int(MIN_YEAR, MAX_YEAR))
+                .RuleFor(b => b.PublisherId, f => f.Random.Int(MIN_PUBLISHER_ID, MAX_PUBLISHER_ID))
+                .RuleFor(b => b.AuthorId, f => f.Random.Int(MIN_AUTHOR_ID, MAX_AUTHOR_ID))
+                .RuleFor(b => b.Description, _ => null)
+                .RuleFor(b => b.Warehouse, _ => null!)
+                .RuleFor(b => b.LanguageId, f => f.Random.Int(MIN_LANGUAGE_ID, MAX_LANGUAGE_ID))
+                .RuleFor(b => b.BookLoanId, _ => null)
+                .RuleFor(b => b.Warehouse, f => GenerateFakerWarehouseDto(f.IndexFaker + 1));
+
+        }
+
+        private static Faker<WarehouseDto> GenerateFakerWarehouseDto(int index)
+        {
+            return new Faker<WarehouseDto>()
+                .RuleFor(w => w.Id, _ => index)
+                .RuleFor(w => w.BookId, _ => index)
+                .RuleFor(w => w.Price, f =>
+                    Math.Round((f.Random.Decimal(0.0499m, 0.1m) * 100), 2))
+                .RuleFor(w => w.Quantity, f => f.Random.Int(MIN_QUANTITY, MAX_QUANTITY));
+        }
+    }
+}

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
@@ -24,7 +23,7 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         
         [Authorize]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<BookSimpleViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookSimpleViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
@@ -46,7 +45,7 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
                 }
                 else if (userRole == Constants.STUDENT_ROLE)
                 {
-                    booksSimpleDto = await _bookService.GetBooksFilteredByRoleAsync(email);
+                    booksSimpleDto = await _bookService.GetBooksFilteredByStudentsFavoriteGenresAsync(email);
                 }
                 
                 var booksSimpleViewModel = _mapper.Map<IEnumerable<BookSimpleViewModel>>(booksSimpleDto);
@@ -90,8 +89,8 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(BookAddViewModel bookToAddViewModel)
         {
             var bookDto = _mapper.Map<BookDto>(bookToAddViewModel);
@@ -108,9 +107,9 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
 
         [HttpPut("{id:int}")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update( int id, BookUpdateViewModel bookToUpdateViewModel)
         {
             var bookDto = _mapper.Map<BookDto>(bookToUpdateViewModel);
@@ -133,8 +132,8 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(BookDeleteViewModel booksToDeleteViewModel)
         {
             var bookIds = booksToDeleteViewModel.BookIds;
@@ -151,8 +150,8 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
 
         [HttpDelete("{id:int}")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
             try

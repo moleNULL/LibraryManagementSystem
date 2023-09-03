@@ -32,18 +32,23 @@ namespace LibraryManagementSystem.BLL.Services.Implementations.BookServices
             return booksSimpleDto;
         }
         
-        public async Task<IEnumerable<BookSimpleDto>> GetBooksFilteredByRoleAsync(string email)
+        public async Task<IEnumerable<BookSimpleDto>> GetBooksFilteredByStudentsFavoriteGenresAsync(string email)
         {
             var booksEntity = await _bookRepository.GetBooksAsync();
             
             var booksSimpleDto = _mapper.Map<IEnumerable<BookSimpleDto>>(booksEntity);
             var studentDto = await _studentService.GetStudentByEmailAsync(email);
 
+            if (studentDto is null)
+            {
+                return Array.Empty<BookSimpleDto>();
+            }
+
             var booksFilteredDto = booksSimpleDto
                 .Where(book => 
                     book.GenreIds
                         .Any(genreId => 
-                            studentDto!.FavoriteGenreIds
+                            studentDto.FavoriteGenreIds
                                 .Contains(genreId)));
 
             return booksFilteredDto;

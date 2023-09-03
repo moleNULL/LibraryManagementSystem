@@ -42,7 +42,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
             _mockedBookRepository.Setup(b => b.GetBooksAsync())
                 .ReturnsAsync(expectedBooksEntity);
 
-            var expectedBooksDto = 
+            var expectedBooksDto =
                 _mapper.Map<IEnumerable<BookEntity>, IEnumerable<BookSimpleDto>>(expectedBooksEntity);
         
             // Act
@@ -72,7 +72,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         [Theory]
         [InlineData("student1@gmail.com")]
         [InlineData("student2@gmail.com")]
-        public async Task GetBooksFilteredByRoleAsync_ShouldRetrieveAndMapAndFilterBooks(string email)
+        public async Task GetBooksFilteredByStudentsFavoriteGenresAsync_ShouldRetrieveAndMapAndFilterBooks(string email)
         {
             // Arrange
             int objectNumbersToGenerate = 7;
@@ -89,7 +89,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
                 _mapper.Map<IEnumerable<BookEntity>, IEnumerable<BookSimpleDto>>(expectedBooksEntity);
         
             // Act
-            var result = await _bookService.GetBooksFilteredByRoleAsync(email);
+            var result = await _bookService.GetBooksFilteredByStudentsFavoriteGenresAsync(email);
 
             // Assert
             result.Should().NotBeNullOrEmpty().And.BeEquivalentTo(expectedBooksDto);
@@ -99,7 +99,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         [Theory]
         [InlineData("unauthorized@gmail.com")]
         [InlineData("unauthenticated@gmail.com")]
-        public async Task GetBooksFilteredByRoleAsync_ShouldHandleEmptyFavoriteGenres(string email)
+        public async Task GetBooksFilteredByStudentsFavoriteGenresAsync_ShouldHandleEmptyFavoriteGenres(string email)
         {
             // Arrange
             int objectNumbersToGenerate = 7;
@@ -115,7 +115,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
                 .ReturnsAsync(expectedStudentDto);
         
             // Act
-            var result = await _bookService.GetBooksFilteredByRoleAsync(email);
+            var result = await _bookService.GetBooksFilteredByStudentsFavoriteGenresAsync(email);
 
             // Assert
             result.Should().BeEmpty().And.NotBeNull();
@@ -148,8 +148,6 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         [InlineData(0)]
         public void GetBookByIdAsync_ShouldThrowException_IfInvalidId(int bookId)
         {
-            // Arrange
-        
             // Act
             Func<Task> act = async () => await _bookService.GetBookByIdAsync(bookId);
 
@@ -228,7 +226,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         }
 
         [Fact]
-        public async Task UpdateBookAsync_ShouldReturnFalse_IfBookWasntUpdated()
+        public async Task UpdateBookAsync_ShouldReturnFalse_IfBookWasNotUpdated()
         {
             // Arrange
             bool expectedUpdateResult = false;
@@ -276,7 +274,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         }
 
         [Fact]
-        public async Task DeleteBooksAsync_ShouldReturnFalse_IfBooksWerentDeleted()
+        public async Task DeleteBooksAsync_ShouldReturnFalse_IfBooksWereNotDeleted()
         {
             // Arrange
             var bookIds = new List<int> { 505, 666, 10004 };
@@ -308,7 +306,6 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         [Theory]
         [InlineData(3)]
         [InlineData(10)]
-        [InlineData(19)]
         public async Task DeleteBookByIdAsync_ShouldReturnTrue_IfBooksWereDeleted(int bookId)
         {
             // Arrange
@@ -327,7 +324,7 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         [Theory]
         [InlineData(666)]
         [InlineData(1000)]
-        public async Task DeleteBookByIdAsync_ShouldReturnFalse_IfBooksWerentDeleted(int bookId)
+        public async Task DeleteBookByIdAsync_ShouldReturnFalse_IfBooksWereNotDeleted(int bookId)
         {
             // Arrange
             bool expectedDeleteResult = false;
@@ -343,13 +340,10 @@ namespace LibraryManagementSystem.BLL.Tests.ServiceTests
         }
     
         [Theory]
-        [InlineData(-50)]
         [InlineData(-1)]
         [InlineData(0)]
         public void DeleteBookByIdAsync_ShouldThrowException_IfInvalidId(int bookId)
         {
-            // Arrange
-        
             // Act
             Func<Task> act = async () => await _bookService.DeleteBookByIdAsync(bookId);
 

@@ -45,14 +45,20 @@ namespace LibraryManagementSystem.PL.Mapping
                 {
                     options.MapFrom(bookEntity => bookEntity.BookGenres.Select(bg => bg.GenreId));
                 })
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description!.Description));
+                .ForMember(dest => dest.Description, options =>
+                {
+                    options.MapFrom(src => src.Description!.Description);
+                });
             
             CreateMap<BookEntity, BookDto>()
                 .ForMember("GenreIds", options =>
                 {
                     options.MapFrom<BookGenreIdsResolver, ICollection<BookGenreEntity>>(bookEntity => bookEntity.BookGenres);
                 })
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description!.Description));
+                .ForMember(dest => dest.Description, options =>
+                {
+                    options.MapFrom(src => src.Description!.Description);
+                });
             
             CreateMap<BookDto, BookEntity>()
                 .ForMember("BookGenres", options =>
@@ -62,6 +68,10 @@ namespace LibraryManagementSystem.PL.Mapping
                 .ForMember("Description", options =>
                 {
                     options.MapFrom<BookDescriptionResolver, string?>(bookDto => bookDto.Description);
+                })
+                .ForMember("DescriptionId", options =>
+                {
+                    options.MapFrom(src => src.Id);
                 })
                 .ForMember("Warehouse", options =>
                 {

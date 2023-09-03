@@ -103,7 +103,7 @@ namespace LibraryManagementSystem.DAL.Repositories.BookRepositories
                     return countUpdated > 0;
                 }
 
-                return true;
+                return false;
             }
 
             throw new NotFoundException($"There is no book with Id: {bookEntity.Id}");

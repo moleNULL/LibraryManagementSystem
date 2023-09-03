@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos.StudentDtos;
 using LibraryManagementSystem.BLL.Services.Interfaces.StudentServiceInterfaces;
@@ -22,8 +21,8 @@ namespace LibraryManagementSystem.PL.Controllers.StudentControllers
         }
     
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<StudentViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<StudentViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
             try
@@ -36,16 +35,16 @@ namespace LibraryManagementSystem.PL.Controllers.StudentControllers
             catch (Exception ex)
             {
                 return StatusCode(
-                    (int)HttpStatusCode.InternalServerError, 
+                    StatusCodes.Status500InternalServerError,
                     $"An error occurred while fetching students: {ex.Message}");
             }
         }
     
         [HttpGet("{id:int}")]
-        [ProducesResponseType(typeof(StudentViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(StudentViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -65,13 +64,13 @@ namespace LibraryManagementSystem.PL.Controllers.StudentControllers
             }
             catch (Exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the student");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching the student");
             }
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(StudentAddViewModel studentToAddViewModel)
         {
             var studentDto = _mapper.Map<StudentAddViewModel, StudentDto>(studentToAddViewModel);
@@ -88,9 +87,9 @@ namespace LibraryManagementSystem.PL.Controllers.StudentControllers
         }
 
         [HttpPut("{id:int}")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, StudentUpdateViewModel studentToUpdateViewModel)
         {
             var studentDto = _mapper.Map<StudentDto>(studentToUpdateViewModel);
@@ -112,8 +111,8 @@ namespace LibraryManagementSystem.PL.Controllers.StudentControllers
         }
 
         [HttpDelete]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(StudentDeleteViewModel studentsToDeleteViewModel)
         {
             var studentIds = studentsToDeleteViewModel.StudentIds;
@@ -130,8 +129,8 @@ namespace LibraryManagementSystem.PL.Controllers.StudentControllers
         }
 
         [HttpDelete("{id:int}")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
             try

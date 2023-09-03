@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
 using LibraryManagementSystem.BLL.Exceptions;
 using LibraryManagementSystem.BLL.Models.Dtos.BookDtos;
 using LibraryManagementSystem.BLL.Services.Interfaces.BookServiceInterfaces;
@@ -22,8 +21,8 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
     
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<PublisherViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<PublisherViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
             try
@@ -35,15 +34,15 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
             }
             catch (Exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching publishers");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching publishers");
             }
         }
     
         [HttpGet("{id:int}")]
-        [ProducesResponseType(typeof(PublisherViewModel), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(PublisherViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -63,13 +62,13 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
             }
             catch (Exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "An error occurred while fetching the publisher");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching the publisher");
             }
         }
     
         [HttpPost]
-        [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Add(PublisherAddViewModel publisherToAddViewModel)
         {
             var publisherDto = _mapper.Map<PublisherAddViewModel, PublisherDto>(publisherToAddViewModel);
@@ -86,9 +85,9 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
     
         [HttpPut("{id:int}")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Update(int id, PublisherUpdateViewModel publisherToViewModel)
         {
             var publisherDto = _mapper.Map<PublisherDto>(publisherToViewModel);
@@ -110,8 +109,8 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
     
         [HttpDelete]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(PublisherDeleteViewModel publishersToDeleteViewModel)
         {
             var publisherIds = publishersToDeleteViewModel.PublisherIds;
@@ -128,8 +127,8 @@ namespace LibraryManagementSystem.PL.Controllers.BookControllers
         }
     
         [HttpDelete("{id:int}")]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
             try
